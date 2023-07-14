@@ -71,7 +71,7 @@ app.get('/sendAdminList', (req, res) => {
 app.get('/sendAdminInfo/:id', (req, res) => {
   axios.get(`https://api.telegram.org/bot${token}/getUserProfilePhotos?user_id=${req.params.id}`)
     .then(response => {
-      res.setHeader('Access-Control-Allow-Origin', 'https://liveisabsurd.github.io/Meme_House/');
+      res.setHeader('Access-Control-Allow-Origin', 'https://liveisabsurd.github.io');
       res.json(response.data);
     })
     .catch(err => console.log(err));
@@ -82,7 +82,7 @@ app.get('/sendAdminPhotoInfo/:id', (req, res) => {
     .then(response => {
       axios.get(`https://api.telegram.org/file/bot${token}/${response.data.result.file_path}`, {responseType: 'arraybuffer'})
       .then(response => {
-        res.setHeader('Access-Control-Allow-Origin', 'https://liveisabsurd.github.io/Meme_House/');
+        res.setHeader('Access-Control-Allow-Origin', 'https://liveisabsurd.github.io');
         res.set('Content-Type', 'image/jpeg');
         res.set('Content-Disposition', 'attachment; filename=image.jpg')
         res.send(response.data);
