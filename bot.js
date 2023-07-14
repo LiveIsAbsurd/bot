@@ -41,17 +41,19 @@ bot.on('left_chat_member', (msg) => {
 Ну чтож... естественный отбор`);
 });
 
-// app.listen(3001, '77.246.96.226', () => {
-//   console.log('Ура');
-// })
+app.listen(3001, '77.246.96.226', () => {
+  console.log('Ура');
+})
 
-// app.get('/sendUsers', (req, res) => {
-//     bot.getChatMembersCount(-1001807749316)
-//         .then(data => {
-//             res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
-//             res.json(data);
-//     })
-// })
+app.get('/sendUsers', (req, res) => {
+  fetch('https://api.telegram.org/bot6384961507:AAGQU1IOXaJ7wUAlAiTm8S96hj1x7WMKm5E/getChatMembersCount?chat_id=-1001807749316')
+    .then(request => request.json())
+    .then(data => {
+      res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
+      res.json(data);
+    })
+    
+})
 
 
 
