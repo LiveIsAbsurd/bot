@@ -48,9 +48,9 @@ app.listen(3001, '77.246.96.226', () => {
 
 app.get('/sendUsers', (req, res) => {
   axios.get('https://api.telegram.org/bot6384961507:AAGQU1IOXaJ7wUAlAiTm8S96hj1x7WMKm5E/getChatMembersCount?chat_id=-1001807749316')
-    .then(data => {
+    .then(response => {
       res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
-      res.json(data);
+      res.json(response.data);
     })
     .catch(err => console.log(err));
     
