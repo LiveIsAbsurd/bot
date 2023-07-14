@@ -62,7 +62,7 @@ app.get('/sendUsersCount', (req, res) => {
 app.get('/sendAdminList', (req, res) => {
   axios.get(`https://api.telegram.org/bot${token}/getChatAdministrators?chat_id=-1001807749316`)
     .then(response => {
-      res.setHeader('Access-Control-Allow-Origin', 'https://liveisabsurd.github.io/Meme_House/');
+      res.setHeader('Access-Control-Allow-Origin', 'https://liveisabsurd.github.io');
       res.json(response.data);
     })
     .catch(err => console.log(err));
