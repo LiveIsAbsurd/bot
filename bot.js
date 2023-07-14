@@ -8,8 +8,8 @@ const fs = require('fs');
 const https = require('https');
 
 const options = {
-  key: fs.readFileSync('./private.key'),
-  cert: fs.readFileSync('./certificate.crt')
+  key: fs.readFileSync('./server.key'),
+  cert: fs.readFileSync('./server.cert')
 };
 
 const bot = new TelegramBot(token, {polling: { interval: 3000 }});
