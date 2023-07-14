@@ -70,6 +70,15 @@ app.get('/sendAdminInfo/:id', (req, res) => {
     .catch(err => console.log(err));
 })
 
+app.get('/sendAdminPhotoInfo/:id', (req, res) => {
+  axios.get(`https://api.telegram.org/bot6384961507:AAGQU1IOXaJ7wUAlAiTm8S96hj1x7WMKm5E/getUserProfilePhotos?user_id=${req.params.id}`)
+    .then(response => {
+      res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
+      res.json(response.data);
+    })
+    .catch(err => console.log(err));
+})
+
 
 bot.onText(/\/start/, (msg) => {
   const chatId = msg.chat.id;
