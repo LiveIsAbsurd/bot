@@ -62,7 +62,7 @@ app.get('/sendAdminList', (req, res) => {
 })
 
 app.get('/sendAdminInfo/:id', (req, res) => {
-  axios.get(`https://api.telegram.org/bot6384961507:AAGQU1IOXaJ7wUAlAiTm8S96hj1x7WMKm5E/getUserProfilePhotos?user_id=${id}`)
+  axios.get(`https://api.telegram.org/bot6384961507:AAGQU1IOXaJ7wUAlAiTm8S96hj1x7WMKm5E/getUserProfilePhotos?user_id=${req.params.id}`)
     .then(response => {
       res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
       res.json(response.data);
