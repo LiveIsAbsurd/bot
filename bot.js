@@ -4,10 +4,7 @@ const TelegramBot = require('node-telegram-bot-api');
 const express = require('express');
 const app = express();
 const axios = require('axios');
-// Введите ваш токен Telegram Bot API ниже:
 
-
-// Создайте экземпляр бота
 const bot = new TelegramBot(token, {polling: { interval: 3000 }});
 
 bot.on('new_chat_members', (msg) => {
@@ -37,7 +34,6 @@ bot.on('left_chat_member', (msg) => {
   const userName = msg.left_chat_member.username;
   const chatId = msg.chat.id;
 
-  // Далее можно выполнить нужное действие при выходе пользователя из чата, например, отправить сообщение админу чата
   bot.sendMessage(chatId, `Пользователь ${userName} покинул нас.
 Ну чтож... естественный отбор`);
 });
@@ -56,22 +52,18 @@ app.get('/sendUsersCount', (req, res) => {
     
 })
 
+app.get('/sendAminList', (req, res) => {
+  axios.get('https://api.telegram.org/bot6384961507:AAGQU1IOXaJ7wUAlAiTm8S96hj1x7WMKm5E/getChatAdministrators?chat_id=-1001807749316')
+    .then(response => {
+      res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
+      res.json(response.data);
+    })
+    .catch(err => console.log(err));
+})
 
 
-// Обработка команды /start
 bot.onText(/\/start/, (msg) => {
   const chatId = msg.chat.id;
   bot.sendMessage(chatId, `Привет! Это оффициальный бот лучшего в телеграме чата https://t.me/meme_house_chat.
 Присоединяйся!`);
 });
-
-// Обработка текстовых сообщений
-//bot.on('message', (msg) => {
-//   const chatId = msg.chat.id;
-//   const text = msg.text;
-
-//   // Ваш код обработки текстовых сообщений здесь
-
-//   // Пример ответа на сообщение
-//   bot.sendMessage(chatId, msg);
-// });
