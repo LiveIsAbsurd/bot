@@ -72,8 +72,8 @@ app.get('/sendAdminInfo/:id', (req, res) => {
 
 app.get('/sendAdminPhotoInfo/:id', (req, res) => {
   axios.get(`https://api.telegram.org/bot${token}/getFile?file_id=${req.params.id}`)
-    .then(response => response.json())
     .then(response => {
+      console.log(response)
       axios.get(`https://api.telegram.org/file/bot${token}/${response.file_path}`)
       .then(response => {
         res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
