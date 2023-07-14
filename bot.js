@@ -73,17 +73,12 @@ app.get('/sendAdminInfo/:id', (req, res) => {
 app.get('/sendAdminPhotoInfo/:id', (req, res) => {
   axios.get(`https://api.telegram.org/bot${token}/getFile?file_id=${req.params.id}`)
     .then(response => {
-      res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
-      res.json(response.data);
-    })
-    .catch(err => console.log(err));
-})
-
-app.get('/sendAdminPhoto/:id', (req, res) => {
-  axios.get(`https://api.telegram.org/file/bot6384961507:AAGQU1IOXaJ7wUAlAiTm8S96hj1x7WMKm5E/${req.params.id}`)
-    .then(response => {
-      res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
-      res.sendFile(response);
+      axios.get(`https://api.telegram.org/file/bot${token}/${response.file_path}`)
+      .then(response => {
+        res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
+        res.sendFile(response);
+      })
+      .catch(err => console.log(err));
     })
     .catch(err => console.log(err));
 })
