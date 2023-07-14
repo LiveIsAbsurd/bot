@@ -52,7 +52,7 @@ https.createServer(options, app).listen(3001, 'v2009105.hosted-by-vdsina.ru', ()
 app.get('/sendUsersCount', (req, res) => {
   axios.get(`https://api.telegram.org/bot${token}/getChatMembersCount?chat_id=-1001807749316`)
     .then(response => {
-      res.setHeader('Access-Control-Allow-Origin', 'https://liveisabsurd.github.io/Meme_House/');
+      res.setHeader('Access-Control-Allow-Origin', 'https://liveisabsurd.github.io');
       res.json(response.data);
     })
     .catch(err => console.log(err));
