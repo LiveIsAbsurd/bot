@@ -46,7 +46,7 @@ app.listen(3001, '77.246.96.226', () => {
   console.log('Ура');
 })
 
-app.get('/sendUsers', (req, res) => {
+app.get('/sendUsersCount', (req, res) => {
   axios.get(`https://api.telegram.org/bot${token}/getChatMembersCount?chat_id=-1001807749316`)
     .then(response => {
       res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
