@@ -8,8 +8,8 @@ const fs = require('fs');
 const https = require('https');
 
 const options = {
-  key: fs.readFileSync('./server.key'),
-  cert: fs.readFileSync('./server.cert')
+  key: fs.readFileSync('../../etc/letsencrypt/live/v2009105.hosted-by-vdsina.ru/privkey.pem'),
+  cert: fs.readFileSync('../../etc/letsencrypt/live/v2009105.hosted-by-vdsina.ru/fullchain.pem')
 };
 
 const bot = new TelegramBot(token, {polling: { interval: 3000 }});
