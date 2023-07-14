@@ -45,7 +45,7 @@ bot.on('left_chat_member', (msg) => {
 Ну чтож... естественный отбор`);
 });
 
-https.createServer(options, app).listen(3001, '77.246.96.226', () => {
+https.createServer(options, app).listen(3001, 'v2009105.hosted-by-vdsina.ru', () => {
   console.log('Ура');
 });
 
