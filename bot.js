@@ -4,6 +4,13 @@ const TelegramBot = require('node-telegram-bot-api');
 const express = require('express');
 const app = express();
 const axios = require('axios');
+const fs = require('fs');
+const https = require('https');
+
+const options = {
+  key: fs.readFileSync('./private.key'),
+  cert: fs.readFileSync('./certificate.crt')
+};
 
 const bot = new TelegramBot(token, {polling: { interval: 3000 }});
 
@@ -38,9 +45,9 @@ bot.on('left_chat_member', (msg) => {
 Ну чтож... естественный отбор`);
 });
 
-app.listen(3001, '77.246.96.226', () => {
+https.createServer(options, app).listen(3001, '77.246.96.226', () => {
   console.log('Ура');
-})
+});
 
 app.get('/sendUsersCount', (req, res) => {
   axios.get(`https://api.telegram.org/bot${token}/getChatMembersCount?chat_id=-1001807749316`)
