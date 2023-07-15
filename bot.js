@@ -52,7 +52,7 @@ https.createServer(options, app).listen(3001, 'v2009105.hosted-by-vdsina.ru', ()
 app.get('/sendUsersCount', (req, res) => {
   axios.get(`https://api.telegram.org/bot${token}/getChatMembersCount?chat_id=-1001807749316`)
     .then(response => {
-      res.setHeader('Access-Control-Allow-Origin', 'https://liveisabsurd.github.io');
+      res.setHeader('Access-Control-Allow-Origin', '*');
       res.json(response.data);
     })
     .catch(err => console.log(err));
@@ -62,7 +62,7 @@ app.get('/sendUsersCount', (req, res) => {
 app.get('/sendAdminList', (req, res) => {
   axios.get(`https://api.telegram.org/bot${token}/getChatAdministrators?chat_id=-1001807749316`)
     .then(response => {
-      res.setHeader('Access-Control-Allow-Origin', 'https://liveisabsurd.github.io');
+      res.setHeader('Access-Control-Allow-Origin', '*');
       res.json(response.data);
     })
     .catch(err => console.log(err));
@@ -71,7 +71,7 @@ app.get('/sendAdminList', (req, res) => {
 app.get('/sendAdminInfo/:id', (req, res) => {
   axios.get(`https://api.telegram.org/bot${token}/getUserProfilePhotos?user_id=${req.params.id}`)
     .then(response => {
-      res.setHeader('Access-Control-Allow-Origin', 'https://liveisabsurd.github.io');
+      res.setHeader('Access-Control-Allow-Origin', '*');
       res.json(response.data);
     })
     .catch(err => console.log(err));
@@ -82,7 +82,7 @@ app.get('/sendAdminPhotoInfo/:id', (req, res) => {
     .then(response => {
       axios.get(`https://api.telegram.org/file/bot${token}/${response.data.result.file_path}`, {responseType: 'arraybuffer'})
       .then(response => {
-        res.setHeader('Access-Control-Allow-Origin', 'https://liveisabsurd.github.io');
+        res.setHeader('Access-Control-Allow-Origin', '*');
         res.set('Content-Type', 'image/jpeg');
         res.set('Content-Disposition', 'attachment; filename=image.jpg')
         res.send(response.data);
