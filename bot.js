@@ -51,6 +51,12 @@ https.createServer(options, app).listen(3001, 'v2009105.hosted-by-vdsina.ru', ()
   console.log('Ура');
 });
 
+bot.onText(/\/start/, (msg) => {
+  const chatId = msg.chat.id;
+  bot.sendMessage(chatId, `Привет ${chatId}! Это оффициальный бот лучшего в телеграме чата https://t.me/meme_house_chat.
+Присоединяйся!`);
+});
+
 bot.onText(/\/setDescription (.+)/, (msg, match) => {
   const text = match[1];
   let adminList = [];
@@ -70,7 +76,6 @@ bot.onText(/\/setDescription (.+)/, (msg, match) => {
           adminDesc[username.toLowerCase()] = text;
 
           fs.writeFile('adminDescriptions.json', JSON.stringify(adminDesc), 'UTF-8', err => {
-            bot.sendMessage(msg.chat.id, `Что-то не получилось`);
             console.log(err)
           });
           bot.sendMessage(msg.chat.id, `${username} твоё описание изменено на ${text}`);
@@ -88,7 +93,7 @@ app.get('/sendAdminDescription/:admin', (req, res) => {
   fs.readFile('adminDescriptions.json', 'UTF-8', (err, desc) => {
       res.setHeader('Access-Control-Allow-Origin', '*');
       const adminList = JSON.parse(desc);
-      console.log(req.params.admin.toLowerCase())
+
       if (adminList[req.params.admin]) {
         res.json(adminList[req.params.admin.toLowerCase()]);
       } else {
@@ -138,10 +143,6 @@ app.get('/sendAdminPhotoInfo/:id', (req, res) => {
     .catch(err => console.log(err));
 })
 
-bot.onText(/\/start/, (msg) => {
-  const chatId = msg.chat.id;
-  bot.sendMessage(chatId, `Привет! Это оффициальный бот лучшего в телеграме чата https://t.me/meme_house_chat.
-Присоединяйся!`);
-});
+
 
 
