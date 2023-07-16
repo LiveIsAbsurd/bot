@@ -51,6 +51,38 @@ https.createServer(options, app).listen(3001, 'v2009105.hosted-by-vdsina.ru', ()
   console.log('Ура');
 });
 
+bot.onText(/\/setDescription (.+)/, (msg, match) => {
+  const text = match[1];
+  let adminList = [];
+  
+  axios.get(`https://api.telegram.org/bot${token}/getChatAdministrators?chat_id=-1001807749316`)
+    .then(response => {
+      response.data.result.forEach(admin => {
+        const username = admin.user.username;
+        adminList.push(username.toLowerCase());
+      });
+      console.log(msg);
+      let username = msg.from.username;
+      let isAdmin = Number(adminList.indexOf(username.toLowerCase()))
+
+      if (isAdmin >= 0) {
+        fs.readFile('adminDescriptions.json', 'UTF-8', (err, data) => {
+          let adminDesc = JSON.parse(data);
+          adminDesc[username] = text;
+          fs.writeFile('adminDescriptions.json', JSON.stringify(adminDesc), 'UTF-8', err => {
+            bot.sendMessage(msg.chat.id, `Что-то не получилось`);
+          });
+          bot.sendMessage(msg.chat.id, `${username} твоё описание изменено на ${text}`);
+        });
+      } else {
+        bot.sendMessage(msg.chat.id, `Ты не являешся админом чата`);
+      }
+    })
+  // fs.writeFile('adminDescriptions.json', );
+})
+
+// API
+
 app.get('/sendAdminDescription/:admin', (req, res) => {
   fs.readFile('adminDescriptions.json', 'UTF-8', (err, desc) => {
       res.setHeader('Access-Control-Allow-Origin', '*');
@@ -111,25 +143,4 @@ bot.onText(/\/start/, (msg) => {
 Присоединяйся!`);
 });
 
-bot.onText(/\/setDescription (.+)/, (msg, match) => {
-  const text = match[1];
-  let adminList = [];
-  
-  axios.get(`https://api.telegram.org/bot${token}/getChatAdministrators?chat_id=-1001807749316`)
-    .then(response => {
-      response.data.result.forEach(admin => {
-        const username = admin.user.username;
-        adminList.push(username.toLowerCase());
-      });
-      console.log(msg);
-      let username = msg.from.username;
-      let isAdmin = Number(adminList.indexOf(username.toLowerCase()))
 
-      if (isAdmin >= 0) {
-        bot.sendMessage(msg.chat.id, `${username} ты админ`);
-      } else {
-        bot.sendMessage(msg.chat.id, `Ты не являешся админом чата`);
-      }
-    })
-  // fs.writeFile('adminDescriptions.json', );
-})
