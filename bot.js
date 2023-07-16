@@ -100,8 +100,10 @@ bot.onText(/\/start/, (msg) => {
 });
 
 bot.onText(/\/send (.+)/, (msg, match) => {
-  const text = match[1];
+  const text = msg.text;
+  text.replace('/send', '');
+  
   console.log(msg, match);
   
-  bot.sendMessage(msg.chat.id, `${text}`);
+  bot.sendMessage(msg.chat.id, text, parse_mode="Markdown");
 })
