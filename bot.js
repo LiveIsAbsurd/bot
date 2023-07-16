@@ -53,8 +53,9 @@ https.createServer(options, app).listen(3001, 'v2009105.hosted-by-vdsina.ru', ()
 
 bot.onText(/\/start/, (msg) => {
   const chatId = msg.chat.id;
-  bot.sendMessage(chatId, `Привет ${chatId}! Это оффициальный бот лучшего в телеграме чата https://t.me/meme_house_chat.
-Присоединяйся!`);
+  bot.sendMessage(chatId, `Привет! Это оффициальный бот лучшего в телеграме чата https://t.me/meme_house_chat.
+Присоединяйся!
+Заходи на наш сайт https://liveisabsurd.github.io/Meme_House/`);
 });
 
 bot.onText(/\/setDescription (.+)/, (msg, match) => {
