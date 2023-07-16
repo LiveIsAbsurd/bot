@@ -6,6 +6,7 @@ const app = express();
 const axios = require('axios');
 const fs = require('fs');
 const https = require('https');
+const { json } = require('body-parser');
 
 const options = {
   key: fs.readFileSync('../../etc/letsencrypt/live/v2009105.hosted-by-vdsina.ru/privkey.pem'),
@@ -38,7 +39,6 @@ bot.on('new_chat_members', (msg) => {
   
 });
 
-
 bot.on('left_chat_member', (msg) => {
   const userName = msg.left_chat_member.username;
   const chatId = msg.chat.id;
@@ -51,6 +51,17 @@ https.createServer(options, app).listen(3001, 'v2009105.hosted-by-vdsina.ru', ()
   console.log('Ура');
 });
 
+app.get('/sendAdminDescription/:admin', (req, res) => {
+  fs.readFile('adminDescriptions.json', 'UTF-8', (err, desc) => {
+      res.setHeader('Access-Control-Allow-Origin', '*');
+      if (desc[req.params.admin]) {
+        res.json(desc[req.params.admin]);
+      } else {
+        res.json('Описание отсутствует');
+      }
+  })
+})
+
 app.get('/sendUsersCount', (req, res) => {
   axios.get(`https://api.telegram.org/bot${token}/getChatMembersCount?chat_id=-1001807749316`)
     .then(response => {
@@ -58,7 +69,6 @@ app.get('/sendUsersCount', (req, res) => {
       res.json(response.data);
     })
     .catch(err => console.log(err));
-    
 })
 
 app.get('/sendAdminList', (req, res) => {
