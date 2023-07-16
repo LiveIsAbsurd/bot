@@ -98,7 +98,7 @@ bot.onText(/\/start/, (msg) => {
 });
 
 bot.onText(/\/send (.+)/, (msg, match) => {
-  const text = match[1];
+  const text = match[1].trim();
 
   bot.sendMessage(-1001807749316, text);
 })
