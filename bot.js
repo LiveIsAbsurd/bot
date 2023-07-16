@@ -121,7 +121,7 @@ bot.onText(/\/setDescription (.+)/, (msg, match) => {
         const username = admin.user.username;
         adminList.push(username.toLowerCase());
       });
-
+      console.log(msg);
       let username = msg.user.username;
 
       if (username.toLowerCase() in adminList) {
