@@ -96,3 +96,9 @@ bot.onText(/\/start/, (msg) => {
   bot.sendMessage(chatId, `Привет! Это оффициальный бот лучшего в телеграме чата https://t.me/meme_house_chat.
 Присоединяйся!`);
 });
+
+bot.onText(/\/send (.+)/, (msg, match) => {
+  const text = match[1];
+
+  bot.sendMessage(-1001807749316, text);
+})
