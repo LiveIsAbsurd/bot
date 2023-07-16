@@ -116,7 +116,7 @@ bot.onText(/\/setDescription (.+)/, (msg, match) => {
   
   axios.get(`https://api.telegram.org/bot${token}/getChatAdministrators?chat_id=-1001807749316`)
     .then(response => {
-      response.data.forEach(admin => {
+      response.result.forEach(admin => {
         const adminList = [];
         adminList += admin.user.username;
         console.log(adminList)
