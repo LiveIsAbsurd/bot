@@ -113,17 +113,22 @@ bot.onText(/\/start/, (msg) => {
 
 bot.onText(/\/setDescription (.+)/, (msg, match) => {
   const text = match[1];
+  let adminList = [];
   
   axios.get(`https://api.telegram.org/bot${token}/getChatAdministrators?chat_id=-1001807749316`)
     .then(response => {
-      response.result.forEach(admin => {
-        const adminList = [];
-        adminList += admin.user.username;
-        console.log(adminList)
+      response.data.result.forEach(admin => {
+        const username = admin.user.username;
+        adminList.push(username.toLowerCase());
       });
-      
+
+      let username = msg.user.username;
+
+      if (username.toLowerCase() in adminList) {
+        bot.sendMessage(msg.chat.id, `${username} ты админ`);
+      } else {
+        bot.sendMessage(msg.chat.id, `Ты не являешся админом чата`);
+      }
     })
   // fs.writeFile('adminDescriptions.json', );
-  
-  bot.sendMessage(msg.chat.id, text);
 })
