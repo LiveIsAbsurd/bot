@@ -54,6 +54,7 @@ https.createServer(options, app).listen(3001, 'v2009105.hosted-by-vdsina.ru', ()
 app.get('/sendAdminDescription/:admin', (req, res) => {
   fs.readFile('adminDescriptions.json', 'UTF-8', (err, desc) => {
       res.setHeader('Access-Control-Allow-Origin', '*');
+      console.log(req.params.admin)
       if (desc[req.params.admin]) {
         res.json(desc[req.params.admin]);
       } else {
