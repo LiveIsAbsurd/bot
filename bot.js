@@ -102,6 +102,6 @@ bot.onText(/\/start/, (msg) => {
 bot.onText(/\/send (.+)/, (msg, match) => {
   const text = match[1];
   console.log(match);
-
-  bot.sendMessage(-1001807749316, text);
+  const formattedMessage = message.replace(/\\n/g, '\n');
+  bot.sendMessage(-1001807749316, formattedMessage);
 })
