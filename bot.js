@@ -111,10 +111,14 @@ bot.onText(/\/start/, (msg) => {
 Присоединяйся!`);
 });
 
-// bot.onText(/\/send (.+)/, (msg, match) => {
-//   const text = match[1];
+bot.onText(/\/setDescription (.+)/, (msg, match) => {
+  const text = match[1];
   
-//   console.log(msg, match);
+  axios.get(`https://api.telegram.org/bot${token}/getChatAdministrators?chat_id=-1001807749316`)
+    .then(response => {
+      console.log(response.data)
+    })
+  // fs.writeFile('adminDescriptions.json', );
   
-//   bot.sendMessage(msg.chat.id, text, { parse_mode: 'Markdown' });
-// })
+  bot.sendMessage(msg.chat.id, text);
+})
