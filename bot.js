@@ -100,7 +100,7 @@ bot.onText(/\/start/, (msg) => {
 });
 
 bot.onText(/\/send (.+)/, (msg, match) => {
-  const text;
+  const text = '';
   
   for (i for match) {
     if (typeof(i) !== string) {
