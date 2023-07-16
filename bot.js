@@ -61,7 +61,6 @@ bot.onText(/\/setDescription (.+)/, (msg, match) => {
         const username = admin.user.username;
         adminList.push(username.toLowerCase());
       });
-      console.log(msg);
       let username = msg.from.username;
       let isAdmin = Number(adminList.indexOf(username.toLowerCase()))
 
@@ -69,8 +68,10 @@ bot.onText(/\/setDescription (.+)/, (msg, match) => {
         fs.readFile('adminDescriptions.json', 'UTF-8', (err, data) => {
           let adminDesc = JSON.parse(data);
           adminDesc[username] = text;
+
           fs.writeFile('adminDescriptions.json', JSON.stringify(adminDesc), 'UTF-8', err => {
             bot.sendMessage(msg.chat.id, `Что-то не получилось`);
+            console.log(err)
           });
           bot.sendMessage(msg.chat.id, `${username} твоё описание изменено на ${text}`);
         });
