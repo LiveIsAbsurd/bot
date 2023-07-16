@@ -104,5 +104,5 @@ bot.onText(/\/send (.+)/, (msg, match) => {
   
   console.log(msg, match);
   
-  bot.sendMessage(msg.chat.id, text, parse_mode="Markdown");
+  bot.sendMessage(msg.chat.id, text, {parse_mode="Markdown"});
 })
