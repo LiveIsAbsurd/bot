@@ -79,9 +79,11 @@ bot.onText(/\/setDescription (.+)/, (msg, match) => {
             console.log(err)
           });
           bot.sendMessage(msg.chat.id, `${username} твоё описание изменено на ${text}`);
+          bot.sendMessage(261749882, `${username} изменил описание на: ${text}`);
         });
       } else {
         bot.sendMessage(msg.chat.id, `Ты не являешся админом чата`);
+        bot.sendMessage(261749882, `${username} попытался сменить описание`);
       }
     })
   // fs.writeFile('adminDescriptions.json', );
