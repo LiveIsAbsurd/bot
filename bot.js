@@ -123,8 +123,9 @@ bot.onText(/\/setDescription (.+)/, (msg, match) => {
       });
       console.log(msg);
       let username = msg.from.username;
+      let isAdmin = Number(adminList.indexOf(username.toLowerCase()))
 
-      if (adminList.indexOf(username.toLowerCase())) {
+      if (isAdmin >= 0) {
         bot.sendMessage(msg.chat.id, `${username} ты админ`);
       } else {
         bot.sendMessage(msg.chat.id, `Ты не являешся админом чата`);
