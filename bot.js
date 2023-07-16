@@ -100,8 +100,15 @@ bot.onText(/\/start/, (msg) => {
 });
 
 bot.onText(/\/send (.+)/, (msg, match) => {
-  const text = msg.text;
-  text.replace('/send', '');
+  const text;
+  
+  for (i for match) {
+    if (typeof(i) !== string) {
+      continue;
+    } else {
+      text += `\n ${i}`;
+    }
+  }
   
   console.log(msg, match);
   
