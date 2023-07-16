@@ -67,7 +67,7 @@ bot.onText(/\/setDescription (.+)/, (msg, match) => {
       if (isAdmin >= 0) {
         fs.readFile('adminDescriptions.json', 'UTF-8', (err, data) => {
           let adminDesc = JSON.parse(data);
-          adminDesc[username] = text;
+          adminDesc[username.toLowerCase()] = text;
 
           fs.writeFile('adminDescriptions.json', JSON.stringify(adminDesc), 'UTF-8', err => {
             bot.sendMessage(msg.chat.id, `Что-то не получилось`);
