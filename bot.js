@@ -99,10 +99,10 @@ bot.onText(/\/start/, (msg) => {
 Присоединяйся!`);
 });
 
-bot.onText(/\/send (.+)/, (msg, match) => {
-  const text = match[1];
+// bot.onText(/\/send (.+)/, (msg, match) => {
+//   const text = match[1];
   
-  console.log(msg, match);
+//   console.log(msg, match);
   
-  bot.sendMessage(msg.chat.id, text, { parse_mode: 'Markdown' });
-})
+//   bot.sendMessage(msg.chat.id, text, { parse_mode: 'Markdown' });
+// })
