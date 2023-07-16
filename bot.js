@@ -100,15 +100,7 @@ bot.onText(/\/start/, (msg) => {
 });
 
 bot.onText(/\/send (.+)/, (msg, match) => {
-  const text = '';
-  
-  for (i in match) {
-    if (typeof(i) !== string) {
-      continue;
-    } else {
-      text += `\n ${i}`;
-    }
-  }
+  const text = match[1];
   
   console.log(msg, match);
   
