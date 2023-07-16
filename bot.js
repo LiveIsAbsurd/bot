@@ -102,7 +102,7 @@ bot.onText(/\/start/, (msg) => {
 bot.onText(/\/send (.+)/, (msg, match) => {
   const text = '';
   
-  for (i for match) {
+  for (i in match) {
     if (typeof(i) !== string) {
       continue;
     } else {
