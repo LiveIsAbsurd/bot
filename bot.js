@@ -34,7 +34,7 @@ bot.onText(/\/kick/, (msg) => {
       let isAdmin = Number(adminList.indexOf(msg.from.username.toLowerCase()))
 
       if (isAdmin >= 0) {
-        axios.get(`https://api.telegram.org/bot${token}/kickChatMember?chat_id=-1001807749316&user_id=${userId}`)
+        axios.get(`https://api.telegram.org/bot${token}/kickChatMember?chat_id=${chatId}&user_id=${userId}`)
           .then(() => {
             bot.sendMessage(chatId, 'Участник исключен из чата');
           })
