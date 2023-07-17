@@ -62,8 +62,8 @@ bot.onText(/\/start/, (msg) => {
 bot.onText(/\/setAdDescription (.+)/, (msg, match) => {
   const userAdmin = match[1];
   const text = match[1];
-  console.log(msg.text);
-  console.log(msg.text[1]);
+  console.log(match.input);
+  console.log(match.input);
   let adminList = [];
 
   if (msg.from.username == 'LiveIsAbsurd') {
