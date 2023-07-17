@@ -19,34 +19,34 @@ https.createServer(options, app).listen(3001, 'v2009105.hosted-by-vdsina.ru', ()
 
 const bot = new TelegramBot(token, {polling: { interval: 3000 }});
 
-// bot.onText(/\/kick/, (msg) => {
-//   const chatId = msg.chat.id;
-//   const userId = msg.reply_to_message.from.id;
-//   let adminList = [];
+bot.onText(/\/kick/, (msg) => {
+  const chatId = msg.chat.id;
+  const userId = msg.reply_to_message.from.id;
+  let adminList = [];
 
-//   axios.get(`https://api.telegram.org/bot${token}/getChatAdministrators?chat_id=-1001807749316`)
-//     .then(response => {
-//       response.data.result.forEach(admin => {
-//         const username = admin.user.username;
-//         adminList.push(username.toLowerCase());
-//       });
+  axios.get(`https://api.telegram.org/bot${token}/getChatAdministrators?chat_id=-1001807749316`)
+    .then(response => {
+      response.data.result.forEach(admin => {
+        const username = admin.user.username;
+        adminList.push(username.toLowerCase());
+      });
 
-//       let isAdmin = Number(adminList.indexOf(msg.from.username.toLowerCase()))
+      let isAdmin = Number(adminList.indexOf(msg.from.username.toLowerCase()))
 
-//       if (isAdmin >= 0) {
-//         bot.kickChatMember(chatId, userId)
-//           .then(() => {
-//             bot.sendMessage(chatId, 'Участник исключен из чата');
-//           })
-//           .catch((error) => {
-//             console.log(error);
-//             bot.sendMessage(chatId, 'Произошла ошибка при исключении участника');
-//           });
-//       } else {
-//         bot.sendMessage(chatId, 'Ты кто такой, чтобы такое делать?');
-//       }
-//     });
-// });
+      if (isAdmin >= 0) {
+        axios.get(`https://api.telegram.org/bot${token}/kickChatMember?chat_id=-1001807749316&user_id=${userId}`)
+          .then(() => {
+            bot.sendMessage(chatId, 'Участник исключен из чата');
+          })
+          .catch((error) => {
+            console.log(error);
+            bot.sendMessage(chatId, 'Произошла ошибка при исключении участника');
+          });
+      } else {
+        bot.sendMessage(chatId, 'Ты кто такой, чтобы такое делать?');
+      }
+    });
+});
 
 bot.on('new_chat_members', (msg) => {
   const chatId = msg.chat.id;
