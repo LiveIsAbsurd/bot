@@ -60,7 +60,7 @@ bot.onText(/\/start/, (msg) => {
 });
 
 bot.onText(/\/setAdDescription (.+)/, (msg, match) => {
-  const userAdmin = match[1];
+  const userAdmin = match[1].replace('@', '');
   const text = match.input.split('\n')[1];
   
   let adminList = [];
