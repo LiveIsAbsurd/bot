@@ -83,7 +83,7 @@ bot.onText(/\/setAdDescription (.+)/, (msg, match) => {
             fs.writeFile('../adminDescriptions.json', JSON.stringify(adminDesc), 'UTF-8', err => {
               console.log(err)
             });
-            bot.sendMessage(msg.chat.id, `Описание @${userAdmin} изменено на ${text}`);
+            bot.sendMessage(msg.chat.id, `Описание @${userAdmin} изменено на: '${text}'`);
           });
         } else {
           bot.sendMessage(msg.chat.id, `@${userAdmin} не является админом`);
