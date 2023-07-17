@@ -58,8 +58,12 @@ bot.onText(/\/start/, (msg) => {
 Присоединяйся!
 Заходи на наш сайт https://liveisabsurd.github.io/Meme_House/`);
 });
+
 bot.onText(/\/setAdDescription (.+)/, (msg, match) => {
   const userAdmin = match[1];
+  console.log(match);
+  console.log(match[1]);
+  console.log(match[2]);
   const text = match[1][1];
   let adminList = [];
 
