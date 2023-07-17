@@ -48,7 +48,7 @@ bot.on('left_chat_member', (msg) => {
   const userName = msg.left_chat_member.username;
   const chatId = msg.chat.id;
 
-  bot.sendMessage(chatId, `Пользователь ${userName} покинул нас.
+  bot.sendMessage(chatId, `Пользователь @${userName} покинул нас.
 Ну чтож... естественный отбор`);
 });
 
