@@ -22,6 +22,7 @@ const bot = new TelegramBot(token, {polling: { interval: 3000 }});
 bot.onText(/\/kick/, (msg) => {
   const chatId = msg.chat.id;
   const userId = msg.reply_to_message.from.id;
+  let adminList = [];
 
   axios.get(`https://api.telegram.org/bot${token}/getChatAdministrators?chat_id=-1001807749316`)
     .then(response => {
