@@ -13,15 +13,20 @@ const options = {
   cert: fs.readFileSync('../../etc/letsencrypt/live/v2009105.hosted-by-vdsina.ru/fullchain.pem')
 };
 
+https.createServer(options, app).listen(3001, 'v2009105.hosted-by-vdsina.ru', () => {
+  console.log('Ура');
+});
+
 const bot = new TelegramBot(token, {polling: { interval: 3000 }});
 
 bot.on('new_chat_members', (msg) => {
   const chatId = msg.chat.id;
   const userName = msg.new_chat_member.username;
+  const fistName = msg.new_chat_member.first_name;
 
   if (!userName) {
     bot.sendMessage(chatId, `
-Доброго времени суток, человек без никнейма!
+Доброго времени суток, ${first_name}!
 Добро пожаловать в наш замечательный и скромный чатик!
 Чувствуйте себя как у @user148 дома!
 Все правила в закрепе.
@@ -47,10 +52,6 @@ bot.on('left_chat_member', (msg) => {
 Ну чтож... естественный отбор`);
 });
 
-https.createServer(options, app).listen(3001, 'v2009105.hosted-by-vdsina.ru', () => {
-  console.log('Ура');
-});
-
 bot.onText(/\/start/, (msg) => {
   const chatId = msg.chat.id;
   bot.sendMessage(chatId, `Привет! Это оффициальный бот лучшего в телеграме чата https://t.me/meme_house_chat.
@@ -68,6 +69,7 @@ bot.onText(/\/setDescription (.+)/, (msg, match) => {
         const username = admin.user.username;
         adminList.push(username.toLowerCase());
       });
+
       let username = msg.from.username;
       let isAdmin = Number(adminList.indexOf(username.toLowerCase()))
 
@@ -87,7 +89,6 @@ bot.onText(/\/setDescription (.+)/, (msg, match) => {
         bot.sendMessage(261749882, `${username} попытался сменить описание`);
       }
     })
-  // fs.writeFile('adminDescriptions.json', );
 })
 
 // API
