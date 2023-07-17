@@ -74,11 +74,11 @@ bot.onText(/\/setDescription (.+)/, (msg, match) => {
       let isAdmin = Number(adminList.indexOf(username.toLowerCase()))
 
       if (isAdmin >= 0) {
-        fs.readFile('adminDescriptions.json', 'UTF-8', (err, data) => {
+        fs.readFile('../adminDescriptions.json', 'UTF-8', (err, data) => {
           let adminDesc = JSON.parse(data);
           adminDesc[username.toLowerCase()] = text;
 
-          fs.writeFile('adminDescriptions.json', JSON.stringify(adminDesc), 'UTF-8', err => {
+          fs.writeFile('../adminDescriptions.json', JSON.stringify(adminDesc), 'UTF-8', err => {
             console.log(err)
           });
           bot.sendMessage(msg.chat.id, `${username}, твоё описание изменено на '${text}'`);
@@ -94,7 +94,7 @@ bot.onText(/\/setDescription (.+)/, (msg, match) => {
 // API
 
 app.get('/sendAdminDescription/:admin', (req, res) => {
-  fs.readFile('adminDescriptions.json', 'UTF-8', (err, desc) => {
+  fs.readFile('../adminDescriptions.json', 'UTF-8', (err, desc) => {
       res.setHeader('Access-Control-Allow-Origin', '*');
       const adminList = JSON.parse(desc);
 
