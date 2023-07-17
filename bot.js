@@ -58,6 +58,40 @@ bot.onText(/\/start/, (msg) => {
 Присоединяйся!
 Заходи на наш сайт https://liveisabsurd.github.io/Meme_House/`);
 });
+bot.onText(/\/setAdDescription (.+)/, (msg, match) => {
+  const userAdmin = match[1];
+  const text = match[2];
+  let adminList = [];
+
+  if (msg.from.username == 'LiveIsAbsurd') {
+    axios.get(`https://api.telegram.org/bot${token}/getChatAdministrators?chat_id=-1001807749316`)
+      .then(response => {
+        response.data.result.forEach(admin => {
+          const username = admin.user.username;
+          adminList.push(username.toLowerCase());
+        });
+
+        let isAdmin = Number(adminList.indexOf(userAdmin.toLowerCase()))
+
+        if (isAdmin >= 0) {
+          fs.readFile('../adminDescriptions.json', 'UTF-8', (err, data) => {
+            let adminDesc = JSON.parse(data);
+            adminDesc[userAdmin.toLowerCase()] = text;
+  
+            fs.writeFile('../adminDescriptions.json', JSON.stringify(adminDesc), 'UTF-8', err => {
+              console.log(err)
+            });
+            bot.sendMessage(msg.chat.id, `Описание ${userAdmin} изменено на ${text}`);
+          });
+        } else {
+          bot.sendMessage(msg.chat.id, `${userAdmin} не является админом`);
+        }
+
+      });
+  } else {
+    bot.sendMessage(msg.chat.id, `Я тебя не знаю`);
+  }
+})
 
 bot.onText(/\/setDescription (.+)/, (msg, match) => {
   const text = match[1];
@@ -88,8 +122,8 @@ bot.onText(/\/setDescription (.+)/, (msg, match) => {
         bot.sendMessage(msg.chat.id, `Ты не являешся админом чата`);
         bot.sendMessage(261749882, `${username} попытался сменить описание`);
       }
-    })
-})
+    });
+});
 
 // API
 
