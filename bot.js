@@ -87,7 +87,8 @@ bot.onText(/\/kick/, (msg) => {
 
 bot.on("new_chat_members", (msg) => {
   const chatId = msg.chat.id;
-  const userName = msg.new_chat_member.username ? `@${msg.new_chat_member.username}` : msg.new_chat_member.user.first_name;
+  console.log(msg);
+  const userName = msg.new_chat_member.username ? `@${msg.new_chat_member.username}` : msg.new_chat_member.first_name;
 
   // if (chatId == "-1001807749316") {
     bot.sendMessage(
