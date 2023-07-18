@@ -7,6 +7,15 @@ const axios = require("axios");
 const fs = require("fs");
 const https = require("https");
 const { json } = require("body-parser");
+const MongoClient = require("mongodb").MongoClient;
+const mongoUrl = "mongodb://127.0.0.1:27017/";
+const db = new MongoClient(mongoUrl);
+
+db.connect().then(dd => {
+  console.log("Всё отлично");
+  console.log(dd.options.dbName);
+  db.close().then(data => console.log("Закрыто"))
+})
 
 function hiText(username) {
   let text = `
