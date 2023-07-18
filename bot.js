@@ -8,13 +8,16 @@ const fs = require("fs");
 const https = require("https");
 const { json } = require("body-parser");
 
-let hiText = `
+function hiText(username) {
+  let text = `
   Доброго времени суток, ${userName}!
 Добро пожаловать в наш замечательный и скромный чатик!
 Чувствуйте себя как у @user148 дома!
 Все правила в закрепе.
 Желаю освоиться в нашем чатике!
 Заходи на сайт нашего чата: https://liveisabsurd.github.io/Meme_House/`;
+  return text;
+  };
 
 const options = {
   key: fs.readFileSync(
@@ -97,7 +100,7 @@ bot.on("new_chat_members", (msg) => {
   if (chatId == "-1001807749316") {
     bot.sendMessage(
       chatId,
-      hiText,
+      hiText(userName),
       options
     ).then((msg) => {
       bot.state = {
