@@ -23,7 +23,7 @@ https
     console.log("Ура");
   });
 
-const bot = new TelegramBot(token, { polling: { interval: 3000 } });
+const bot = new TelegramBot(token, { polling: true });
 
 bot.onText(/\/kick/, (msg) => {
   const chatId = msg.chat.id;
