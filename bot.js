@@ -35,9 +35,11 @@ https
   });
 
 const bot = new TelegramBot(token, { polling: true });
+
 bot.onText(/\/getKey/, (msg) => {
+
   const opts = {
-    reply_murkup: {
+    reply_markup: {
       inline_keyboard: [[{text: 'Кнопка', callback_data: 'key'}]]
     }
   }
