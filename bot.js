@@ -10,10 +10,10 @@ const { json } = require("body-parser");
 const db = require("mongodb").MongoClient;
 const mongoUrl = "mongodb://127.0.0.1:27017";
 
-db.connect(mongoUrl, { useNewUrlParser: true, useUnifiedTopology: true }).then(dd => {
-  console.log("Всё отлично");
-  console.log(dd.options.dbName);
-  db.close().then(data => console.log("Закрыто"))
+db.connect(mongoUrl, { useNewUrlParser: true, useUnifiedTopology: true }, (err, client) => {
+  if (err) {
+    console.log(err);
+  }
 })
 
 function hiText(username) {
