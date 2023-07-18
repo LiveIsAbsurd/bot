@@ -48,16 +48,17 @@ bot.onText(/\/getKey/, (msg) => {
 });
 
 bot.on('callback_query', (query) => {
+  const messageId = query.message.message_id
   if (query.data == 'key') {
     const opts = {
       chat_id: query.message.chat.id,
-      message_id: query.message.message_id,
+      message_id: messageId,
       reply_murkup: {
         inline_keyboard: [[{text: 'Кнопка 2', callback_data: 'key'}]]
       }
     }
 
-    bot.editMessageReplyMarkup(opts);
+    bot.editMessageText('Тестовая кнопка',opts);
   }
 });
 
