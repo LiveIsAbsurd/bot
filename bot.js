@@ -146,10 +146,9 @@ bot.onText(/\/start/, (msg) => {
 bot.on('callback_query', (query) => {
   console.log('Кнопка нажата');
   console.log(query);
+  console.log(query.chat.Id);
   const chatId = query.chat.Id;
-  console.log(chatId);
   const messageId = query.message.message_id;
-  console.log(messageId);
 
   bot.state.count += 1;
 
