@@ -27,7 +27,7 @@ bot.onText(/\/kick/, (msg) => {
   axios.get(`https://api.telegram.org/bot${token}/getChatAdministrators?chat_id=-1001807749316`)
     .then(response => {
       response.data.result.forEach(admin => {
-        if (admin.can_restrict_members) {
+        if (admin.can_restrict_members || admin.status == 'creator') {
           const username = admin.user.username;
           adminList.push(username.toLowerCase());
         }
