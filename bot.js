@@ -88,7 +88,6 @@ bot.onText(/\/kick/, (msg) => {
 });
 
 bot.on("new_chat_members", (msg) => {
-  console.log(msg);
   const chatId = msg.chat.id;
   const userName = msg.new_chat_member.username ? msg.new_chat_member.username : `человек без никнейма`;
 
@@ -115,6 +114,7 @@ bot.on('callback_query', (query) => {
   const chatId = query.message.chat.id;
  
   const messageId = query.message.message_id;
+  console.log(query);
   console.log(messageId);
 
   if (query.data == 'hi') {
