@@ -11,7 +11,7 @@ const { count } = require("console");
 
 let countsss = {};
 
-fs.writeFile("../hiMembers.json", JSON.stringify(countsss), "UTF-8" (err) => console.log(err));
+fs.writeFile("../hiMembers.json", JSON.stringify(countsss), "UTF-8", (err) => console.log(err));
 
 function hiText(username) {
   let text = `
