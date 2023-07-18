@@ -58,7 +58,7 @@ bot.on('callback_query', (query) => {
       }
     }
 
-    bot.editMessageText('Тестовая кнопка',opts);
+    bot.editMessageReplyMarkup(opts);
   }
 });
 
