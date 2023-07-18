@@ -7,6 +7,7 @@ const axios = require("axios");
 const fs = require("fs");
 const https = require("https");
 const { json } = require("body-parser");
+const { count } = require("console");
 
 function hiText(username) {
   let text = `
@@ -36,8 +37,6 @@ https
 
 const bot = new TelegramBot(token, { polling: true });
 
-let botCount = {};
-
 bot.onText(/\/getKey/, (msg) => {
 
   const opts = {
@@ -47,20 +46,36 @@ bot.onText(/\/getKey/, (msg) => {
   }
 
   bot.sendMessage(msg.chat.id, 'Тестовая кнопка', opts);
-  botCount.count = 0;
 });
 
 bot.on('callback_query', (query) => {
   const messageId = query.message.message_id
   if (query.data == 'key') {
-    
-    botCount.count += 1
-    const opts = {
-        inline_keyboard: [[{text: `Кнопка ${botCount.count}`, callback_data: 'key'}]]
-      }
-    
 
-    bot.editMessageReplyMarkup(opts, { chat_id: query.message.chat.id, message_id: messageId });
+    fs.readFile('../hiMembers', 'UTF-8', (err, data) => {
+      let counts = JSON.parse(data);
+      
+      if (counts[messageId]) {
+        const opts = {
+          inline_keyboard: [[{text: `Кнопка ${counts[messageId]}`, callback_data: 'key'}]]
+        }
+
+        bot.editMessageReplyMarkup(opts, { chat_id: query.message.chat.id, message_id: messageId });
+
+        counts[messageId] += 1;
+
+        fs.writeFile("hiMembers.json", JSON.stringify(counts), "UTF-8")
+      } else {
+        counts[messageId] = 1;
+
+        const opts = {
+          inline_keyboard: [[{text: `Кнопка ${counts[messageId]}`, callback_data: 'key'}]]
+        }
+        
+        bot.editMessageReplyMarkup(opts, { chat_id: query.message.chat.id, message_id: messageId });
+        fs.writeFile("hiMembers.json", JSON.stringify(counts), "UTF-8")
+      }
+    })
   }
 });
 
