@@ -10,7 +10,7 @@ const { json } = require("body-parser");
 
 function hiText(username) {
   let text = `
-  Доброго времени суток, ${userName}!
+  Доброго времени суток, @${username}!
 Добро пожаловать в наш замечательный и скромный чатик!
 Чувствуйте себя как у @user148 дома!
 Все правила в закрепе.
