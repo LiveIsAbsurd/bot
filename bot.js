@@ -99,9 +99,13 @@ bot.onText(/\/setAdDescription (.+)/, (msg, match) => {
   if (msg.from.username == 'LiveIsAbsurd') {
     axios.get(`https://api.telegram.org/bot${token}/getChatAdministrators?chat_id=-1001807749316`)
       .then(response => {
+
+        let UsernameToId = {};
+
         response.data.result.forEach(admin => {
           const username = admin.user.username;
           adminList.push(username.toLowerCase());
+          UsernameToId[username] = admin.user.id;
         });
 
         let isAdmin = Number(adminList.indexOf(userAdmin.toLowerCase()))
@@ -109,7 +113,7 @@ bot.onText(/\/setAdDescription (.+)/, (msg, match) => {
         if (isAdmin >= 0) {
           fs.readFile('../adminDescriptions.json', 'UTF-8', (err, data) => {
             let adminDesc = JSON.parse(data);
-            adminDesc[userAdmin.toLowerCase()] = text;
+            adminDesc[UsernameToId(userAdmin.toLowerCase())] = text;
   
             fs.writeFile('../adminDescriptions.json', JSON.stringify(adminDesc), 'UTF-8', err => {
               console.log(err)
@@ -132,9 +136,13 @@ bot.onText(/\/setDescription (.+)/, (msg, match) => {
   
   axios.get(`https://api.telegram.org/bot${token}/getChatAdministrators?chat_id=-1001807749316`)
     .then(response => {
+
+      let UsernameToId = {};
+
       response.data.result.forEach(admin => {
         const username = admin.user.username;
         adminList.push(username.toLowerCase());
+        UsernameToId[username] = admin.user.id;
       });
 
       let username = msg.from.username;
@@ -143,7 +151,7 @@ bot.onText(/\/setDescription (.+)/, (msg, match) => {
       if (isAdmin >= 0) {
         fs.readFile('../adminDescriptions.json', 'UTF-8', (err, data) => {
           let adminDesc = JSON.parse(data);
-          adminDesc[username.toLowerCase()] = text;
+          adminDesc[UsernameToId(username.toLowerCase())] = text;
 
           fs.writeFile('../adminDescriptions.json', JSON.stringify(adminDesc), 'UTF-8', err => {
             console.log(err)
@@ -166,7 +174,7 @@ app.get('/sendAdminDescription/:admin', (req, res) => {
       const adminList = JSON.parse(desc);
 
       if (adminList[req.params.admin]) {
-        res.json(adminList[req.params.admin.toLowerCase()]);
+        res.json(adminList[req.params.admin]);
       } else {
         res.json('Описание отсутствует');
       }
