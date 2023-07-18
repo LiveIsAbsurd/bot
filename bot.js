@@ -35,7 +35,7 @@ https
     console.log("Ура");
   });
 
-const bot = new TelegramBot(token, { polling: true });
+const bot = new TelegramBot(token, { polling: {interval: 1000} });
 
 bot.onText(/\/getKey/, (msg) => {
 
