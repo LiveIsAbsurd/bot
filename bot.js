@@ -143,11 +143,13 @@ bot.onText(/\/start/, (msg) => {
   })
 });
 
-bot.on('callback_query', (data) => {
+bot.on('callback_query', (query) => {
   console.log('Кнопка нажата');
-  console.log(data);
-  const chatId = data.chat.Id;
-  const messageId = data.message.message_id;
+  console.log(query);
+  const chatId = query.chat.Id;
+  console.log(chatId);
+  const messageId = query.message.message_id;
+  console.log(messageId);
 
   bot.state.count += 1;
 
