@@ -105,6 +105,7 @@ bot.on("new_chat_members", (msg) => {
       hiText(userName),
       options
     ).then((msg) => {
+      botHi['messId'] = message_id;
       botHi['count'] = 0;
     })
   }
@@ -122,7 +123,7 @@ bot.on('callback_query', (query) => {
 
     const options = {
       chat_id: chatId,
-      message_id: messageId,
+      message_id: botHi['messId'],
       reply_markup: {
         inline_keyboard: [[
           { text: `Привет! ${botHi['count']}`, callback_data: "keyPush" }
