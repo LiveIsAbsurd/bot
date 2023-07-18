@@ -53,12 +53,10 @@ bot.on('callback_query', (query) => {
     const opts = {
       reply_markup: {
         inline_keyboard: [[{text: 'Кнопка 2', callback_data: 'key'}]]
-      },
-      chat_id: query.message.chat.id,
-      message_id: messageId,
+      }
     }
 
-    bot.editMessageReplyMarkup(opts);
+    bot.editMessageReplyMarkup(opts, {chat_id: query.message.chat.id, message_id: messageId});
   }
 });
 
