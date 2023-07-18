@@ -8,6 +8,14 @@ const fs = require("fs");
 const https = require("https");
 const { json } = require("body-parser");
 
+let hiText = `
+  Доброго времени суток, ${userName}!
+Добро пожаловать в наш замечательный и скромный чатик!
+Чувствуйте себя как у @user148 дома!
+Все правила в закрепе.
+Желаю освоиться в нашем чатике!
+Заходи на сайт нашего чата: https://liveisabsurd.github.io/Meme_House/`;
+
 const options = {
   key: fs.readFileSync(
     "../../etc/letsencrypt/live/v2009105.hosted-by-vdsina.ru/privkey.pem"
@@ -76,33 +84,27 @@ bot.onText(/\/kick/, (msg) => {
 
 bot.on("new_chat_members", (msg) => {
   const chatId = msg.chat.id;
-  const userName = msg.new_chat_member.username;
-  const fistName = msg.new_chat_member.first_name;
+  const userName = msg.new_chat_member.username ? msg.new_chat_member.username : `человек без никнейма`;
+
+  const options = {
+    reply_markup: {
+      inline_keyboard: [[
+        {text: "Привет! 0", callback_data: 'hi'}
+      ]]
+    }
+  }
 
   if (chatId == "-1001807749316") {
-    if (!userName) {
-      bot.sendMessage(
-        chatId,
-        `
-    Доброго времени суток, человек без никнейма!
-Добро пожаловать в наш замечательный и скромный чатик!
-Чувствуйте себя как у @user148 дома!
-Все правила в закрепе.
-Желаю освоиться в нашем чатике!
-Заходи на сайт нашего чата: https://liveisabsurd.github.io/Meme_House/`
-      );
-    } else {
-      bot.sendMessage(
-        chatId,
-        `
-    Доброго времени суток, @${userName}!
-Добро пожаловать в наш замечательный и скромный чатик!
-Чувствуйте себя как у @user148 дома!
-Все правила в закрепе.
-Желаю освоиться в нашем чатике!
-Заходи на сайт нашего чата: https://liveisabsurd.github.io/Meme_House/`
-      );
-    }
+    bot.sendMessage(
+      chatId,
+      hiText,
+      options
+    ).then((msg) => {
+      bot.state = {
+        messageId: msg.message_id,
+        count: 0,
+      };
+    })
   }
 });
 
@@ -121,48 +123,34 @@ bot.on("left_chat_member", (msg) => {
 
 bot.onText(/\/start/, (msg) => {
   const chatId = msg.chat.id;
-  const options = {
-    reply_markup: {
-      inline_keyboard: [[
-        {text: "Кнопка 0", callback_data: 'keyPush'}
-      ]]
-    }
-  }
 
   bot.sendMessage(
     chatId,
     `Привет! Это оффициальный бот лучшего в телеграме чата https://t.me/meme_house_chat.
 Присоединяйся!
-Заходи на наш сайт https://liveisabsurd.github.io/Meme_House/`,
-    options
-  ).then((msg) => {
-    bot.state = {
-      messageId: msg.message_id,
-      count: 0,
-    };
-  })
+Заходи на наш сайт https://liveisabsurd.github.io/Meme_House/`
+  )
 });
 
 bot.on('callback_query', (query) => {
-  console.log('Кнопка нажата');
-  console.log(query);
   const chatId = query.message.chat.id;
-  console.log(chatId);
   const messageId = query.message.message_id;
 
-  bot.state.count += 1;
+  if (query.data == 'hi') {
+    bot.state.count += 1;
 
-  const options = {
-    chat_id: chatId,
-    message_id: messageId,
-    reply_markup: {
-      inline_keyboard: [[
-        { text: `Кнопка ${bot.state.count}`, callback_data: "keyPush" }
-      ]]
+    const options = {
+      chat_id: chatId,
+      message_id: messageId,
+      reply_markup: {
+        inline_keyboard: [[
+          { text: `Привет! ${bot.state.count}`, callback_data: "keyPush" }
+        ]]
+      }
     }
-  }
 
-  bot.editMessageText("Привет", options);
+    bot.editMessageReplyMarkup(options);
+  }
 })
 
 bot.onText(/\/setAdDescription (.+)/, (msg, match) => {
