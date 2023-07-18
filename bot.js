@@ -113,7 +113,7 @@ bot.onText(/\/setAdDescription (.+)/, (msg, match) => {
         if (isAdmin >= 0) {
           fs.readFile('../adminDescriptions.json', 'UTF-8', (err, data) => {
             let adminDesc = JSON.parse(data);
-            adminDesc[UsernameToId(userAdmin.toLowerCase())] = text;
+            adminDesc[UsernameToId[UsernameToId(userAdmin.toLowerCase())]] = text;
   
             fs.writeFile('../adminDescriptions.json', JSON.stringify(adminDesc), 'UTF-8', err => {
               console.log(err)
