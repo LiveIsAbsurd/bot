@@ -35,6 +35,29 @@ https
   });
 
 const bot = new TelegramBot(token, { polling: true });
+bot.onText(/\/getKey/, (msg) => {
+  const opts = {
+    reply_murkup: {
+      inline_keyboard: [[{text: 'Кнопка', callback_data: 'key'}]]
+    }
+  }
+
+  bot.sendMessage(msg.chat.id, 'Тестовая кнопка', opts);
+});
+
+bot.on('callback_query', (query) => {
+  if (query.data == 'key') {
+    const opts = {
+      chat_id: query.message.chat.id,
+      message_id: query.message.message_id,
+      reply_murkup: {
+        inline_keyboard: [[{text: 'Кнопка 2', callback_data: 'key'}]]
+      }
+    }
+
+    bot.editMessageReplyMarkup(opts);
+  }
+});
 
 bot.onText(/\/kick/, (msg) => {
   const chatId = msg.chat.id;
