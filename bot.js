@@ -69,7 +69,7 @@ bot.onText(/\/kick/, (msg) => {
   } else {
     bot.sendMessage(
       261749882,
-      `${msg.from.username} использовал /kick в другом чате'`
+      `@${msg.from.username} использовал /kick в другом чате'`
     );
   }
 });
