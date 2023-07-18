@@ -144,12 +144,14 @@ bot.onText(/\/start/, (msg) => {
 });
 
 bot.on("keyPush", (data) => {
+  console.log('Кнопка нажата');
+  console.log(data);
   const chatId = data.message.chat.Id;
-  const messageId = bot.state.messageId;
+  const messageId = data.message.message_id;
 
   bot.state.count += 1;
 
-  const keyOptions = {
+  const options = {
     chat_id: chatId,
     message_id: messageId,
     reply_markup: {
@@ -159,7 +161,7 @@ bot.on("keyPush", (data) => {
     }
   }
 
-  bot.editMessageText("Привет", keyOptions);
+  bot.editMessageText("Привет", options);
 })
 
 bot.onText(/\/setAdDescription (.+)/, (msg, match) => {
