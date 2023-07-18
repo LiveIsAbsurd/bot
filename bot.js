@@ -53,7 +53,7 @@ bot.on('callback_query', (query) => {
     const opts = {
       chat_id: query.message.chat.id,
       message_id: messageId,
-      reply_murkup: {
+      reply_markup: {
         inline_keyboard: [[{text: 'Кнопка 2', callback_data: 'key'}]]
       }
     }
