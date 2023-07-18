@@ -40,24 +40,24 @@ bot.onText(/\/getKey/, (msg) => {
 
   const opts = {
     reply_markup: {
-      inline_keyboard: [[{text: 'Кнопка', callback_data: 'key'}]]
+      inline_keyboard: [[{text: 'Кнопка 0', callback_data: 'key'}]]
     }
   }
 
   bot.sendMessage(msg.chat.id, 'Тестовая кнопка', opts);
+  bot.stats.count = 0;
 });
 
 bot.on('callback_query', (query) => {
   const messageId = query.message.message_id
   if (query.data == 'key') {
+    bot.stats.count += 1
     const opts = {
-      reply_markup: {
-        inline_keyboard: [[{text: 'Кнопка 2', callback_data: 'key'}]]
+        inline_keyboard: [[{text: `Кнопка ${bot.stats.count}`, callback_data: 'key'}]]
       }
-    }
+    
 
-    bot.editMessageReplyMarkup({ inline_keyboard: [[{ text: 'Кнопка 2', callback_data: 'key' }]] },
-      { chat_id: query.message.chat.id, message_id: messageId });
+    bot.editMessageReplyMarkup(opts, { chat_id: query.message.chat.id, message_id: messageId });
   }
 });
 
