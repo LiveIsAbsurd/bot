@@ -30,39 +30,43 @@ bot.onText(/\/kick/, (msg) => {
   const userId = msg.reply_to_message.from.id;
   let adminList = [];
 
-  axios
-    .get(
-      `https://api.telegram.org/bot${token}/getChatAdministrators?chat_id=-1001807749316`
-    )
-    .then((response) => {
-      response.data.result.forEach((admin) => {
-        if (admin.can_restrict_members || admin.status == "creator") {
-          const username = admin.user.username;
-          adminList.push(username.toLowerCase());
+  if (chatId == "-1001807749316") {
+    axios
+      .get(
+        `https://api.telegram.org/bot${token}/getChatAdministrators?chat_id=-1001807749316`
+      )
+      .then((response) => {
+        response.data.result.forEach((admin) => {
+          if (admin.can_restrict_members || admin.status == "creator") {
+            const username = admin.user.username;
+            adminList.push(username.toLowerCase());
+          }
+        });
+
+        let isAdmin = Number(
+          adminList.indexOf(msg.from.username.toLowerCase())
+        );
+
+        if (isAdmin >= 0) {
+          axios
+            .get(
+              `https://api.telegram.org/bot${token}/kickChatMember?chat_id=${chatId}&user_id=${userId}`
+            )
+            .then(() => {
+              bot.sendMessage(chatId, "Участник исключен из чата");
+            })
+            .catch((error) => {
+              console.log(error);
+              bot.sendMessage(
+                chatId,
+                "Произошла ошибка при исключении участника"
+              );
+            });
+        } else {
+          bot.sendMessage(chatId, "Ты кто такой, чтобы такое делать?");
         }
       });
-
-      let isAdmin = Number(adminList.indexOf(msg.from.username.toLowerCase()));
-
-      if (isAdmin >= 0) {
-        axios
-          .get(
-            `https://api.telegram.org/bot${token}/kickChatMember?chat_id=${chatId}&user_id=${userId}`
-          )
-          .then(() => {
-            bot.sendMessage(chatId, "Участник исключен из чата");
-          })
-          .catch((error) => {
-            console.log(error);
-            bot.sendMessage(
-              chatId,
-              "Произошла ошибка при исключении участника"
-            );
-          });
-      } else {
-        bot.sendMessage(chatId, "Ты кто такой, чтобы такое делать?");
-      }
-    });
+  }
 });
 
 bot.on("new_chat_members", (msg) => {
