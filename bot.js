@@ -121,10 +121,10 @@ bot.on("left_chat_member", (msg) => {
 
 bot.onText(/\/start/, (msg) => {
   const chatId = msg.chat.id;
-  const keyOptions = {
+  const options = {
     reply_markup: {
       inline_keyboard: [[
-        {text: "Кнопка 0", callback_data: "keyPush"}
+        {text: "Кнопка 0", callback_data: 'keyPush'}
       ]]
     }
   }
@@ -134,7 +134,7 @@ bot.onText(/\/start/, (msg) => {
     `Привет! Это оффициальный бот лучшего в телеграме чата https://t.me/meme_house_chat.
 Присоединяйся!
 Заходи на наш сайт https://liveisabsurd.github.io/Meme_House/`,
-    keyOptions
+    options
   ).then((msg) => {
     bot.state = {
       messageId: msg.message_id,
@@ -143,7 +143,7 @@ bot.onText(/\/start/, (msg) => {
   })
 });
 
-bot.on("keyPush", (data) => {
+bot.on('keyPush', (data) => {
   console.log('Кнопка нажата');
   console.log(data);
   const chatId = data.message.chat.Id;
