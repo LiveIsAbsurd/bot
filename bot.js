@@ -49,20 +49,22 @@ bot.onText(/\/getKey/, (msg) => {
 });
 
 bot.on('callback_query', (query) => {
-  const messageId = query.message.message_id
+  const messageId = query.message.message_id;
+
   if (query.data == 'key') {
 
     fs.readFile('../hiMembers.json', 'UTF-8', (err, data) => {
       let counts = JSON.parse(data);
       
       if (counts[messageId]) {
+
+        counts[messageId] += 1;
+
         const opts = {
           inline_keyboard: [[{text: `Кнопка ${counts[messageId]}`, callback_data: 'key'}]]
         }
 
         bot.editMessageReplyMarkup(opts, { chat_id: query.message.chat.id, message_id: messageId });
-
-        counts[messageId] += 1;
 
         fs.writeFile("../hiMembers.json", JSON.stringify(counts), "UTF-8", (err) => console.log(err))
       } else {
