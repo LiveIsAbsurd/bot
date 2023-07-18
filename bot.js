@@ -145,7 +145,7 @@ bot.onText(/\/start/, (msg) => {
 
 bot.on("keyPush", (data) => {
   const chatId = data.message.chat.Id;
-  const messageId = data.message.message_id;
+  const messageId = bot.state.messageId;
 
   bot.state.count += 1;
 
