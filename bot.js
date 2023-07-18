@@ -121,13 +121,51 @@ bot.on("left_chat_member", (msg) => {
 
 bot.onText(/\/start/, (msg) => {
   const chatId = msg.chat.id;
+  const keyOptions = {
+    reply_markup: {
+      inline_keyboard: [[{
+        text: "Кнопка 0",
+        cb: "keyPush",
+      }], [{
+        text: "Вторая кнопка"
+      }]]
+    }
+  }
   bot.sendMessage(
     chatId,
     `Привет! Это оффициальный бот лучшего в телеграме чата https://t.me/meme_house_chat.
 Присоединяйся!
-Заходи на наш сайт https://liveisabsurd.github.io/Meme_House/`
-  );
+Заходи на наш сайт https://liveisabsurd.github.io/Meme_House/`,
+    keyOptions
+  ).then((msg) => {
+    bot.state = {
+      messageId: msg.message_id,
+      count: 0,
+    };
+  })
 });
+
+bot.on("keyPush", (data) => {
+  const chatId = data.message.chat.Id;
+  const messageId = data.message.message_id;
+
+  bot.state.count += 1;
+
+  const keyOptions = {
+    chat_id: chatId,
+    message_id: messageId,
+    reply_markup: {
+      inline_keyboard: [[{
+        text: `Кнопка ${bot.state.count}`,
+        cb: "keyPush",
+      }], [{
+        text: "Вторая кнопка"
+      }]]
+    }
+  }
+
+  bot.editMessageText("Привет", keyOptions);
+})
 
 bot.onText(/\/setAdDescription (.+)/, (msg, match) => {
   const userAdmin = match[1].replace("@", "");
