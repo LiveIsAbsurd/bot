@@ -144,26 +144,24 @@ bot.onText(/\/start/, (msg) => {
 });
 
 bot.on('callback_query', (data) => {
-  if (data.data == "keyPush") {
-    console.log('Кнопка нажата');
-    console.log(data);
-    const chatId = data.message.chat.Id;
-    const messageId = data.message.message_id;
+  console.log('Кнопка нажата');
+  console.log(data);
+  // const chatId = data.message.chat.Id;
+  // const messageId = data.message.message_id;
 
-    bot.state.count += 1;
+  // bot.state.count += 1;
 
-    const options = {
-      chat_id: chatId,
-      message_id: messageId,
-      reply_markup: {
-        inline_keyboard: [[
-          { text: `Кнопка ${bot.state.count}`, callback_data: "keyPush" }
-        ]]
-      }
-    }
+  // const options = {
+  //   chat_id: chatId,
+  //   message_id: messageId,
+  //   reply_markup: {
+  //     inline_keyboard: [[
+  //       { text: `Кнопка ${bot.state.count}`, callback_data: "keyPush" }
+  //     ]]
+  //   }
+  // }
 
-    bot.editMessageText("Привет", options);
-  }
+  // bot.editMessageText("Привет", options);
 })
 
 bot.onText(/\/setAdDescription (.+)/, (msg, match) => {
