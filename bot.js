@@ -123,14 +123,12 @@ bot.onText(/\/start/, (msg) => {
   const chatId = msg.chat.id;
   const keyOptions = {
     reply_markup: {
-      inline_keyboard: [[{
-        text: "Кнопка 0",
-        cb: "keyPush",
-      }], [{
-        text: "Вторая кнопка"
-      }]]
+      inline_keyboard: [[
+        {text: "Кнопка 0", callback_data: "keyPush"}
+      ]]
     }
   }
+
   bot.sendMessage(
     chatId,
     `Привет! Это оффициальный бот лучшего в телеграме чата https://t.me/meme_house_chat.
@@ -155,12 +153,9 @@ bot.on("keyPush", (data) => {
     chat_id: chatId,
     message_id: messageId,
     reply_markup: {
-      inline_keyboard: [[{
-        text: `Кнопка ${bot.state.count}`,
-        cb: "keyPush",
-      }], [{
-        text: "Вторая кнопка"
-      }]]
+      inline_keyboard: [[
+        { text: `Кнопка ${bot.state.count}`, callback_data: "keyPush" }
+      ]]
     }
   }
 
