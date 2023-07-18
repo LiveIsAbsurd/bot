@@ -66,6 +66,11 @@ bot.onText(/\/kick/, (msg) => {
           bot.sendMessage(chatId, "Ты кто такой, чтобы такое делать?");
         }
       });
+  } else {
+    bot.sendMessage(
+      261749882,
+      `${msg.from.username} использовал /kick в другом чате'`
+    );
   }
 });
 
