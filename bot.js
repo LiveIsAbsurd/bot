@@ -7,11 +7,10 @@ const axios = require("axios");
 const fs = require("fs");
 const https = require("https");
 const { json } = require("body-parser");
-const MongoClient = require("mongodb").MongoClient;
-const mongoUrl = "mongodb://127.0.0.1:27017/";
-const db = new MongoClient(mongoUrl);
+const db = require("mongodb").MongoClient;
+const mongoUrl = "mongodb://127.0.0.1:27017";
 
-db.connect().then(dd => {
+db.connect(mongoUrl, { useNewUrlParser: true, useUnifiedTopology: true }).then(dd => {
   console.log("Всё отлично");
   console.log(dd.options.dbName);
   db.close().then(data => console.log("Закрыто"))
