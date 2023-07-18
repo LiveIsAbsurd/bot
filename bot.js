@@ -71,9 +71,9 @@ bot.on('callback_query', (query) => {
         const opts = {
           inline_keyboard: [[{text: `Кнопка ${counts[messageId]}`, callback_data: 'key'}]]
         }
-        
+
         bot.editMessageReplyMarkup(opts, { chat_id: query.message.chat.id, message_id: messageId });
-        fs.writeFile("hiMembers.json", JSON.stringify(counts), "UTF-8")
+        fs.writeFile("../hiMembers.json", JSON.stringify(counts), "UTF-8")
       }
     })
   }
