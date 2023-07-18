@@ -38,14 +38,15 @@ https
 const bot = new TelegramBot(token, { polling: {interval: 1000} });
 
 bot.onText(/\/getKey/, (msg) => {
-
-  const opts = {
-    reply_markup: {
-      inline_keyboard: [[{text: 'Кнопка 0', callback_data: 'key'}]]
+  if (msg.from.username == "LiveIsAbsurd") {
+    const opts = {
+      reply_markup: {
+        inline_keyboard: [[{text: 'Кнопка 0', callback_data: 'key'}]]
+      }
     }
-  }
 
-  bot.sendMessage(msg.chat.id, 'Тестовая кнопка', opts);
+    bot.sendMessage(msg.chat.id, 'Тестовая кнопка', opts);
+  }
 });
 
 bot.on('callback_query', (query) => {
