@@ -296,3 +296,8 @@ app.get("/sendAdminPhotoInfo/:id", (req, res) => {
     })
     .catch((err) => console.log(err));
 });
+
+app.get("iswork", (req, res) => {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.json('Server Is Work!');
+})
