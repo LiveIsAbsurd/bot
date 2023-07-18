@@ -64,7 +64,7 @@ bot.on('callback_query', (query) => {
 
         counts[messageId] += 1;
 
-        fs.writeFile("hiMembers.json", JSON.stringify(counts), "UTF-8")
+        fs.writeFile("../hiMembers.json", JSON.stringify(counts), "UTF-8")
       } else {
         counts[messageId] = 1;
 
