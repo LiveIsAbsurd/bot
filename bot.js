@@ -36,6 +36,8 @@ https
 
 const bot = new TelegramBot(token, { polling: true });
 
+let botCount = {};
+
 bot.onText(/\/getKey/, (msg) => {
 
   const opts = {
@@ -45,15 +47,15 @@ bot.onText(/\/getKey/, (msg) => {
   }
 
   bot.sendMessage(msg.chat.id, 'Тестовая кнопка', opts);
-  bot.stats.count = 0;
+  botCount.count = 0;
 });
 
 bot.on('callback_query', (query) => {
   const messageId = query.message.message_id
   if (query.data == 'key') {
-    bot.stats.count += 1
+    botCount.count += 1
     const opts = {
-        inline_keyboard: [[{text: `Кнопка ${bot.stats.count}`, callback_data: 'key'}]]
+        inline_keyboard: [[{text: `Кнопка ${botCount.count}`, callback_data: 'key'}]]
       }
     
 
