@@ -21,15 +21,17 @@ const bot = new TelegramBot(token, {polling: { interval: 3000 }});
 
 axios.get(`https://api.telegram.org/bot${token}/getChatAdministrators?chat_id=-1001807749316`)
   .then(response => {
-    fs.readFile('../adminDescriptions.json', 'UTF-8')
-      .then(desc => {
-        let admins = JSON.parse(desc);
-        response.data.result.forEach(admin => {
-          if (admins[admin.user.username.toLowerCase()]) {
-          console.log(admins[admin.user.username.toLowerCase()]);
-          }
-        })
+    fs.readFile('../adminDescriptions.json', 'UTF-8', (err, data) => {
+
+      let admins = JSON.parse(data);
+      response.data.result.forEach(admin => {
+        if (admins[admin.user.username.toLowerCase()]) {
+        console.log(admins[admin.user.username.toLowerCase()]);
+        }
       })
+    })
+        
+
     
   });
 
