@@ -10,7 +10,7 @@ const { json } = require("body-parser");
 
 function hiText(username) {
   let text = `
-  Доброго времени суток, @${username}!
+  Доброго времени суток, ${username}!
 Добро пожаловать в наш замечательный и скромный чатик!
 Чувствуйте себя как у @user148 дома!
 Все правила в закрепе.
@@ -87,7 +87,7 @@ bot.onText(/\/kick/, (msg) => {
 
 bot.on("new_chat_members", (msg) => {
   const chatId = msg.chat.id;
-  const userName = msg.new_chat_member.username ? msg.new_chat_member.username : `человек без никнейма`;
+  const userName = msg.new_chat_member.username ? `@${msg.new_chat_member.username}` : `человек без никнейма`;
 
   if (chatId == "-1001807749316") {
     bot.sendMessage(
