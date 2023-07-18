@@ -11,7 +11,7 @@ const MongoClient = require("mongodb").MongoClient;
     
 const url = "mongodb://127.0.0.1:27017/";
 
-MongoClient.connect(url, (err, client) => {
+MongoClient.connect(url,{ useUnifiedTopology: true }, (err, client) => {
   console.log('Connected to MongoDB');
   const db = client.db("botDB");
   const collection = db.collection("hiCount");
