@@ -52,7 +52,7 @@ bot.on('callback_query', (query) => {
   const messageId = query.message.message_id
   if (query.data == 'key') {
 
-    fs.readFile('../hiMembers', 'UTF-8', (err, data) => {
+    fs.readFile('../hiMembers.json', 'UTF-8', (err, data) => {
       let counts = JSON.parse(data);
       
       if (counts[messageId]) {
