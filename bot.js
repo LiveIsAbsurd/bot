@@ -74,7 +74,7 @@ bot.on("new_chat_members", (msg) => {
   const userName = msg.new_chat_member.username;
   const fistName = msg.new_chat_member.first_name;
 
-  if (chatId == "-100180774931") {
+  if (chatId == "-1001807749316") {
     if (!userName) {
       bot.sendMessage(
         chatId,
@@ -105,7 +105,7 @@ bot.on("left_chat_member", (msg) => {
   const userName = msg.left_chat_member.username;
   const chatId = msg.chat.id;
 
-  if (chatId == "-100180774931") {
+  if (chatId == "-1001807749316") {
     bot.sendMessage(
       chatId,
       `Пользователь @${userName} покинул нас.
