@@ -111,18 +111,15 @@ bot.on("new_chat_members", (msg) => {
 });
 
 bot.on('callback_query', (query) => {
-  const chatId = query.message.chat.id;
- 
-  const messageId = query.message.message_id;
-  console.log(query);
-  console.log(messageId);
+  const message = query.message;
+  const chatId = message.chat.id;
 
   if (query.data == 'hi') {
     botHi['count'] += 1;
 
     const options = {
       chat_id: chatId,
-      message_id: messageId,
+      message_id: message.message_id,
       reply_markup: {
         inline_keyboard: [[
           { text: `Привет! ${botHi['count']}`, callback_data: "keyPush" }
