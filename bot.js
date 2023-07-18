@@ -79,8 +79,6 @@ https
 
 const bot = new TelegramBot(token, { polling: true });
 
-let botCount = {};
-
 bot.onText(/\/getKey/, (msg) => {
 
   const opts = {
@@ -90,22 +88,21 @@ bot.onText(/\/getKey/, (msg) => {
   }
 
   bot.sendMessage(msg.chat.id, 'Тестовая кнопка', opts);
-  botCount.count = 0;
 });
 
-bot.on('callback_query', (query) => {
-  const messageId = query.message.message_id
-  if (query.data == 'key') {
+// bot.on('callback_query', (query) => {
+//   const messageId = query.message.message_id
+//   if (query.data == 'key') {
     
-    botCount.count += 1
-    const opts = {
-        inline_keyboard: [[{text: `Кнопка ${botCount.count}`, callback_data: 'key'}]]
-      }
+//     botCount.count += 1
+//     const opts = {
+//         inline_keyboard: [[{text: `Кнопка ${botCount.count}`, callback_data: 'key'}]]
+//       }
     
 
-    bot.editMessageReplyMarkup(opts, { chat_id: query.message.chat.id, message_id: messageId });
-  }
-});
+//     bot.editMessageReplyMarkup(opts, { chat_id: query.message.chat.id, message_id: messageId });
+//   }
+// });
 
 bot.onText(/\/kick/, (msg) => {
   const chatId = msg.chat.id;
