@@ -48,7 +48,7 @@ MongoClient.connect(url,{ useUnifiedTopology: true }, (err, client) => {
       });
 
   });
-});
+}).catch(err => console.log(err))
 
 function hiText(username) {
   let text = `
