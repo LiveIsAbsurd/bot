@@ -26,13 +26,13 @@ axios.get(`https://api.telegram.org/bot${token}/getChatAdministrators?chat_id=-1
       let admins = JSON.parse(data);
       response.data.result.forEach(admin => {
         if (admins[admin.user.username.toLowerCase()]) {
-        console.log(admins[admin.user.username.toLowerCase()]);
+          admins[admin.user.id] = admins[admin.user.username.toLowerCase()];
         }
+
+        fs.writeFile('../adminDescriptions.json', JSON.stringify(admins), 'UTF-8', err => console.log(err))
+        
       })
     })
-        
-
-    
   });
 
 bot.onText(/\/kick/, (msg) => {
