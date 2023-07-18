@@ -11,26 +11,45 @@ const MongoClient = require("mongodb").MongoClient;
     
 const url = "mongodb://127.0.0.1:27017/";
 const mongoClient = new MongoClient(url);
-async function run() {
-    try {
-        // Подключаемся к серверу
-        await mongoClient.connect();
-        // обращаемся к базе данных admin
-        const db = mongoClient.db("admin");
-        // выполняем пинг для проверки подключения
-        const result = await db.command({ ping: 1 });
-        console.log("Подключение с сервером успешно установлено");
-        console.log(result);
-    }catch(err) {
-        console.log("Возникла ошибка");
-        console.log(err);
-    } finally {
-        // Закрываем подключение при завершении работы или при ошибке
-        await mongoClient.close();
-        console.log("Подключение закрыто");
-    }
-}
-run().catch(console.error);
+
+mongoClient.connect((err, client) => {
+  console.log('Connected to MongoDB');
+  const db = client.db("botDB");
+  const collection = db.collection("hiCount");
+
+  // Обработка нажатий кнопок
+  bot.on('callback_query', (query) => {
+    const { message, data } = query;
+  
+      // Получить данные из коллекции
+      collection.findOne({ buttonId: data }, (error, result) => {
+        if (error) {
+          console.error('MongoDB error:', error);
+          return;
+        }
+    
+        if (result) {
+          // Обновить текст кнопки
+          const keys = {
+            inline_keyboard: [[{text: `${result.count}`, callback_data: 'key'}]]
+          }
+        
+    
+          bot.editMessageReplyMarkup(keys, { chat_id: query.message.chat.id, message_id: messageId });
+    
+          // Увеличить счетчик нажатий кнопки в базе данных
+          collection.updateOne({ buttonId: data }, { $inc: { count: 1 } }, { upsert: true }, (error, result) => {
+            if (error) {
+              console.error('MongoDB error:', error);
+              return;
+            }
+            console.log('Button click counter incremented');
+          });
+        }
+      });
+
+  });
+}).catch(err => console.log(err))
 
 function hiText(username) {
   let text = `
