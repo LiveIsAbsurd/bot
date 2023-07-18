@@ -74,28 +74,30 @@ bot.on("new_chat_members", (msg) => {
   const userName = msg.new_chat_member.username;
   const fistName = msg.new_chat_member.first_name;
 
-  if (!userName) {
-    bot.sendMessage(
-      chatId,
-      `
-Доброго времени суток, человек без никнейма!
-Добро пожаловать в наш замечательный и скромный чатик!
-Чувствуйте себя как у @user148 дома!
-Все правила в закрепе.
-Желаю освоиться в нашем чатике!
-Заходи на сайт нашего чата: https://liveisabsurd.github.io/Meme_House/`
-    );
-  } else {
-    bot.sendMessage(
-      chatId,
-      `
-Доброго времени суток, @${userName}!
-Добро пожаловать в наш замечательный и скромный чатик!
-Чувствуйте себя как у @user148 дома!
-Все правила в закрепе.
-Желаю освоиться в нашем чатике!
-Заходи на сайт нашего чата: https://liveisabsurd.github.io/Meme_House/`
-    );
+  if (chatId == "-100180774931") {
+    if (!userName) {
+      bot.sendMessage(
+        chatId,
+        `
+    Доброго времени суток, человек без никнейма!
+    Добро пожаловать в наш замечательный и скромный чатик!
+    Чувствуйте себя как у @user148 дома!
+    Все правила в закрепе.
+    Желаю освоиться в нашем чатике!
+    Заходи на сайт нашего чата: https://liveisabsurd.github.io/Meme_House/`
+      );
+    } else {
+      bot.sendMessage(
+        chatId,
+        `
+    Доброго времени суток, @${userName}!
+    Добро пожаловать в наш замечательный и скромный чатик!
+    Чувствуйте себя как у @user148 дома!
+    Все правила в закрепе.
+    Желаю освоиться в нашем чатике!
+    Заходи на сайт нашего чата: https://liveisabsurd.github.io/Meme_House/`
+      );
+    }
   }
 });
 
@@ -103,11 +105,13 @@ bot.on("left_chat_member", (msg) => {
   const userName = msg.left_chat_member.username;
   const chatId = msg.chat.id;
 
-  bot.sendMessage(
-    chatId,
-    `Пользователь @${userName} покинул нас.
-Ну чтож... естественный отбор`
-  );
+  if (chatId == "-100180774931") {
+    bot.sendMessage(
+      chatId,
+      `Пользователь @${userName} покинул нас.
+    Ну чтож... естественный отбор`
+    );
+  }
 });
 
 bot.onText(/\/start/, (msg) => {
