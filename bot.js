@@ -51,7 +51,6 @@ async function run() {
       
         });
         console.log("Подключение с сервером успешно установлено");
-        console.log(result);
     }catch(err) {
         console.log("Возникла ошибка");
         console.log(err);
