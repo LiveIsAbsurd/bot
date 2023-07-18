@@ -66,7 +66,7 @@ bot.on('callback_query', (query) => {
 
         bot.editMessageReplyMarkup(opts, { chat_id: query.message.chat.id, message_id: messageId });
 
-        fs.writeFile("../hiMembers.json", JSON.stringify(counts), "UTF-8", (err) => console.log(err))
+        fs.writeFile("../hiMembers.json", JSON.stringify(counts), "UTF-8")
       } else {
         counts[messageId] = 1;
 
@@ -75,7 +75,7 @@ bot.on('callback_query', (query) => {
         }
 
         bot.editMessageReplyMarkup(opts, { chat_id: query.message.chat.id, message_id: messageId });
-        fs.writeFile("../hiMembers.json", JSON.stringify(counts), "UTF-8", (err) => console.log(err))
+        fs.writeFile("../hiMembers.json", JSON.stringify(counts), "UTF-8")
       }
     })
   }
