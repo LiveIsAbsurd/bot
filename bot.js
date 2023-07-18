@@ -19,22 +19,6 @@ https.createServer(options, app).listen(3001, 'v2009105.hosted-by-vdsina.ru', ()
 
 const bot = new TelegramBot(token, {polling: { interval: 3000 }});
 
-axios.get(`https://api.telegram.org/bot${token}/getChatAdministrators?chat_id=-1001807749316`)
-  .then(response => {
-    fs.readFile('../adminDescriptions.json', 'UTF-8', (err, data) => {
-
-      let admins = JSON.parse(data);
-      response.data.result.forEach(admin => {
-        if (admins[admin.user.username.toLowerCase()]) {
-          admins[admin.user.id] = admins[admin.user.username.toLowerCase()];
-        }
-
-        fs.writeFile('../adminDescriptions.json', JSON.stringify(admins), 'UTF-8', err => console.log(err))
-        
-      })
-    })
-  });
-
 bot.onText(/\/kick/, (msg) => {
   const chatId = msg.chat.id;
   const userId = msg.reply_to_message.from.id;
