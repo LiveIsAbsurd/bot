@@ -9,10 +9,6 @@ const https = require("https");
 const { json } = require("body-parser");
 const { count } = require("console");
 
-let countsss = {"34543": 4};
-
-fs.writeFile("../hiMembers.json", JSON.stringify(countsss), "UTF-8", (err) => console.log(err));
-
 function hiText(username) {
   let text = `
   Доброго времени суток, ${username}!
