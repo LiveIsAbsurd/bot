@@ -19,8 +19,6 @@ function hiText(username) {
   return text;
 };
 
-let botHi = {};
-
 const options = {
   key: fs.readFileSync(
     "../../etc/letsencrypt/live/v2009105.hosted-by-vdsina.ru/privkey.pem"
@@ -91,49 +89,13 @@ bot.on("new_chat_members", (msg) => {
   const chatId = msg.chat.id;
   const userName = msg.new_chat_member.username ? msg.new_chat_member.username : `человек без никнейма`;
 
-  const options = {
-    reply_markup: {
-      inline_keyboard: [[
-        {text: "Привет! 0", callback_data: 'hi'}
-      ]]
-    }
-  }
-
   if (chatId == "-1001807749316") {
     bot.sendMessage(
       chatId,
-      hiText(userName),
-      options
-    ).then((msg) => {
-      botHi['messId'] = message_id;
-      botHi['count'] = 0;
-    })
+      hiText(userName)
+    )
   }
 });
-
-bot.on('callback_query', (query) => {
-  const message = query.message;
-  const chatId = message.chat.id;
-  const messageId = message.message_id;
-  console.log(query);
-  console.log(messageId);
-
-  if (query.data == 'hi') {
-    botHi['count'] += 1;
-
-    const options = {
-      chat_id: chatId,
-      message_id: botHi['messId'],
-      reply_markup: {
-        inline_keyboard: [[
-          { text: `Привет! ${botHi['count']}`, callback_data: "keyPush" }
-        ]]
-      }
-    }
-
-    bot.editMessageReplyMarkup(options);
-  }
-})
 
 bot.on("left_chat_member", (msg) => {
   const userName = msg.left_chat_member.username;
