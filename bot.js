@@ -17,7 +17,9 @@ function hiText(username) {
 Желаю освоиться в нашем чатике!
 Заходи на сайт нашего чата: https://liveisabsurd.github.io/Meme_House/`;
   return text;
-  };
+};
+
+let botHi = {};
 
 const options = {
   key: fs.readFileSync(
@@ -104,13 +106,33 @@ bot.on("new_chat_members", (msg) => {
       hiText(userName),
       options
     ).then((msg) => {
-      bot.state = {
-        messageId: msg.message_id,
-        count: 0,
-      };
+      botHi['count'] = 0;
     })
   }
 });
+
+bot.on('callback_query', (query) => {
+  const chatId = query.message.chat.id;
+ 
+  const messageId = query.message.message_id;
+  console.log(messageId);
+
+  if (query.data == 'hi') {
+    botHi['count'] += 1;
+
+    const options = {
+      chat_id: chatId,
+      message_id: messageId,
+      reply_markup: {
+        inline_keyboard: [[
+          { text: `Привет! ${botHi['count']}`, callback_data: "keyPush" }
+        ]]
+      }
+    }
+
+    bot.editMessageReplyMarkup(options);
+  }
+})
 
 bot.on("left_chat_member", (msg) => {
   const userName = msg.left_chat_member.username;
@@ -135,27 +157,6 @@ bot.onText(/\/start/, (msg) => {
 Заходи на наш сайт https://liveisabsurd.github.io/Meme_House/`
   )
 });
-
-bot.on('callback_query', (query) => {
-  const chatId = query.message.chat.id;
-  const messageId = query.message.message_id;
-
-  if (query.data == 'hi') {
-    bot.state.count += 1;
-
-    const options = {
-      chat_id: chatId,
-      message_id: messageId,
-      reply_markup: {
-        inline_keyboard: [[
-          { text: `Привет! ${bot.state.count}`, callback_data: "keyPush" }
-        ]]
-      }
-    }
-
-    bot.editMessageReplyMarkup(options);
-  }
-})
 
 bot.onText(/\/setAdDescription (.+)/, (msg, match) => {
   const userAdmin = match[1].replace("@", "");
