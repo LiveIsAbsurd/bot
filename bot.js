@@ -63,7 +63,7 @@ function hiCount(query, options, collection, userId = undefined) {
       }
 
       if (collection[messageId]["users"].indexOf(userId) >= 0) {
-        return;
+        bot.answerCallbackQuery(query.message.chat.id, "Ты уже приветствовал участника!");
       } else {
         collection[messageId].count += 1;
 
