@@ -49,6 +49,18 @@ bot.onText(/\/getKey/, (msg) => {
   }
 });
 
+bot.onText(/\/getKeyy/, (msg) => {
+  if (msg.from.username == "LiveIsAbsurd") {
+    const opts = {
+      reply_markup: {
+        inline_keyboard: [[{ text: "Кнопка 0", callback_data: "y" }]],
+      },
+    };
+
+    bot.sendMessage(msg.chat.id, "Тестовая кнопка", opts);
+  }
+});
+
 let yyy;
 
 function hiCount(query, options, collection, userId = undefined) {
@@ -65,7 +77,7 @@ function hiCount(query, options, collection, userId = undefined) {
       }
 
       if (collection[messageId]["users"].indexOf(userId) >= 0) {
-        bot.answerCallbackQuery(yyy, "Ты уже приветствовал участника!", show_alert = true);
+        return:
       } else {
         collection[messageId].count += 1;
 
@@ -181,6 +193,8 @@ bot.on("callback_query", (query) => {
 
       hiCount(query, opts, counts, query.from.id);
     });
+  } else if (query.data == "y") {
+    bot.answerCallbackQuery(query.id, "Тест");
   }
 });
 
