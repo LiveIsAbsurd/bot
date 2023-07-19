@@ -49,33 +49,63 @@ bot.onText(/\/getKey/, (msg) => {
   }
 });
 
-function hiCount(query, options, collection) {
+function hiCount(query, options, collection, userId = undefined) {
   console.log(query);
   const messageId = query.message.message_id;
 
   if (collection[messageId]) {
-    collection[messageId].count += 1;
+    if (userId) {
+      if (collection[messageId]["users"].indexOf(userId) >= 0) {
+        return;
+      } else {
+        collection[messageId].count += 1;
 
-    bot.editMessageReplyMarkup(options, {
-      chat_id: query.message.chat.id,
-      message_id: messageId,
-    });
+        bot.editMessageReplyMarkup(options, {
+          chat_id: query.message.chat.id,
+          message_id: messageId,
+        });
 
-    fs.writeFile(
-      "../hiMembers.json",
-      JSON.stringify(collection),
-      "UTF-8",
-      (err) => {
-        if (err) {
-          console.log(err);
-        }
+        fs.writeFile(
+          "../hiMembers.json",
+          JSON.stringify(collection),
+          "UTF-8",
+          (err) => {
+            if (err) {
+              console.log(err);
+            }
+          }
+        );
       }
-    );
+    } else {
+
+      collection[messageId].count += 1;
+
+      bot.editMessageReplyMarkup(options, {
+        chat_id: query.message.chat.id,
+        message_id: messageId,
+      });
+
+      fs.writeFile(
+        "../hiMembers.json",
+        JSON.stringify(collection),
+        "UTF-8",
+        (err) => {
+          if (err) {
+            console.log(err);
+          }
+        }
+      );
+    }
+  
   } else {
     collection[messageId] = {
       count: 2,
       users: [],
     };
+
+    if (userId) {
+      collection[messageId]["users"].push(userId);
+    }
 
     bot.editMessageReplyMarkup(options, {
       chat_id: query.message.chat.id,
@@ -131,7 +161,7 @@ bot.on("callback_query", (query) => {
         ],
       };
 
-      hiCount(query, opts, counts);
+      hiCount(query, opts, counts, query.from.id);
     });
   }
 });
