@@ -62,7 +62,7 @@ function hiCount(query, options, collection, userId = undefined) {
       }
 
       if (collection[messageId]["users"].indexOf(userId) >= 0) {
-        bot.answerCallbackQuery(query.id, "Ты уже приветствовал участника!");
+        bot.answerCallbackQuery(query.id, {text: "Ты уже приветствовал участника!", show_alert: true});
       } else {
         collection[messageId].count += 1;
 
