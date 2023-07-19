@@ -7,7 +7,6 @@ const axios = require("axios");
 const fs = require("fs");
 const https = require("https");
 const { json } = require("body-parser");
-const { count } = require("console");
 
 function hiText(username) {
   let text = `
