@@ -49,34 +49,34 @@ bot.onText(/\/getKey/, (msg) => {
   }
 });
 
-function hiCount(messageId, options, collection) {
-  
-    if (collection[messageId]) {
+function hiCount(query, options, collection) {
+  const messageId = query.message.message_id;
 
-      collection[messageId] += 1;
+  if (collection[messageId]) {
 
-      bot.editMessageReplyMarkup(options, { chat_id: query.message.chat.id, message_id: messageId });
+    collection[messageId] += 1;
 
-      fs.writeFile("../hiMembers.json", JSON.stringify(collection), "UTF-8", (err) => {
-        if (err) {
-          console.log(err);
-        }
-      })
-    } else {
-      collection[messageId] = 1;
+    bot.editMessageReplyMarkup(options, { chat_id: query.message.chat.id, message_id: messageId });
 
-      bot.editMessageReplyMarkup(options, { chat_id: query.message.chat.id, message_id: messageId });
-      fs.writeFile("../hiMembers.json", JSON.stringify(collection), "UTF-8", (err) => {
-        if (err) {
-          console.log(err);
-        }
-      })
-    }
+    fs.writeFile("../hiMembers.json", JSON.stringify(collection), "UTF-8", (err) => {
+      if (err) {
+        console.log(err);
+      }
+    })
+  } else {
+    collection[messageId] = 1;
+
+    bot.editMessageReplyMarkup(options, { chat_id: query.message.chat.id, message_id: messageId });
+    fs.writeFile("../hiMembers.json", JSON.stringify(collection), "UTF-8", (err) => {
+      if (err) {
+        console.log(err);
+      }
+    })
+  }
 }
 
 bot.on('callback_query', (query) => {
-  const messageId = query.message.message_id;
-
+  
   if (query.data == 'key') {
 
     fs.readFile('../hiMembers.json', 'UTF-8', (err, data) => {
@@ -86,7 +86,7 @@ bot.on('callback_query', (query) => {
         inline_keyboard: [[{ text: `Кнопка ${counts[messageId]}`, callback_data: 'key' }]]
       }
 
-      hiCount(messageId, opts, counts);
+      hiCount(query, opts, counts);
     })
     
   } else if (query.data == "hi") {
@@ -98,7 +98,7 @@ bot.on('callback_query', (query) => {
         inline_keyboard: [[{ text: `Привет! \u{1F44b}  (${counts[messageId]})`, callback_data: 'hi' }]]
       }
       
-      hiCount(messageId, opts, counts);
+      hiCount(query, opts, counts);
     })
   }
 
