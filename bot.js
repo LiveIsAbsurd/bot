@@ -49,6 +49,8 @@ bot.onText(/\/getKey/, (msg) => {
   }
 });
 
+let yyy;
+
 function hiCount(query, options, collection, userId = undefined) {
   // console.log(query);
   const messageId = query.message.message_id;
@@ -63,7 +65,7 @@ function hiCount(query, options, collection, userId = undefined) {
       }
 
       if (collection[messageId]["users"].indexOf(userId) >= 0) {
-        bot.answerCallbackQuery("1", "Ты уже приветствовал участника!");
+        bot.answerCallbackQuery(yyy, "Ты уже приветствовал участника!", show_alert = true);
       } else {
         collection[messageId].count += 1;
 
@@ -141,6 +143,7 @@ bot.on("callback_query", (query) => {
   const messageId = query.message.message_id;
 
   if (query.data == "key") {
+    yyy = query.id;
     fs.readFile("../hiMembers.json", "UTF-8", (err, data) => {
       let counts = JSON.parse(data);
 
