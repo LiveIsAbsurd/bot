@@ -72,8 +72,10 @@ function hiCount(query, options, collection) {
       }
     );
   } else {
-    collection[messageId]["count"] = 2;
-    collection[messageId]["users"] = [];
+    collection[messageId] = {
+      count: 2,
+      users: [],
+    };
 
     bot.editMessageReplyMarkup(options, {
       chat_id: query.message.chat.id,
