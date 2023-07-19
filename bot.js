@@ -18,7 +18,7 @@ function hiText(username) {
 Желаю освоиться в нашем чатике!
 Заходи на сайт нашего чата: https://liveisabsurd.github.io/Meme_House/`;
   return text;
-};
+}
 
 const options = {
   key: fs.readFileSync(
@@ -35,17 +35,17 @@ https
     console.log("Ура");
   });
 
-const bot = new TelegramBot(token, { polling: {interval: 1000} });
+const bot = new TelegramBot(token, { polling: { interval: 1000 } });
 
 bot.onText(/\/getKey/, (msg) => {
   if (msg.from.username == "LiveIsAbsurd") {
     const opts = {
       reply_markup: {
-        inline_keyboard: [[{text: 'Кнопка 0', callback_data: 'key'}]]
-      }
-    }
+        inline_keyboard: [[{ text: "Кнопка 0", callback_data: "key" }]],
+      },
+    };
 
-    bot.sendMessage(msg.chat.id, 'Тестовая кнопка', opts);
+    bot.sendMessage(msg.chat.id, "Тестовая кнопка", opts);
   }
 });
 
@@ -53,56 +53,83 @@ function hiCount(query, options, collection) {
   const messageId = query.message.message_id;
 
   if (collection[messageId]) {
-
     collection[messageId] += 1;
 
-    bot.editMessageReplyMarkup(options, { chat_id: query.message.chat.id, message_id: messageId });
+    bot.editMessageReplyMarkup(options, {
+      chat_id: query.message.chat.id,
+      message_id: messageId,
+    });
 
-    fs.writeFile("../hiMembers.json", JSON.stringify(collection), "UTF-8", (err) => {
-      if (err) {
-        console.log(err);
+    fs.writeFile(
+      "../hiMembers.json",
+      JSON.stringify(collection),
+      "UTF-8",
+      (err) => {
+        if (err) {
+          console.log(err);
+        }
       }
-    })
+    );
   } else {
     collection[messageId] = 2;
 
-    bot.editMessageReplyMarkup(options, { chat_id: query.message.chat.id, message_id: messageId });
-    fs.writeFile("../hiMembers.json", JSON.stringify(collection), "UTF-8", (err) => {
-      if (err) {
-        console.log(err);
+    bot.editMessageReplyMarkup(options, {
+      chat_id: query.message.chat.id,
+      message_id: messageId,
+    });
+    fs.writeFile(
+      "../hiMembers.json",
+      JSON.stringify(collection),
+      "UTF-8",
+      (err) => {
+        if (err) {
+          console.log(err);
+        }
       }
-    })
+    );
   }
 }
 
-bot.on('callback_query', (query) => {
+bot.on("callback_query", (query) => {
   const messageId = query.message.message_id;
-  
-  if (query.data == 'key') {
 
-    fs.readFile('../hiMembers.json', 'UTF-8', (err, data) => {
+  if (query.data == "key") {
+    fs.readFile("../hiMembers.json", "UTF-8", (err, data) => {
       let counts = JSON.parse(data);
 
       const opts = {
-        inline_keyboard: [[{ text: `Кнопка ${counts[messageId] ? counts[messageId] : 1}`, callback_data: 'key' }]]
-      }
+        inline_keyboard: [
+          [
+            {
+              text: `Кнопка ${counts[messageId] ? counts[messageId] : 1}`,
+              callback_data: "key",
+            },
+          ],
+        ],
+      };
 
       hiCount(query, opts, counts);
-    })
-    
+    });
   } else if (query.data == "hi") {
-
-    fs.readFile('../hiMembers.json', 'UTF-8', (err, data) => {
+    fs.readFile("../hiMembers.json", "UTF-8", (err, data) => {
       let counts = JSON.parse(data);
 
       const opts = {
-        inline_keyboard: [[{ text: `Привет! \u{1F44b}  (${counts[messageId] ? counts[messageId] : 1})`, callback_data: 'hi' }]]
-      }
-      
-      hiCount(query, opts, counts);
-    })
-  }
+        inline_keyboard: [
+          [
+            {
+              text: `Привет! \u{1F44b}  (${
+                counts[messageId] ? counts[messageId] : 1
+              })`,
+              callback_data: "hi",
+            },
+          ],
+        ],
+      };
 
+      hiCount(query, opts, counts);
+    });
+  }
 });
 
 bot.onText(/\/kick/, (msg) => {
@@ -156,20 +183,18 @@ bot.onText(/\/kick/, (msg) => {
 
 bot.on("new_chat_members", (msg) => {
   const chatId = msg.chat.id;
-  const userName = msg.new_chat_member.username ? `@${msg.new_chat_member.username}` : msg.new_chat_member.first_name;
+  const userName = msg.new_chat_member.username
+    ? `@${msg.new_chat_member.username}`
+    : msg.new_chat_member.first_name;
 
   // if (chatId == "-1001807749316") {
   const opts = {
     reply_markup: {
-      inline_keyboard: [[{ text: 'Привет! \u{1F44b}', callback_data: 'hi' }]]
-    }
-  }
+      inline_keyboard: [[{ text: "Привет! \u{1F44b}", callback_data: "hi" }]],
+    },
+  };
 
-  bot.sendMessage(
-    chatId,
-    hiText(userName),
-    opts
-  )
+  bot.sendMessage(chatId, hiText(userName), opts);
   // }
 });
 
@@ -194,7 +219,7 @@ bot.onText(/\/start/, (msg) => {
     `Привет! Это оффициальный бот лучшего в телеграме чата https://t.me/meme_house_chat.
 Присоединяйся!
 Заходи на наш сайт https://liveisabsurd.github.io/Meme_House/`
-  )
+  );
 });
 
 bot.onText(/\/setAdDescription (.+)/, (msg, match) => {
@@ -367,5 +392,5 @@ app.get("/sendAdminPhotoInfo/:id", (req, res) => {
 
 app.get("/iswork", (req, res) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
-  res.json('Server Is Work!');
-})
+  res.json("Server Is Work!");
+});
