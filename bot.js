@@ -50,7 +50,7 @@ bot.onText(/\/getKey/, (msg) => {
 });
 
 function hiCount(query, options, collection, userId = undefined) {
-  console.log(query);
+  // console.log(query);
   const messageId = query.message.message_id;
 
   if (collection[messageId]) {
@@ -59,7 +59,7 @@ function hiCount(query, options, collection, userId = undefined) {
         return;
       } else {
         collection[messageId].count += 1;
-        
+
         if (userId) {
           collection[messageId]["users"].push(userId);
         }
