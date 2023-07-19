@@ -60,6 +60,7 @@ function hiCount(query, options, collection, userId = undefined) {
       } else {
         collection[messageId].count += 1;
 
+
         bot.editMessageReplyMarkup(options, {
           chat_id: query.message.chat.id,
           message_id: messageId,
@@ -79,6 +80,7 @@ function hiCount(query, options, collection, userId = undefined) {
     } else {
 
       collection[messageId].count += 1;
+      collection[messageId]["users"].push(userId);
 
       bot.editMessageReplyMarkup(options, {
         chat_id: query.message.chat.id,
