@@ -88,6 +88,39 @@ bot.on('callback_query', (query) => {
       }
     })
   }
+
+  if (query.data == "hi") {
+    if (counts[messageId]) {
+
+      counts[messageId] += 1;
+
+      const opts = {
+        inline_keyboard: [[{text: `Привет! \u{1F44B} ${counts[messageId]}`, callback_data: 'hi'}]]
+      }
+
+      bot.editMessageReplyMarkup(opts, { chat_id: query.message.chat.id, message_id: messageId });
+
+      fs.writeFile("../hiMembers.json", JSON.stringify(counts), "UTF-8", (err) => {
+        if (err) {
+          console.log(err);
+        }
+      })
+    } else {
+      counts[messageId] = 1;
+
+      const opts = {
+        inline_keyboard: [[{text: `Привет! \u{1F44B} ${counts[messageId]}`, callback_data: 'hi'}]]
+      }
+
+      bot.editMessageReplyMarkup(opts, { chat_id: query.message.chat.id, message_id: messageId });
+      fs.writeFile("../hiMembers.json", JSON.stringify(counts), "UTF-8", (err) => {
+        if (err) {
+          console.log(err);
+        }
+      })
+    }
+  })
+  }
 });
 
 bot.onText(/\/kick/, (msg) => {
@@ -144,9 +177,18 @@ bot.on("new_chat_members", (msg) => {
   const userName = msg.new_chat_member.username ? `@${msg.new_chat_member.username}` : msg.new_chat_member.first_name;
 
   // if (chatId == "-1001807749316") {
+  
+  (msg.from.username == "LiveIsAbsurd") {
+    const opts = {
+      reply_markup: {
+        inline_keyboard: [[{text: 'Привет! \u{1F44b}', callback_data: 'hi'}]]
+      }
+    }
+
     bot.sendMessage(
       chatId,
-      hiText(userName)
+      hiText(userName),
+      opts
     )
   // }
 });
