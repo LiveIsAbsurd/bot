@@ -49,18 +49,6 @@ bot.onText(/\/getKey/, (msg) => {
   }
 });
 
-bot.onText(/\/getKeyy/, (msg) => {
-  if (msg.from.username == "LiveIsAbsurd") {
-    const opts = {
-      reply_markup: {
-        inline_keyboard: [[{ text: "Кнопка 0", callback_data: "y" }]],
-      },
-    };
-
-    bot.sendMessage(msg.chat.id, "Тестовая кнопка", opts);
-  }
-});
-
 function hiCount(query, options, collection, userId = undefined) {
   // console.log(query);
   const messageId = query.message.message_id;
@@ -75,7 +63,7 @@ function hiCount(query, options, collection, userId = undefined) {
       }
 
       if (collection[messageId]["users"].indexOf(userId) >= 0) {
-        bot.answerCallbackQuery(query.id, "Тест");
+        bot.answerCallbackQuery(query.id, "Ты уже приветствовал участника!");
       } else {
         collection[messageId].count += 1;
 
@@ -153,7 +141,6 @@ bot.on("callback_query", (query) => {
   const messageId = query.message.message_id;
 
   if (query.data == "key") {
-    yyy = query.id;
     fs.readFile("../hiMembers.json", "UTF-8", (err, data) => {
       let counts = JSON.parse(data);
 
@@ -249,7 +236,7 @@ bot.on("new_chat_members", (msg) => {
     ? `@${msg.new_chat_member.username}`
     : msg.new_chat_member.first_name;
 
-  //if (chatId == "-1001807749316") {
+  if (chatId == "-1001807749316") {
     const opts = {
       reply_markup: {
         inline_keyboard: [[{ text: "Привет! \u{1F44b}", callback_data: "hi" }]],
@@ -257,7 +244,7 @@ bot.on("new_chat_members", (msg) => {
     };
 
     bot.sendMessage(chatId, hiText(userName), opts);
-  //}
+  }
 });
 
 bot.on("left_chat_member", (msg) => {
