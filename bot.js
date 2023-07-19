@@ -53,7 +53,7 @@ function hiCount(query, options, collection, userId = undefined) {
 
   if (!collection[messageId]) {
     collection[messageId] = {
-      count: 2,
+      count: 1,
       users: [],
     };
   }
