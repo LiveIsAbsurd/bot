@@ -49,71 +49,19 @@ bot.onText(/\/getKey/, (msg) => {
 });
 
 function hiCount(query, options, collection, userId = undefined) {
-  // console.log(query);
   const messageId = query.message.message_id;
 
-  if (collection[messageId]) {
-    if (userId) {
-      if (!collection[messageId]["users"]) {
-        collection[messageId] = {
-          count: 2,
-          users: [],
-        };
-      }
-
-      if (collection[messageId]["users"].indexOf(userId) >= 0) {
-        bot.answerCallbackQuery(query.id, {text: "Ты уже поприветствовал участника!", show_alert: true});
-      } else {
-        collection[messageId].count += 1;
-
-        if (userId) {
-          collection[messageId]["users"].push(userId);
-        }
-
-        bot.editMessageReplyMarkup(options, {
-          chat_id: query.message.chat.id,
-          message_id: messageId,
-        });
-
-        fs.writeFile(
-          "../hiMembers.json",
-          JSON.stringify(collection),
-          "UTF-8",
-          (err) => {
-            if (err) {
-              console.log(err);
-            }
-          }
-        );
-      }
-    } else {
-      collection[messageId].count += 1;
-
-      if (userId) {
-        collection[messageId]["users"].push(userId);
-      }
-
-      bot.editMessageReplyMarkup(options, {
-        chat_id: query.message.chat.id,
-        message_id: messageId,
-      });
-
-      fs.writeFile(
-        "../hiMembers.json",
-        JSON.stringify(collection),
-        "UTF-8",
-        (err) => {
-          if (err) {
-            console.log(err);
-          }
-        }
-      );
-    }
-  } else {
+  if (!collection[messageId]) {
     collection[messageId] = {
       count: 2,
       users: [],
     };
+  }
+
+  if (userId && collection[messageId]["users"].includes(userId)) {
+    bot.answerCallbackQuery(query.id, { text: "Ты ужеоприветствовал участника!", show_alert: true });
+  } else {
+    collection[messageId].count += 1;
 
     if (userId) {
       collection[messageId]["users"].push(userId);
@@ -123,16 +71,12 @@ function hiCount(query, options, collection, userId = undefined) {
       chat_id: query.message.chat.id,
       message_id: messageId,
     });
-    fs.writeFile(
-      "../hiMembers.json",
-      JSON.stringify(collection),
-      "UTF-8",
-      (err) => {
-        if (err) {
-          console.log(err);
-        }
+
+    fs.writeFile("../hiMembers.json", JSON.stringify(collection), "UTF-8", (err) => {
+      if (err) {
+        console.log(err);
       }
-    );
+    });
   }
 }
 
