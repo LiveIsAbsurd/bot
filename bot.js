@@ -77,7 +77,7 @@ function hiCount(query, options, collection, userId = undefined) {
       }
 
       if (collection[messageId]["users"].indexOf(userId) >= 0) {
-        return:
+        return;
       } else {
         collection[messageId].count += 1;
 
