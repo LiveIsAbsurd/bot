@@ -53,11 +53,11 @@ function hiCount(query, options, collection, userId = null) {
   console.log(query);
   const messageId = query.message.message_id;
 
-  if (userId) {
+  if (!collection[messageId].users) {
+    collection[messageId].users = [];
+  }
 
-    if (!collection[messageId].users) {
-      collection[messageId].users = [];
-    }
+  if (userId) {
 
     collection[messageId].users.push(userId);
 
