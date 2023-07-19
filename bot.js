@@ -54,7 +54,7 @@ function hiCount(query, options, collection) {
   const messageId = query.message.message_id;
 
   if (collection[messageId]) {
-    collection[messageId] += 1;
+    collection[messageId].count += 1;
 
     bot.editMessageReplyMarkup(options, {
       chat_id: query.message.chat.id,
@@ -72,7 +72,8 @@ function hiCount(query, options, collection) {
       }
     );
   } else {
-    collection[messageId] = 2;
+    collection[messageId]["count"] = 2;
+    collection[messageId]["users"] = [];
 
     bot.editMessageReplyMarkup(options, {
       chat_id: query.message.chat.id,
@@ -102,7 +103,7 @@ bot.on("callback_query", (query) => {
         inline_keyboard: [
           [
             {
-              text: `Кнопка ${counts[messageId] ? counts[messageId] : 1}`,
+              text: `Кнопка ${counts[messageId] ? counts[messageId]["count"] : 1}`,
               callback_data: "key",
             },
           ],
@@ -120,7 +121,7 @@ bot.on("callback_query", (query) => {
           [
             {
               text: `Привет! \u{1F44b}  (${
-                counts[messageId] ? counts[messageId] : 1
+                counts[messageId] ? counts[messageId]["count"] : 1
               })`,
               callback_data: "hi",
             },
