@@ -97,7 +97,7 @@ bot.on('callback_query', (query) => {
         counts[messageId] += 1;
 
         const opts = {
-          inline_keyboard: [[{ text: `Привет! \u{1F44b}  ${counts[messageId]}`, callback_data: 'hi' }]]
+          inline_keyboard: [[{ text: `Привет! \u{1F44b}  (${counts[messageId]})`, callback_data: 'hi' }]]
         }
 
         bot.editMessageReplyMarkup(opts, { chat_id: query.message.chat.id, message_id: messageId });
@@ -111,7 +111,7 @@ bot.on('callback_query', (query) => {
         counts[messageId] = 1;
 
         const opts = {
-          inline_keyboard: [[{ text: `Привет! \u{1F44b} ${counts[messageId]}`, callback_data: 'hi' }]]
+          inline_keyboard: [[{ text: `Привет! \u{1F44b} (${counts[messageId]})`, callback_data: 'hi' }]]
         }
 
         bot.editMessageReplyMarkup(opts, { chat_id: query.message.chat.id, message_id: messageId });
