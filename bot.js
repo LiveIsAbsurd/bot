@@ -86,7 +86,7 @@ bot.on('callback_query', (query) => {
         inline_keyboard: [[{ text: `Кнопка ${counts[messageId]}`, callback_data: 'key' }]]
       }
 
-      hiCount(messageId, opts);
+      hiCount(messageId, opts, counts);
     })
     
   } else if (query.data == "hi") {
@@ -98,7 +98,7 @@ bot.on('callback_query', (query) => {
         inline_keyboard: [[{ text: `Привет! \u{1F44b}  (${counts[messageId]})`, callback_data: 'hi' }]]
       }
       
-      hiCount(messageId, opts);
+      hiCount(messageId, opts, counts);
     })
   }
 
