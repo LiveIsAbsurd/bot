@@ -49,32 +49,29 @@ bot.onText(/\/getKey/, (msg) => {
   }
 });
 
-function hiCount(messageId, options, user) {
-  fs.readFile('../hiMembers.json', 'UTF-8', (err, data) => {
-    let counts = JSON.parse(data);
-    
-    if (counts[messageId]) {
+function hiCount(messageId, options, collection) {
+  
+    if (collection[messageId]) {
 
-      counts[messageId] += 1;
+      collection[messageId] += 1;
 
       bot.editMessageReplyMarkup(options, { chat_id: query.message.chat.id, message_id: messageId });
 
-      fs.writeFile("../hiMembers.json", JSON.stringify(counts), "UTF-8", (err) => {
+      fs.writeFile("../hiMembers.json", JSON.stringify(collection), "UTF-8", (err) => {
         if (err) {
           console.log(err);
         }
       })
     } else {
-      counts[messageId] = 1;
+      collection[messageId] = 1;
 
       bot.editMessageReplyMarkup(options, { chat_id: query.message.chat.id, message_id: messageId });
-      fs.writeFile("../hiMembers.json", JSON.stringify(counts), "UTF-8", (err) => {
+      fs.writeFile("../hiMembers.json", JSON.stringify(collection), "UTF-8", (err) => {
         if (err) {
           console.log(err);
         }
       })
     }
-  })
 }
 
 bot.on('callback_query', (query) => {
@@ -82,19 +79,27 @@ bot.on('callback_query', (query) => {
 
   if (query.data == 'key') {
 
-    const opts = {
-      inline_keyboard: [[{ text: `Кнопка ${counts[messageId]}`, callback_data: 'key' }]]
-    }
+    fs.readFile('../hiMembers.json', 'UTF-8', (err, data) => {
+      let counts = JSON.parse(data);
 
-    hiCount(messageId, opts);
+      const opts = {
+        inline_keyboard: [[{ text: `Кнопка ${counts[messageId]}`, callback_data: 'key' }]]
+      }
+
+      hiCount(messageId, opts);
+    })
     
   } else if (query.data == "hi") {
 
-    const opts = {
-      inline_keyboard: [[{ text: `Привет! \u{1F44b}  (${counts[messageId]})`, callback_data: 'hi' }]]
-    }
-    
-    hiCount(messageId, opts);
+    fs.readFile('../hiMembers.json', 'UTF-8', (err, data) => {
+      let counts = JSON.parse(data);
+
+      const opts = {
+        inline_keyboard: [[{ text: `Привет! \u{1F44b}  (${counts[messageId]})`, callback_data: 'hi' }]]
+      }
+      
+      hiCount(messageId, opts);
+    })
   }
 
 });
