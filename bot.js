@@ -76,6 +76,7 @@ function hiCount(query, options, collection) {
 }
 
 bot.on('callback_query', (query) => {
+  const messageId = query.message.message_id;
   
   if (query.data == 'key') {
 
