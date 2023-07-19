@@ -64,7 +64,7 @@ function hiCount(query, options, collection) {
       }
     })
   } else {
-    collection[messageId] = 1;
+    collection[messageId] = 2;
 
     bot.editMessageReplyMarkup(options, { chat_id: query.message.chat.id, message_id: messageId });
     fs.writeFile("../hiMembers.json", JSON.stringify(collection), "UTF-8", (err) => {
@@ -84,7 +84,7 @@ bot.on('callback_query', (query) => {
       let counts = JSON.parse(data);
 
       const opts = {
-        inline_keyboard: [[{ text: `Кнопка ${counts[messageId]}`, callback_data: 'key' }]]
+        inline_keyboard: [[{ text: `Кнопка ${counts[messageId] ? counts[messageId] : 1}`, callback_data: 'key' }]]
       }
 
       hiCount(query, opts, counts);
