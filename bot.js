@@ -55,14 +55,11 @@ function hiCount(query, options, collection, userId = undefined) {
 
   if (collection[messageId]) {
     if (userId) {
-      
       if (!collection[messageId]["users"]) {
-
         collection[messageId] = {
           count: 2,
           users: [],
         };
-
       }
 
       if (collection[messageId]["users"].indexOf(userId) >= 0) {
@@ -90,9 +87,7 @@ function hiCount(query, options, collection, userId = undefined) {
           }
         );
       }
-
     } else {
-
       collection[messageId].count += 1;
 
       if (userId) {
@@ -115,7 +110,6 @@ function hiCount(query, options, collection, userId = undefined) {
         }
       );
     }
-  
   } else {
     collection[messageId] = {
       count: 2,
@@ -154,7 +148,9 @@ bot.on("callback_query", (query) => {
         inline_keyboard: [
           [
             {
-              text: `Кнопка ${counts[messageId] ? counts[messageId]["count"] : 1}`,
+              text: `Кнопка ${
+                counts[messageId] ? counts[messageId]["count"] : 1
+              }`,
               callback_data: "key",
             },
           ],
