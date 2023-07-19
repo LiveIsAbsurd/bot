@@ -49,79 +49,52 @@ bot.onText(/\/getKey/, (msg) => {
   }
 });
 
+function hiCount(messageId, options, user) {
+  fs.readFile('../hiMembers.json', 'UTF-8', (err, data) => {
+    let counts = JSON.parse(data);
+    
+    if (counts[messageId]) {
+
+      counts[messageId] += 1;
+
+      bot.editMessageReplyMarkup(options, { chat_id: query.message.chat.id, message_id: messageId });
+
+      fs.writeFile("../hiMembers.json", JSON.stringify(counts), "UTF-8", (err) => {
+        if (err) {
+          console.log(err);
+        }
+      })
+    } else {
+      counts[messageId] = 1;
+
+      bot.editMessageReplyMarkup(options, { chat_id: query.message.chat.id, message_id: messageId });
+      fs.writeFile("../hiMembers.json", JSON.stringify(counts), "UTF-8", (err) => {
+        if (err) {
+          console.log(err);
+        }
+      })
+    }
+  })
+}
+
 bot.on('callback_query', (query) => {
   const messageId = query.message.message_id;
 
   if (query.data == 'key') {
 
-    fs.readFile('../hiMembers.json', 'UTF-8', (err, data) => {
-      let counts = JSON.parse(data);
-      
-      if (counts[messageId]) {
+    const opts = {
+      inline_keyboard: [[{ text: `Кнопка ${counts[messageId]}`, callback_data: 'key' }]]
+    }
 
-        counts[messageId] += 1;
-
-        const opts = {
-          inline_keyboard: [[{ text: `Кнопка ${counts[messageId]}`, callback_data: 'key' }]]
-        }
-
-        bot.editMessageReplyMarkup(opts, { chat_id: query.message.chat.id, message_id: messageId });
-
-        fs.writeFile("../hiMembers.json", JSON.stringify(counts), "UTF-8", (err) => {
-          if (err) {
-            console.log(err);
-          }
-        })
-      } else {
-        counts[messageId] = 1;
-
-        const opts = {
-          inline_keyboard: [[{ text: `Кнопка ${counts[messageId]}`, callback_data: 'key' }]]
-        }
-
-        bot.editMessageReplyMarkup(opts, { chat_id: query.message.chat.id, message_id: messageId });
-        fs.writeFile("../hiMembers.json", JSON.stringify(counts), "UTF-8", (err) => {
-          if (err) {
-            console.log(err);
-          }
-        })
-      }
-    })
+    hiCount(messageId, opts);
+    
   } else if (query.data == "hi") {
 
-    fs.readFile('../hiMembers.json', 'UTF-8', (err, data) => {
-      let counts = JSON.parse(data);
-      
-      if (counts[messageId]) {
-
-        counts[messageId] += 1;
-
-        const opts = {
-          inline_keyboard: [[{ text: `Привет! \u{1F44b}  (${counts[messageId]})`, callback_data: 'hi' }]]
-        }
-
-        bot.editMessageReplyMarkup(opts, { chat_id: query.message.chat.id, message_id: messageId });
-
-        fs.writeFile("../hiMembers.json", JSON.stringify(counts), "UTF-8", (err) => {
-          if (err) {
-            console.log(err);
-          }
-        })
-      } else {
-        counts[messageId] = 1;
-
-        const opts = {
-          inline_keyboard: [[{ text: `Привет! \u{1F44b} (${counts[messageId]})`, callback_data: 'hi' }]]
-        }
-
-        bot.editMessageReplyMarkup(opts, { chat_id: query.message.chat.id, message_id: messageId });
-        fs.writeFile("../hiMembers.json", JSON.stringify(counts), "UTF-8", (err) => {
-          if (err) {
-            console.log(err);
-          }
-        })
-      }
-    })
+    const opts = {
+      inline_keyboard: [[{ text: `Привет! \u{1F44b}  (${counts[messageId]})`, callback_data: 'hi' }]]
+    }
+    
+    hiCount(messageId, opts);
   }
 
 });
