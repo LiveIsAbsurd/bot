@@ -254,10 +254,10 @@ bot.on("new_chat_members", (msg) => {
       reply_markup: {
         inline_keyboard: [[{ text: "Привет! \u{1F44b}", callback_data: "hi" }]],
       },
-   // };
+    };
 
     bot.sendMessage(chatId, hiText(userName), opts);
-  }
+  //}
 });
 
 bot.on("left_chat_member", (msg) => {
