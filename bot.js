@@ -61,8 +61,6 @@ bot.onText(/\/getKeyy/, (msg) => {
   }
 });
 
-let yyy;
-
 function hiCount(query, options, collection, userId = undefined) {
   // console.log(query);
   const messageId = query.message.message_id;
@@ -77,7 +75,7 @@ function hiCount(query, options, collection, userId = undefined) {
       }
 
       if (collection[messageId]["users"].indexOf(userId) >= 0) {
-        return;
+        bot.answerCallbackQuery(query.id, "Тест");
       } else {
         collection[messageId].count += 1;
 
@@ -193,8 +191,6 @@ bot.on("callback_query", (query) => {
 
       hiCount(query, opts, counts, query.from.id);
     });
-  } else if (query.data == "y") {
-    bot.answerCallbackQuery(query.id, "Тест");
   }
 });
 
@@ -253,12 +249,12 @@ bot.on("new_chat_members", (msg) => {
     ? `@${msg.new_chat_member.username}`
     : msg.new_chat_member.first_name;
 
-  if (chatId == "-1001807749316") {
+  //if (chatId == "-1001807749316") {
     const opts = {
       reply_markup: {
         inline_keyboard: [[{ text: "Привет! \u{1F44b}", callback_data: "hi" }]],
       },
-    };
+   // };
 
     bot.sendMessage(chatId, hiText(userName), opts);
   }
