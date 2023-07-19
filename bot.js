@@ -96,7 +96,7 @@ bot.on('callback_query', (query) => {
       let counts = JSON.parse(data);
 
       const opts = {
-        inline_keyboard: [[{ text: `Привет! \u{1F44b}  (${counts[messageId]})`, callback_data: 'hi' }]]
+        inline_keyboard: [[{ text: `Привет! \u{1F44b}  (${counts[messageId] ? counts[messageId] : 1})`, callback_data: 'hi' }]]
       }
       
       hiCount(query, opts, counts);
