@@ -236,15 +236,15 @@ bot.on("new_chat_members", (msg) => {
     ? `@${msg.new_chat_member.username}`
     : msg.new_chat_member.first_name;
 
-  // if (chatId == "-1001807749316") {
-  const opts = {
-    reply_markup: {
-      inline_keyboard: [[{ text: "Привет! \u{1F44b}", callback_data: "hi" }]],
-    },
-  };
+  if (chatId == "-1001807749316") {
+    const opts = {
+      reply_markup: {
+        inline_keyboard: [[{ text: "Привет! \u{1F44b}", callback_data: "hi" }]],
+      },
+    };
 
-  bot.sendMessage(chatId, hiText(userName), opts);
-  // }
+    bot.sendMessage(chatId, hiText(userName), opts);
+  }
 });
 
 bot.on("left_chat_member", (msg) => {
