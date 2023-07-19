@@ -49,94 +49,50 @@ bot.onText(/\/getKey/, (msg) => {
   }
 });
 
-function hiCount(query, options, collection, userId = null) {
+function hiCount(query, options, collection) {
   console.log(query);
   const messageId = query.message.message_id;
 
-  if (userId) {
+  if (collection[messageId]) {
+    collection[messageId] += 1;
 
-    if (collection[messageId]) {
+    bot.editMessageReplyMarkup(options, {
+      chat_id: query.message.chat.id,
+      message_id: messageId,
+    });
 
-      if (collection[messageId].user) {
-
-        collection[messageId].user.push(userId);
-
-      } else {
-
-        collection[messageId].user = [];
-
+    fs.writeFile(
+      "../hiMembers.json",
+      JSON.stringify(collection),
+      "UTF-8",
+      (err) => {
+        if (err) {
+          console.log(err);
+        }
       }
-
-    } else {
-      collection[messageId] = 1;
-      collection[messageId].user = [];
-    }
-
-    if (collection[messageId].users.indexOf(userId) >= 0) {
-      return;
-    } else {
-
-      bot.editMessageReplyMarkup(options, {
-        chat_id: query.message.chat.id,
-        message_id: messageId,
-      });
-
-      fs.writeFile(
-        "../hiMembers.json",
-        JSON.stringify(collection),
-        "UTF-8",
-        (err) => {
-          if (err) {
-            console.log(err);
-          }
-        }
-      );
-
-    }
+    );
   } else {
+    collection[messageId] = 2;
 
-    if (collection[messageId]) {
-      collection[messageId] += 1;
-
-      bot.editMessageReplyMarkup(options, {
-        chat_id: query.message.chat.id,
-        message_id: messageId,
-      });
-
-      fs.writeFile(
-        "../hiMembers.json",
-        JSON.stringify(collection),
-        "UTF-8",
-        (err) => {
-          if (err) {
-            console.log(err);
-          }
+    bot.editMessageReplyMarkup(options, {
+      chat_id: query.message.chat.id,
+      message_id: messageId,
+    });
+    fs.writeFile(
+      "../hiMembers.json",
+      JSON.stringify(collection),
+      "UTF-8",
+      (err) => {
+        if (err) {
+          console.log(err);
         }
-      );
-    } else {
-      collection[messageId] = 2;
-
-      bot.editMessageReplyMarkup(options, {
-        chat_id: query.message.chat.id,
-        message_id: messageId,
-      });
-      fs.writeFile(
-        "../hiMembers.json",
-        JSON.stringify(collection),
-        "UTF-8",
-        (err) => {
-          if (err) {
-            console.log(err);
-          }
-        }
-      );
-    }
+      }
+    );
   }
 }
 
 bot.on("callback_query", (query) => {
   const messageId = query.message.message_id;
-  const userId = query.from.id;
 
   if (query.data == "key") {
     fs.readFile("../hiMembers.json", "UTF-8", (err, data) => {
@@ -172,7 +128,7 @@ bot.on("callback_query", (query) => {
         ],
       };
 
-      hiCount(query, opts, counts, userId);
+      hiCount(query, opts, counts);
     });
   }
 });
