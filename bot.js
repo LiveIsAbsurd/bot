@@ -1,11 +1,9 @@
 const token = require("../token.js");
 
 const TelegramBot = require("node-telegram-bot-api");
-const express = require("express");
-const app = express();
 const axios = require("axios");
 const fs = require("fs");
-const https = require("https");
+
 const { json } = require("body-parser");
 
 function hiText(username) {
@@ -18,21 +16,6 @@ function hiText(username) {
 Заходи на сайт нашего чата: https://liveisabsurd.github.io/Meme_House/`;
   return text;
 }
-
-const options = {
-  key: fs.readFileSync(
-    "../../etc/letsencrypt/live/v2009105.hosted-by-vdsina.ru/privkey.pem"
-  ),
-  cert: fs.readFileSync(
-    "../../etc/letsencrypt/live/v2009105.hosted-by-vdsina.ru/fullchain.pem"
-  ),
-};
-
-https
-  .createServer(options, app)
-  .listen(3001, "v2009105.hosted-by-vdsina.ru", () => {
-    console.log("Ура");
-  });
 
 const bot = new TelegramBot(token, { polling: { interval: 1000 } });
 
@@ -308,81 +291,4 @@ bot.onText(/\/setDescription (.+)/, (msg, match) => {
         bot.sendMessage(261749882, `${username} попытался сменить описание`);
       }
     });
-});
-
-// API
-
-app.get("/sendAdminDescription/:adminId", (req, res) => {
-  fs.readFile("../adminDescriptions.json", "UTF-8", (err, desc) => {
-    res.setHeader("Access-Control-Allow-Origin", "*");
-    const adminList = JSON.parse(desc);
-
-    if (adminList[req.params.adminId]) {
-      res.json(adminList[req.params.adminId]);
-    } else {
-      res.json("Описание отсутствует");
-    }
-  });
-});
-
-app.get("/sendUsersCount", (req, res) => {
-  axios
-    .get(
-      `https://api.telegram.org/bot${token}/getChatMembersCount?chat_id=-1001807749316`
-    )
-    .then((response) => {
-      res.setHeader("Access-Control-Allow-Origin", "*");
-      res.json(response.data);
-    })
-    .catch((err) => console.log(err));
-});
-
-app.get("/sendAdminList", (req, res) => {
-  axios
-    .get(
-      `https://api.telegram.org/bot${token}/getChatAdministrators?chat_id=-1001807749316`
-    )
-    .then((response) => {
-      res.setHeader("Access-Control-Allow-Origin", "*");
-      res.json(response.data);
-    })
-    .catch((err) => console.log(err));
-});
-
-app.get("/sendAdminInfo/:id", (req, res) => {
-  axios
-    .get(
-      `https://api.telegram.org/bot${token}/getUserProfilePhotos?user_id=${req.params.id}`
-    )
-    .then((response) => {
-      res.setHeader("Access-Control-Allow-Origin", "*");
-      res.json(response.data);
-    })
-    .catch((err) => console.log(err));
-});
-
-app.get("/sendAdminPhotoInfo/:id", (req, res) => {
-  axios
-    .get(
-      `https://api.telegram.org/bot${token}/getFile?file_id=${req.params.id}`
-    )
-    .then((response) => {
-      axios
-        .get(
-          `https://api.telegram.org/file/bot${token}/${response.data.result.file_path}`,
-          { responseType: "arraybuffer" }
-        )
-        .then((response) => {
-          res.setHeader("Access-Control-Allow-Origin", "*");
-          res.set("Content-Type", "image/jpeg");
-          res.set("Content-Disposition", "attachment; filename=image.jpg");
-          res.send(response.data);
-        });
-    })
-    .catch((err) => console.log(err));
-});
-
-app.get("/iswork", (req, res) => {
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.json("Server Is Work!");
 });
