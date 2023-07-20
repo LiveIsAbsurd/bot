@@ -33,7 +33,9 @@ const cuefaKeyboard = {
 }
 
 bot.onText(/\/cuefa/, msg => {
-  cuefaGame(msg);
+  if(msg.chat.id == "-1001807749316") {
+    cuefaGame(msg);
+  }
 });
 
 function cuefaGame(msg = null, query = null) {
