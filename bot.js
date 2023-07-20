@@ -23,176 +23,242 @@ const bot = new TelegramBot(token, { polling: { interval: 1000 } });
 let cuefaPlayers = [];
 let cuefaColl = {};
 let cuefaToEmoji = {
-    rock: "🤜",
-    nosh: "✌️",
-    paper: "✋",
-}
+  rock: "🤜",
+  nosh: "✌️",
+  paper: "✋",
+};
 const cuefaKeyboard = {
-    inline_keyboard: 
-        [[{text: "🤜", callback_data: "rock"}, {text: "✌️", callback_data: "nosh"}, {text: "✋", callback_data: "paper"}]]
-}
+  inline_keyboard: [
+    [
+      { text: "🤜", callback_data: "rock" },
+      { text: "✌️", callback_data: "nosh" },
+      { text: "✋", callback_data: "paper" },
+    ],
+  ],
+};
 
-bot.onText(/\/cuefa/, msg => {
-  if(msg.chat.id == "-1001807749316") {
+bot.onText(/\/cuefa/, (msg) => {
+  if (msg.chat.id == "-1001807749316") {
     cuefaGame(msg);
   }
 });
 
 function cuefaGame(msg = null, query = null) {
   if (msg) {
-      const player1 = {}
-      player1[msg.from.username] = {select: undefined}
+    const player1 = {};
+    player1[msg.from.username] = { select: undefined };
 
-      const player2 = {};
-      player2[msg.reply_to_message ? msg.reply_to_message.from.username : undefined] = {select: undefined}
+    const player2 = {};
+    player2[
+      msg.reply_to_message ? msg.reply_to_message.from.username : undefined
+    ] = { select: undefined };
 
-      const player1Name = Object.keys(player1)[0];
-      const player2Name = Object.keys(player2)[0] != "undefined" ? `@${Object.keys(player2)[0]}` : "(Ожидание игрока...)";
+    const player1Name = Object.keys(player1)[0];
+    const player2Name =
+      Object.keys(player2)[0] != "undefined"
+        ? `@${Object.keys(player2)[0]}`
+        : "(Ожидание игрока...)";
 
-      bot.sendMessage(msg.chat.id, `Камень, ножницы, бумага
-@${player1Name} 🆚 ${player2Name}`, {reply_markup: cuefaKeyboard})
-          .then(msg => {
-              //console.log(msg.message_id);
-              cuefaColl[msg.message_id] = {};
-              cuefaColl[msg.message_id].steps = {
-                  player1Step: false,
-                  player2Step: false,
-              };
-              cuefaColl[msg.message_id]["player1"] = player1;
-              cuefaColl[msg.message_id]["player2"] = player2;
+    bot
+      .sendMessage(
+        msg.chat.id,
+        `Камень, ножницы, бумага
+@${player1Name} 🆚 ${player2Name}`,
+        { reply_markup: cuefaKeyboard }
+      )
+      .then((msg) => {
+        //console.log(msg.message_id);
+        cuefaColl[msg.message_id] = {};
+        cuefaColl[msg.message_id].steps = {
+          player1Step: false,
+          player2Step: false,
+        };
+        cuefaColl[msg.message_id]["player1"] = player1;
+        cuefaColl[msg.message_id]["player2"] = player2;
 
-              //console.log(cuefaColl[msg.message_id]);
-              cuefaPlayers = [Object.keys(cuefaColl[msg.message_id].player1)[0], Object.keys(cuefaColl[msg.message_id].player2)[0]];
-          });
-      
+        //console.log(cuefaColl[msg.message_id]);
+        cuefaPlayers = [
+          Object.keys(cuefaColl[msg.message_id].player1)[0],
+          Object.keys(cuefaColl[msg.message_id].player2)[0],
+        ];
+      });
   } else if (query) {
-      if (!cuefaColl[query.message.message_id]) {
-          bot.answerCallbackQuery(query.id, { text: "Время вышло!" });
-          return;
-      }
+    if (!cuefaColl[query.message.message_id]) {
+      bot.answerCallbackQuery(query.id, { text: "Время вышло!" });
+      return;
+    }
 
-      const player2Name = cuefaPlayers[1] != "undefined" ? `@${cuefaPlayers[1]}` : "(Ожидание игрока...)";
+    const player2Name =
+      cuefaPlayers[1] != "undefined"
+        ? `@${cuefaPlayers[1]}`
+        : "(Ожидание игрока...)";
 
-      if (cuefaPlayers[0] == query.from.username) {
-          if (!cuefaColl[query.message.message_id].steps.player1Step && cuefaPlayers.includes(query.from.username)) {
-              cuefaColl[query.message.message_id].player1[query.from.username].select = cuefaToEmoji[query.data];
-              cuefaColl[query.message.message_id].steps.player1Step = true;
+    if (cuefaPlayers[0] == query.from.username) {
+      if (
+        !cuefaColl[query.message.message_id].steps.player1Step &&
+        cuefaPlayers.includes(query.from.username)
+      ) {
+        cuefaColl[query.message.message_id].player1[
+          query.from.username
+        ].select = cuefaToEmoji[query.data];
+        cuefaColl[query.message.message_id].steps.player1Step = true;
 
-              if (!cuefaColl[query.message.message_id].steps.player2Step) {
-                  bot.editMessageText(`Камень-ножницы-бумага
-@${cuefaPlayers[0]} 👍 🆚 ${player2Name}`, {
-                      chat_id: query.message.chat.id,
-                      message_id: query.message.message_id,
-                      reply_markup: cuefaKeyboard,
-                  });
-              }
-          } else {
-              bot.answerCallbackQuery(query.id, {text: "Ты уже сделал ход, жди ход соперника!"});
-          } //если у первого игрока не было хода, то записываю ход
-      } else if (cuefaPlayers[1] == "undefined") {
-          const newPlayer = {};
-          newPlayer[query.from.username] = { select: cuefaToEmoji[query.data] };
-          cuefaColl[query.message.message_id].player2 = newPlayer;
-          cuefaColl[query.message.message_id].steps.player2Step = true;
-          cuefaPlayers[1] = query.from.username;
-
-          if(!cuefaColl[query.message.message_id].steps.player1Step) {
-              bot.editMessageText(`Камень, ножницы, бумага
-@${cuefaPlayers[0]} 🆚 👍 @${cuefaPlayers[1]}`, {
-                      chat_id: query.message.chat.id,
-                      message_id: query.message.message_id,
-                      reply_markup: cuefaKeyboard,
-                  });
-              }
-
-      } else if (cuefaPlayers[1] == query.from.username) {
-          if (!cuefaColl[query.message.message_id].steps.player2Step) {
-              cuefaColl[query.message.message_id].player2[query.from.username].select = cuefaToEmoji[query.data];
-              cuefaColl[query.message.message_id].steps.player2Step = true;
-
-              if (!cuefaColl[query.message.message_id].steps.player1Step) {
-                  bot.editMessageText(`Камень, ножницы, бумага
-@${cuefaPlayers[0]} 🆚 👍 ${player2Name}`, {
-                      chat_id: query.message.chat.id,
-                      message_id: query.message.message_id,
-                      reply_markup: cuefaKeyboard,
-                  });
-              }
-          } else {
-              bot.answerCallbackQuery(query.id, {text: "Ты уже сделал ход, жди ход соперника!"});
-          }
+        if (!cuefaColl[query.message.message_id].steps.player2Step) {
+          bot.editMessageText(
+            `Камень-ножницы-бумага
+@${cuefaPlayers[0]} 👍 🆚 ${player2Name}`,
+            {
+              chat_id: query.message.chat.id,
+              message_id: query.message.message_id,
+              reply_markup: cuefaKeyboard,
+            }
+          );
+        }
       } else {
-          bot.answerCallbackQuery(query.id, {text: "Эта сессия не ждя тебя :( Создай новую!"});
+        bot.answerCallbackQuery(query.id, {
+          text: "Ты уже сделал ход, жди ход соперника!",
+        });
+      } //если у первого игрока не было хода, то записываю ход
+    } else if (cuefaPlayers[1] == "undefined") {
+      const newPlayer = {};
+      newPlayer[query.from.username] = { select: cuefaToEmoji[query.data] };
+      cuefaColl[query.message.message_id].player2 = newPlayer;
+      cuefaColl[query.message.message_id].steps.player2Step = true;
+      cuefaPlayers[1] = query.from.username;
+
+      if (!cuefaColl[query.message.message_id].steps.player1Step) {
+        bot.editMessageText(
+          `Камень, ножницы, бумага
+@${cuefaPlayers[0]} 🆚 👍 @${cuefaPlayers[1]}`,
+          {
+            chat_id: query.message.chat.id,
+            message_id: query.message.message_id,
+            reply_markup: cuefaKeyboard,
+          }
+        );
+      }
+    } else if (cuefaPlayers[1] == query.from.username) {
+      if (!cuefaColl[query.message.message_id].steps.player2Step) {
+        cuefaColl[query.message.message_id].player2[
+          query.from.username
+        ].select = cuefaToEmoji[query.data];
+        cuefaColl[query.message.message_id].steps.player2Step = true;
+
+        if (!cuefaColl[query.message.message_id].steps.player1Step) {
+          bot.editMessageText(
+            `Камень, ножницы, бумага
+@${cuefaPlayers[0]} 🆚 👍 ${player2Name}`,
+            {
+              chat_id: query.message.chat.id,
+              message_id: query.message.message_id,
+              reply_markup: cuefaKeyboard,
+            }
+          );
+        }
+      } else {
+        bot.answerCallbackQuery(query.id, {
+          text: "Ты уже сделал ход, жди ход соперника!",
+        });
+      }
+    } else {
+      bot.answerCallbackQuery(query.id, {
+        text: "Эта сессия не ждя тебя :( Создай новую!",
+      });
+    }
+
+    if (
+      cuefaColl[query.message.message_id].steps.player1Step &&
+      cuefaColl[query.message.message_id].steps.player2Step
+    ) {
+      const step1 =
+        cuefaColl[query.message.message_id].player1[cuefaPlayers[0]].select;
+      const step2 =
+        cuefaColl[query.message.message_id].player2[cuefaPlayers[1]].select;
+
+      if (step1 == "🤜" && step2 == "✌️") {
+        bot.editMessageText(
+          `Камень, ножницы, бумага
+@${cuefaPlayers[0]} ${step1} 🆚 ${step2} @${cuefaPlayers[1]}
+Победил @${cuefaPlayers[0]} 🏆`,
+          {
+            chat_id: query.message.chat.id,
+            message_id: query.message.message_id,
+          }
+        );
       }
 
-      if (cuefaColl[query.message.message_id].steps.player1Step && cuefaColl[query.message.message_id].steps.player2Step) {
-          const step1 = cuefaColl[query.message.message_id].player1[cuefaPlayers[0]].select;
-          const step2 = cuefaColl[query.message.message_id].player2[cuefaPlayers[1]].select;
-
-          if (step1 == "🤜" && step2 == "✌️") {
-              bot.editMessageText(`Камень, ножницы, бумага
+      if (step1 == "🤜" && step2 == "✋") {
+        bot.editMessageText(
+          `Камень, ножницы, бумага
 @${cuefaPlayers[0]} ${step1} 🆚 ${step2} @${cuefaPlayers[1]}
-Победил @${cuefaPlayers[0]} 🏆`, {
-                  chat_id: query.message.chat.id,
-                  message_id: query.message.message_id,
-              });
+Победил @${cuefaPlayers[1]} 🏆`,
+          {
+            chat_id: query.message.chat.id,
+            message_id: query.message.message_id,
           }
+        );
+      }
 
-          if (step1 == "🤜" && step2 == "✋") {
-              bot.editMessageText(`Камень, ножницы, бумага
+      if (step1 == "✌️" && step2 == "✋") {
+        bot.editMessageText(
+          `Камень, ножницы, бумага
 @${cuefaPlayers[0]} ${step1} 🆚 ${step2} @${cuefaPlayers[1]}
-Победил @${cuefaPlayers[1]} 🏆`, {
-                  chat_id: query.message.chat.id,
-                  message_id: query.message.message_id,
-              });
+Победил @${cuefaPlayers[0]} 🏆`,
+          {
+            chat_id: query.message.chat.id,
+            message_id: query.message.message_id,
           }
+        );
+      }
 
-          if (step1 == "✌️" && step2 == "✋") {
-              bot.editMessageText(`Камень, ножницы, бумага
+      if (step1 == "✌️" && step2 == "🤜") {
+        bot.editMessageText(
+          `Камень, ножницы, бумага
 @${cuefaPlayers[0]} ${step1} 🆚 ${step2} @${cuefaPlayers[1]}
-Победил @${cuefaPlayers[0]} 🏆`, {
-                  chat_id: query.message.chat.id,
-                  message_id: query.message.message_id,
-              });
+Победил @${cuefaPlayers[1]} 🏆`,
+          {
+            chat_id: query.message.chat.id,
+            message_id: query.message.message_id,
           }
+        );
+      }
 
-          if (step1 == "✌️" && step2 == "🤜") {
-              bot.editMessageText(`Камень, ножницы, бумага
+      if (step1 == "✋" && step2 == "✌️") {
+        bot.editMessageText(
+          `Камень, ножницы, бумага
 @${cuefaPlayers[0]} ${step1} 🆚 ${step2} @${cuefaPlayers[1]}
-Победил @${cuefaPlayers[1]} 🏆`, {
-                  chat_id: query.message.chat.id,
-                  message_id: query.message.message_id,
-              });
+Победил @${cuefaPlayers[1]} 🏆`,
+          {
+            chat_id: query.message.chat.id,
+            message_id: query.message.message_id,
           }
+        );
+      }
 
-          if (step1 == "✋" && step2 == "✌️") {
-              bot.editMessageText(`Камень, ножницы, бумага
+      if (step1 == "✋" && step2 == "🤜") {
+        bot.editMessageText(
+          `Камень, ножницы, бумага
 @${cuefaPlayers[0]} ${step1} 🆚 ${step2} @${cuefaPlayers[1]}
-Победил @${cuefaPlayers[1]} 🏆`, {
-                  chat_id: query.message.chat.id,
-                  message_id: query.message.message_id,
-              });
+Победил @${cuefaPlayers[0]} 🏆`,
+          {
+            chat_id: query.message.chat.id,
+            message_id: query.message.message_id,
           }
+        );
+      }
 
-          if (step1 == "✋" && step2 == "🤜") {
-              bot.editMessageText(`Камень, ножницы, бумага
-@${cuefaPlayers[0]} ${step1} 🆚 ${step2} @${cuefaPlayers[1]}
-Победил @${cuefaPlayers[0]} 🏆`, {
-                  chat_id: query.message.chat.id,
-                  message_id: query.message.message_id,
-              });
-          }
-
-          if (step1 == step2) {
-              bot.editMessageText(`Камень, ножницы, бумага
+      if (step1 == step2) {
+        bot.editMessageText(
+          `Камень, ножницы, бумага
 @${cuefaPlayers[0]} ${step1} - ${step2} @${cuefaPlayers[1]}
-Ничья! 🤝`, {
-                  chat_id: query.message.chat.id,
-                  message_id: query.message.message_id,
-              });
+Ничья! 🤝`,
+          {
+            chat_id: query.message.chat.id,
+            message_id: query.message.message_id,
           }
-          
+        );
       }
+    }
   }
 }
 
@@ -221,7 +287,10 @@ function hiCount(query, options, collection, userId = undefined) {
   }
 
   if (userId && collection[messageId]["users"].includes(userId)) {
-    bot.answerCallbackQuery(query.id, { text: "Ты уже поприветствовал участника!", show_alert: true });
+    bot.answerCallbackQuery(query.id, {
+      text: "Ты уже поприветствовал участника!",
+      show_alert: true,
+    });
   } else {
     collection[messageId].count += 1;
 
@@ -234,11 +303,16 @@ function hiCount(query, options, collection, userId = undefined) {
       message_id: messageId,
     });
 
-    fs.writeFile("../hiMembers.json", JSON.stringify(collection), "UTF-8", (err) => {
-      if (err) {
-        console.log(err);
+    fs.writeFile(
+      "../hiMembers.json",
+      JSON.stringify(collection),
+      "UTF-8",
+      (err) => {
+        if (err) {
+          console.log(err);
+        }
       }
-    });
+    );
   }
 }
 
