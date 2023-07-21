@@ -240,8 +240,8 @@ bot.on("inline_query", (query) => {
         title: "Приветствие",
         input_message_content: {
           message_text: `Привет! Это оффициальный бот лучшего в телеграме чата https://t.me/meme_house_chat.
-  Присоединяйся!
-  Заходи на наш сайт https://liveisabsurd.github.io/Meme_House/`,
+Присоединяйся!
+Заходи на наш сайт https://liveisabsurd.github.io/Meme_House/`,
         }
       }
     ];
