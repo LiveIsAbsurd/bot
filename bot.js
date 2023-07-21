@@ -174,77 +174,30 @@ function cuefaGame(msg = null, query = null) {
         cuefaColl[query.message.message_id].player1[cuefaPlayers[0]].select;
       const step2 =
         cuefaColl[query.message.message_id].player2[cuefaPlayers[1]].select;
+      let winner;
 
       if (step1 == "🤜" && step2 == "✌️") {
-        bot.editMessageText(
-          `Камень, ножницы, бумага
-@${cuefaPlayers[0]} ${step1} 🆚 ${step2} @${cuefaPlayers[1]}
-Победил @${cuefaPlayers[0]} 🏆`,
-          {
-            chat_id: query.message.chat.id,
-            message_id: query.message.message_id,
-          }
-        );
+        winner = cuefaPlayers[0];
       }
 
       if (step1 == "🤜" && step2 == "✋") {
-        bot.editMessageText(
-          `Камень, ножницы, бумага
-@${cuefaPlayers[0]} ${step1} 🆚 ${step2} @${cuefaPlayers[1]}
-Победил @${cuefaPlayers[1]} 🏆`,
-          {
-            chat_id: query.message.chat.id,
-            message_id: query.message.message_id,
-          }
-        );
+        winner = cuefaPlayers[1];
       }
 
       if (step1 == "✌️" && step2 == "✋") {
-        bot.editMessageText(
-          `Камень, ножницы, бумага
-@${cuefaPlayers[0]} ${step1} 🆚 ${step2} @${cuefaPlayers[1]}
-Победил @${cuefaPlayers[0]} 🏆`,
-          {
-            chat_id: query.message.chat.id,
-            message_id: query.message.message_id,
-          }
-        );
+        winner = cuefaPlayers[0];
       }
 
       if (step1 == "✌️" && step2 == "🤜") {
-        bot.editMessageText(
-          `Камень, ножницы, бумага
-@${cuefaPlayers[0]} ${step1} 🆚 ${step2} @${cuefaPlayers[1]}
-Победил @${cuefaPlayers[1]} 🏆`,
-          {
-            chat_id: query.message.chat.id,
-            message_id: query.message.message_id,
-          }
-        );
+        winner = cuefaPlayers[1];
       }
 
       if (step1 == "✋" && step2 == "✌️") {
-        bot.editMessageText(
-          `Камень, ножницы, бумага
-@${cuefaPlayers[0]} ${step1} 🆚 ${step2} @${cuefaPlayers[1]}
-Победил @${cuefaPlayers[1]} 🏆`,
-          {
-            chat_id: query.message.chat.id,
-            message_id: query.message.message_id,
-          }
-        );
+        winner = cuefaPlayers[1];
       }
 
       if (step1 == "✋" && step2 == "🤜") {
-        bot.editMessageText(
-          `Камень, ножницы, бумага
-@${cuefaPlayers[0]} ${step1} 🆚 ${step2} @${cuefaPlayers[1]}
-Победил @${cuefaPlayers[0]} 🏆`,
-          {
-            chat_id: query.message.chat.id,
-            message_id: query.message.message_id,
-          }
-        );
+        winner = cuefaPlayers[0];
       }
 
       if (step1 == step2) {
@@ -258,6 +211,16 @@ function cuefaGame(msg = null, query = null) {
           }
         );
       }
+
+      bot.editMessageText(
+        `Камень, ножницы, бумага
+@${cuefaPlayers[0]} ${step1} 🆚 ${step2} @${cuefaPlayers[1]}
+Победил @${winner} 🏆`,
+        {
+          chat_id: query.message.chat.id,
+          message_id: query.message.message_id,
+        }
+      );
     }
   }
 }
