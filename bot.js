@@ -46,7 +46,6 @@ bot.onText(/\/cuefa/, (msg) => {
 });
 
 function cuefaGame(msg = null, query = null, replay = false) {
-  console.log(query ? query.from.username : "Запуск");
   if (msg || replay) {
     const player1 = {};
     player1[
@@ -62,13 +61,16 @@ function cuefaGame(msg = null, query = null, replay = false) {
         msg.reply_to_message ? msg.reply_to_message.from.username : undefined
       ] = { select: undefined };
     }
-    console.log(player2);
 
     const player1Name = Object.keys(player1)[0];
     const player2Name =
       Object.keys(player2)[0] != "undefined"
         ? `@${Object.keys(player2)[0]}`
         : "(Ожидание игрока...)";
+    if (replay) {
+      console.log(player1Name);
+      console.log(player2Name);
+    }
 
     bot
       .sendMessage(
