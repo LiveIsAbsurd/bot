@@ -230,20 +230,24 @@ ${winner}`,
 //__________________________________________________
 
 bot.on("inline_query", (query) => {
-  const result = [
-    {
-      id: "1",
-      type: "article",
-      title: "Жми!",
-      input_message_content: {
-        message_text: "Ну тип тест",
+  if (query.data == "/start") {
+    const result = [
+      {
+        id: "1",
+        type: "article",
+        title: "Приветствие",
+        input_message_content: {
+          message_text: `Привет! Это оффициальный бот лучшего в телеграме чата https://t.me/meme_house_chat.
+  Присоединяйся!
+  Заходи на наш сайт https://liveisabsurd.github.io/Meme_House/`,
+        }
       }
-    }
-  ];
+    ];
 
-  console.log(query);
+    console.log(query);
 
-  bot.answerInlineQuery(query.id, result);
+    bot.answerInlineQuery(query.id, result);
+  }
 });
 
 bot.onText(/\/getKey/, (msg) => {
