@@ -105,7 +105,7 @@ function cuefaGame(msg = null, query = null) {
 
         if (!cuefaColl[query.message.message_id].steps.player2Step) {
           bot.editMessageText(
-            `Камень-ножницы-бумага
+            `Камень, ножницы, бумага
 @${cuefaPlayers[0]} 👍 🆚 ${player2Name}`,
             {
               chat_id: query.message.chat.id,
