@@ -18,7 +18,7 @@ function hiText(username) {
   return text;
 }
 
-let test = {};
+let test = {test: 5};
 
 fs.writeFile("../cuefaStats.json", JSON.stringify(test), "UTF-8");
 
