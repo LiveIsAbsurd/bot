@@ -246,7 +246,9 @@ bot.on("inline_query", (query) => {
       }
     ];
 
-    bot.answerInlineQuery(query.id, result);
+    bot.answerInlineQuery(query.id, result).then(msg => {
+      console.log(msg)
+    })
   }
 });
 
