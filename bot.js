@@ -46,18 +46,18 @@ bot.onText(/\/cuefa/, (msg) => {
 });
 
 function cuefaGame(msg = null, query = null, replay = false) {
-  console.log(msg || replay);
+  console.log(query.from.username);
   if (msg || replay) {
     const player1 = {};
     player1[
       replay ? query.from.username : msg.from.username
     ] = { select: undefined };
+    console.log(player1);
 
     const player2 = {};
     player2[
       replay ? undefined : msg.reply_to_message ? msg.reply_to_message.from.username : undefined
     ] = { select: undefined };
-    console.log(player1, player2);
 
     const player1Name = Object.keys(player1)[0];
     const player2Name =
