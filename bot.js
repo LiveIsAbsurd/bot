@@ -354,8 +354,8 @@ bot.on("callback_query", (query) => {
   }
 
   if (query.data == "cuefaReplay") {
-    cuefaGame(null, query, true);
     console.log("Реплей");
+    cuefaGame(null, query, true);
   }
 });
 
