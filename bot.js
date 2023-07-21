@@ -45,14 +45,16 @@ bot.onText(/\/cuefa/, (msg) => {
   }
 });
 
-function cuefaGame(msg = null, query = null) {
-  if (msg) {
+function cuefaGame(msg = null, query = null, replay = false) {
+  if (msg || replay) {
     const player1 = {};
-    player1[msg.from.username] = { select: undefined };
+    player1[
+      replay ? query.from.username : msg.from.username
+    ] = { select: undefined };
 
     const player2 = {};
     player2[
-      msg.reply_to_message ? msg.reply_to_message.from.username : undefined
+      replay ? undefined : msg.reply_to_message ? msg.reply_to_message.from.username : undefined
     ] = { select: undefined };
 
     const player1Name = Object.keys(player1)[0];
@@ -69,7 +71,6 @@ function cuefaGame(msg = null, query = null) {
         { reply_markup: cuefaKeyboard }
       )
       .then((msg) => {
-        //console.log(msg.message_id);
         cuefaColl[msg.message_id] = {};
         cuefaColl[msg.message_id].steps = {
           player1Step: false,
@@ -77,8 +78,6 @@ function cuefaGame(msg = null, query = null) {
         };
         cuefaColl[msg.message_id]["player1"] = player1;
         cuefaColl[msg.message_id]["player2"] = player2;
-
-        //console.log(cuefaColl[msg.message_id]);
         cuefaPlayers[msg.message_id] = [
           Object.keys(cuefaColl[msg.message_id].player1)[0],
           Object.keys(cuefaColl[msg.message_id].player2)[0],
@@ -351,6 +350,10 @@ bot.on("callback_query", (query) => {
 
   if (query.data == "rock" || query.data == "nosh" || query.data == "paper") {
     cuefaGame(null, query);
+  }
+
+  if (query.data == "cuefaReplay") {
+    cuefaGame(null, query, true);
   }
 });
 
