@@ -51,7 +51,7 @@ function cuefaGame(msg = null, query = null, replay = false) {
       chat_id: query.message.chat.id,
       message_id: query.message.message_id,
       reply_markup: {
-        remove_keyboard: true,
+        inline_keyboard: [],
       }
     });
   }
