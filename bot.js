@@ -47,6 +47,7 @@ bot.onText(/\/cuefa/, (msg) => {
 
 function cuefaGame(msg = null, query = null, replay = false) {
   if (replay) {
+    console.log(query.message.message_id);
     bot.editMessageReplyMarkup({
       chat_id: query.message.chat.id,
       message_id: query.message.message_id,
@@ -370,6 +371,7 @@ bot.on("callback_query", (query) => {
   }
 
   if (query.data == "cuefaReplay") {
+    console.log(query.message.message_id);
     cuefaGame(null, query, true);
   }
 });
