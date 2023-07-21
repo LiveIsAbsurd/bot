@@ -56,6 +56,7 @@ function cuefaGame(msg = null, query = null, replay = false) {
     player2[
       replay ? undefined : msg.reply_to_message ? msg.reply_to_message.from.username : undefined
     ] = { select: undefined };
+    console.log(player1, player2);
 
     const player1Name = Object.keys(player1)[0];
     const player2Name =
@@ -354,6 +355,7 @@ bot.on("callback_query", (query) => {
 
   if (query.data == "cuefaReplay") {
     cuefaGame(null, query, true);
+    console.log("Реплей");
   }
 });
 
