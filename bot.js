@@ -228,12 +228,12 @@ function cuefaGame(msg = null, query = null) {
           message_id: query.message.message_id,
         }
       ).then(() => {
-        Console.log(cuefaColl);
-        Console.log(cuefaPlayers);
+        console.log(cuefaColl);
+        console.log(cuefaPlayers);
         delete cuefaColl[query.message.message_id];
         delete cuefaPlayers[query.message.message_id];
-        Console.log(cuefaColl);
-        Console.log(cuefaPlayers);
+        console.log(cuefaColl);
+        console.log(cuefaPlayers);
       })
     }
   }
