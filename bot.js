@@ -55,9 +55,13 @@ function cuefaGame(msg = null, query = null, replay = false) {
     console.log(player1);
 
     const player2 = {};
-    player2[
-      replay ? undefined : msg.reply_to_message ? msg.reply_to_message.from.username : undefined
-    ] = { select: undefined };
+    if (replay) {
+      player2["undefined"] = { select: undefined }
+    } else {
+      player2[
+        msg.reply_to_message ? msg.reply_to_message.from.username : undefined
+      ] = { select: undefined };
+    }
 
     const player1Name = Object.keys(player1)[0];
     const player2Name =
