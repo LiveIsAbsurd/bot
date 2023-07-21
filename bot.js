@@ -246,7 +246,7 @@ bot.on("inline_query", (query) => {
       }
     ];
 
-    bot.answerInlineQuery(query.id, result).then(response => {
+    bot.answerInlineQuery(query.id, {}, result).then(response => {
       console.log(response)
     })
   }
