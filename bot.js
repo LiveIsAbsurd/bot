@@ -231,8 +231,8 @@ ${winner}`,
 
 bot.on("inline_query", (query) => {
   console.log(query);
-  console.log(query.data == "/start");
-  if (query.data == "/start") {
+  console.log(query.query == "/start");
+  if (query.query == "/start") {
     const result = [
       {
         id: "1",
