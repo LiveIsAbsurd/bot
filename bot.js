@@ -41,22 +41,12 @@ const cuefaKeyboard = {
 
 bot.onText(/\/cuefa/, (msg) => {
   if (msg.chat.id == "-1001807749316") {
+    bot.deleteMessage(msg.chat.id, msg.message_id);
     cuefaGame(msg);
   }
 });
 
 function cuefaGame(msg = null, query = null, replay = false) {
-  if (replay) {
-    console.log(query.message.message_id);
-    bot.editMessageReplyMarkup({
-      chat_id: query.message.chat.id,
-      message_id: query.message.message_id,
-      reply_markup: {
-        inline_keyboard: [[]],
-      }
-    });
-  }
-
   if (msg || replay) {
     const player1 = {};
     player1[
@@ -237,7 +227,7 @@ ${winner}`,
           chat_id: query.message.chat.id,
           message_id: query.message.message_id,
           reply_markup: {
-            inline_keyboard: [[{ text: "Повторить", callback_data: "cuefaReplay" }]]
+            inline_keyboard: [[{ text: "Повторить 🔄", callback_data: "cuefaReplay" }]]
           }
         }
       ).then(() => {
@@ -371,7 +361,6 @@ bot.on("callback_query", (query) => {
   }
 
   if (query.data == "cuefaReplay") {
-    console.log(query.message.message_id);
     cuefaGame(null, query, true);
   }
 });
