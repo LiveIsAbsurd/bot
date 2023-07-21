@@ -219,6 +219,9 @@ ${winner}`,
         {
           chat_id: query.message.chat.id,
           message_id: query.message.message_id,
+          reply_markup: {
+            inline_keyboard: [[{ text: "Повторить", callback_data: "cuefaReplay" }]]
+          }
         }
       ).then(() => {
         delete cuefaColl[query.message.message_id];
