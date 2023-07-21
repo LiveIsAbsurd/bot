@@ -18,6 +18,10 @@ function hiText(username) {
   return text;
 }
 
+let test = {};
+
+fs.writeFile("../cuefaStats.json", JSON.stringify(test), "UTF-8");
+
 const bot = new TelegramBot(token, { polling: { interval: 1000 } });
 
 //камень, ножницы, бумага________________________________________________
@@ -218,6 +222,8 @@ function cuefaGame(msg = null, query = null, replay = false) {
       if (step1 == step2) {
         winner = `Ничья 🤝`
       }
+
+
 
       bot.editMessageText(
         `Камень, ножницы, бумага
