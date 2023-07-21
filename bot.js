@@ -227,13 +227,14 @@ function cuefaGame(msg = null, query = null) {
           chat_id: query.message.chat.id,
           message_id: query.message.message_id,
         }
-      );
-      Console.log(cuefaColl);
-      Console.log(cuefaPlayers);
-      delete cuefaColl[query.message.message_id];
-      delete cuefaPlayers[query.message.message_id];
-      Console.log(cuefaColl);
-      Console.log(cuefaPlayers);
+      ).then(() => {
+        Console.log(cuefaColl);
+        Console.log(cuefaPlayers);
+        delete cuefaColl[query.message.message_id];
+        delete cuefaPlayers[query.message.message_id];
+        Console.log(cuefaColl);
+        Console.log(cuefaPlayers);
+      })
     }
   }
 }
