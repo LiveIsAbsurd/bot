@@ -5,6 +5,7 @@ const axios = require("axios");
 const fs = require("fs");
 
 const { json } = require("body-parser");
+const { Console } = require("console");
 
 function hiText(username) {
   let text = `
@@ -227,6 +228,12 @@ function cuefaGame(msg = null, query = null) {
           message_id: query.message.message_id,
         }
       );
+      Console.log(cuefaColl);
+      Console.log(cuefaPlayers);
+      delete cuefaColl[query.message.message_id];
+      delete cuefaPlayers[query.message.message_id];
+      Console.log(cuefaColl);
+      Console.log(cuefaPlayers);
     }
   }
 }
