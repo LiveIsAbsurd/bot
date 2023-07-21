@@ -20,7 +20,7 @@ function hiText(username) {
 const bot = new TelegramBot(token, { polling: { interval: 1000 } });
 
 //камень, ножницы, бумага________________________________________________
-let cuefaPlayers = [];
+let cuefaPlayers = {};
 let cuefaColl = {};
 let cuefaToEmoji = {
   rock: "🤜",
@@ -77,7 +77,7 @@ function cuefaGame(msg = null, query = null) {
         cuefaColl[msg.message_id]["player2"] = player2;
 
         //console.log(cuefaColl[msg.message_id]);
-        cuefaPlayers = [
+        cuefaPlayers[msg.message_id] = [
           Object.keys(cuefaColl[msg.message_id].player1)[0],
           Object.keys(cuefaColl[msg.message_id].player2)[0],
         ];
@@ -89,14 +89,14 @@ function cuefaGame(msg = null, query = null) {
     }
 
     const player2Name =
-      cuefaPlayers[1] != "undefined"
-        ? `@${cuefaPlayers[1]}`
+      cuefaPlayers[query.message.message_id][1] != "undefined"
+        ? `@${cuefaPlayers[query.message.message_id][1]}`
         : "(Ожидание игрока...)";
 
-    if (cuefaPlayers[0] == query.from.username) {
+    if (cuefaPlayers[query.message.message_id][0] == query.from.username) {
       if (
         !cuefaColl[query.message.message_id].steps.player1Step &&
-        cuefaPlayers.includes(query.from.username)
+        cuefaPlayers[query.message.message_id].includes(query.from.username)
       ) {
         cuefaColl[query.message.message_id].player1[
           query.from.username
@@ -106,7 +106,7 @@ function cuefaGame(msg = null, query = null) {
         if (!cuefaColl[query.message.message_id].steps.player2Step) {
           bot.editMessageText(
             `Камень, ножницы, бумага
-@${cuefaPlayers[0]} 👍 🆚 ${player2Name}`,
+@${cuefaPlayers[query.message.message_id][0]} 👍 🆚 ${player2Name}`,
             {
               chat_id: query.message.chat.id,
               message_id: query.message.message_id,
@@ -119,17 +119,17 @@ function cuefaGame(msg = null, query = null) {
           text: "Ты уже сделал ход, жди ход соперника!",
         });
       } //если у первого игрока не было хода, то записываю ход
-    } else if (cuefaPlayers[1] == "undefined") {
+    } else if (cuefaPlayers[query.message.message_id][1] == "undefined") {
       const newPlayer = {};
       newPlayer[query.from.username] = { select: cuefaToEmoji[query.data] };
       cuefaColl[query.message.message_id].player2 = newPlayer;
       cuefaColl[query.message.message_id].steps.player2Step = true;
-      cuefaPlayers[1] = query.from.username;
+      cuefaPlayers[query.message.message_id][1] = query.from.username;
 
       if (!cuefaColl[query.message.message_id].steps.player1Step) {
         bot.editMessageText(
           `Камень, ножницы, бумага
-@${cuefaPlayers[0]} 🆚 👍 @${cuefaPlayers[1]}`,
+@${cuefaPlayers[query.message.message_id][0]} 🆚 👍 @${cuefaPlayers[query.message.message_id][1]}`,
           {
             chat_id: query.message.chat.id,
             message_id: query.message.message_id,
@@ -137,7 +137,7 @@ function cuefaGame(msg = null, query = null) {
           }
         );
       }
-    } else if (cuefaPlayers[1] == query.from.username) {
+    } else if (cuefaPlayers[query.message.message_id][1] == query.from.username) {
       if (!cuefaColl[query.message.message_id].steps.player2Step) {
         cuefaColl[query.message.message_id].player2[
           query.from.username
@@ -147,7 +147,7 @@ function cuefaGame(msg = null, query = null) {
         if (!cuefaColl[query.message.message_id].steps.player1Step) {
           bot.editMessageText(
             `Камень, ножницы, бумага
-@${cuefaPlayers[0]} 🆚 👍 ${player2Name}`,
+@${cuefaPlayers[query.message.message_id][0]} 🆚 👍 ${player2Name}`,
             {
               chat_id: query.message.chat.id,
               message_id: query.message.message_id,
@@ -171,39 +171,39 @@ function cuefaGame(msg = null, query = null) {
       cuefaColl[query.message.message_id].steps.player2Step
     ) {
       const step1 =
-        cuefaColl[query.message.message_id].player1[cuefaPlayers[0]].select;
+        cuefaColl[query.message.message_id].player1[cuefaPlayers[query.message.message_id][0]].select;
       const step2 =
-        cuefaColl[query.message.message_id].player2[cuefaPlayers[1]].select;
+        cuefaColl[query.message.message_id].player2[cuefaPlayers[query.message.message_id][1]].select;
       let winner;
 
       if (step1 == "🤜" && step2 == "✌️") {
-        winner = cuefaPlayers[0];
+        winner = cuefaPlayers[query.message.message_id][0];
       }
 
       if (step1 == "🤜" && step2 == "✋") {
-        winner = cuefaPlayers[1];
+        winner = cuefaPlayers[query.message.message_id][1];
       }
 
       if (step1 == "✌️" && step2 == "✋") {
-        winner = cuefaPlayers[0];
+        winner = cuefaPlayers[query.message.message_id][0];
       }
 
       if (step1 == "✌️" && step2 == "🤜") {
-        winner = cuefaPlayers[1];
+        winner = cuefaPlayers[query.message.message_id][1];
       }
 
       if (step1 == "✋" && step2 == "✌️") {
-        winner = cuefaPlayers[1];
+        winner = cuefaPlayers[query.message.message_id][1];
       }
 
       if (step1 == "✋" && step2 == "🤜") {
-        winner = cuefaPlayers[0];
+        winner = cuefaPlayers[query.message.message_id][0];
       }
 
       if (step1 == step2) {
         bot.editMessageText(
           `Камень, ножницы, бумага
-@${cuefaPlayers[0]} ${step1} - ${step2} @${cuefaPlayers[1]}
+@${cuefaPlayers[query.message.message_id][0]} ${step1} - ${step2} @${cuefaPlayers[query.message.message_id][1]}
 Ничья! 🤝`,
           {
             chat_id: query.message.chat.id,
@@ -214,7 +214,7 @@ function cuefaGame(msg = null, query = null) {
 
       bot.editMessageText(
         `Камень, ножницы, бумага
-@${cuefaPlayers[0]} ${step1} 🆚 ${step2} @${cuefaPlayers[1]}
+@${cuefaPlayers[query.message.message_id][0]} ${step1} 🆚 ${step2} @${cuefaPlayers[query.message.message_id][1]}
 Победил @${winner} 🏆`,
         {
           chat_id: query.message.chat.id,
