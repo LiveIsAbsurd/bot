@@ -84,7 +84,13 @@ function cuefaGame(msg = null, query = null) {
       });
   } else if (query) {
     if (!cuefaColl[query.message.message_id]) {
-      bot.answerCallbackQuery(query.id, { text: "Время вышло!" });
+      bot.editMessageText(
+        "Время вышло!",
+        {
+          chat_id: query.message.chat.id,
+          message_id:query.message.message_id
+        }
+      );
       return;
     }
 
