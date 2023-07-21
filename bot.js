@@ -67,14 +67,12 @@ function cuefaGame(msg = null, query = null, replay = false) {
       Object.keys(player2)[0] != "undefined"
         ? `@${Object.keys(player2)[0]}`
         : "(Ожидание игрока...)";
-    if (replay) {
-      console.log(player1Name);
-      console.log(player2Name);
-    }
+    
+    chatId = replay ? query.message.chat.id : msg.chat.id;
 
     bot
       .sendMessage(
-        msg.chat.id,
+        chatId,
         `Камень, ножницы, бумага
 @${player1Name} 🆚 ${player2Name}`,
         { reply_markup: cuefaKeyboard }
