@@ -21,6 +21,7 @@ function hiText(username) {
 const bot = new TelegramBot(token, { polling: { interval: 1000 } });
 
 //камень, ножницы, бумага________________________________________________
+let cuefaStats = {};
 let cuefaPlayers = {};
 let cuefaColl = {};
 let cuefaToEmoji = {
@@ -169,7 +170,7 @@ function cuefaGame(msg = null, query = null) {
       }
     } else {
       bot.answerCallbackQuery(query.id, {
-        text: "Эта сессия не ждя тебя :( Создай новую!",
+        text: "Эта сессия не для тебя :( Создай новую!",
       });
     }
 
@@ -230,8 +231,8 @@ ${winner}`,
 //__________________________________________________
 
 bot.on("inline_query", (query) => {
-  console.log(query);
-  console.log(query.query == "/start");
+  //console.log(query);
+  //console.log(query.query == "/start");
   if (query.query == "/start") {
     const result = [
       {
@@ -246,9 +247,7 @@ bot.on("inline_query", (query) => {
       }
     ];
 
-    bot.answerInlineQuery(query.id, result).then(response => {
-      console.log(response)
-    })
+    bot.answerInlineQuery(query.id, result);
   }
 });
 
