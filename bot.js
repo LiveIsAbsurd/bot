@@ -46,6 +46,16 @@ bot.onText(/\/cuefa/, (msg) => {
 });
 
 function cuefaGame(msg = null, query = null, replay = false) {
+  if (replay) {
+    bot.editMessageReplyMarkup({
+      chat_id: query.message.chat.id,
+      message_id: query.message.message_id,
+      reply_markup: {
+        remove_keyboard: true,
+      }
+    });
+  }
+
   if (msg || replay) {
     const player1 = {};
     player1[
