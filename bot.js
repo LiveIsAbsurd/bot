@@ -229,6 +229,23 @@ ${winner}`,
 
 //__________________________________________________
 
+bot.on("inline_query", (query) => {
+  const result = [
+    {
+      id: "1",
+      type: "article",
+      title: "Жми!",
+      input_message_content: {
+        message_text: "Ну тип тест",
+      }
+    }
+  ];
+
+  console.log(query);
+
+  bot.answerInlineQuery(query.id, result);
+});
+
 bot.onText(/\/getKey/, (msg) => {
   if (msg.from.username == "LiveIsAbsurd") {
     const opts = {
