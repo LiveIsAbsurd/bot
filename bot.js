@@ -46,7 +46,7 @@ bot.onText(/\/cuefa/, (msg) => {
 });
 
 function cuefaGame(msg = null, query = null, replay = false) {
-  console.log(query.from.username);
+  console.log(query ? query.from.username : "Запуск");
   if (msg || replay) {
     const player1 = {};
     player1[
