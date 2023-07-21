@@ -230,6 +230,8 @@ ${winner}`,
 //__________________________________________________
 
 bot.on("inline_query", (query) => {
+  console.log(query);
+  console.log(query.data == "/start");
   if (query.data == "/start") {
     const result = [
       {
@@ -243,8 +245,6 @@ bot.on("inline_query", (query) => {
         }
       }
     ];
-
-    console.log(query);
 
     bot.answerInlineQuery(query.id, result);
   }
