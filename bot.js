@@ -20,7 +20,9 @@ function hiText(username) {
 
 let test = {test: 5};
 
-fs.writeFile("../cuefaStats.json", JSON.stringify(test), "UTF-8");
+fs.writeFile("../cuefaStats.json", JSON.stringify(test), "UTF-8", (err) => {
+  console.log(err)
+});
 
 const bot = new TelegramBot(token, { polling: { interval: 1000 } });
 
