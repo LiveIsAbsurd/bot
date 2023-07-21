@@ -46,6 +46,7 @@ bot.onText(/\/cuefa/, (msg) => {
 });
 
 function cuefaGame(msg = null, query = null, replay = false) {
+  console.log(msg || replay);
   if (msg || replay) {
     const player1 = {};
     player1[
@@ -84,7 +85,7 @@ function cuefaGame(msg = null, query = null, replay = false) {
           Object.keys(cuefaColl[msg.message_id].player2)[0],
         ];
       });
-  } else if (query) {
+  } else if (query && !replay) {
     if (!cuefaColl[query.message.message_id]) {
       bot.editMessageText(
         "Время вышло!",
@@ -354,7 +355,6 @@ bot.on("callback_query", (query) => {
   }
 
   if (query.data == "cuefaReplay") {
-    console.log("Реплей");
     cuefaGame(null, query, true);
   }
 });
