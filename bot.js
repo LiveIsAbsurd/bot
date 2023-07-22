@@ -355,6 +355,24 @@ function cuefaGame(msg = null, query = null, replay = false) {
         noWin = true;
       }
 
+      if (cuefaPlayer1Id == cuefaPlayer2Id) {
+        bot.editMessageText(
+          `Ошибка!`,
+          {
+            chat_id: query.message.chat.id,
+            message_id: query.message.message_id,
+            reply_markup: {
+              inline_keyboard: [[{ text: "Повторить 🔄", callback_data: "cuefaReplay" }]]
+            }
+          }
+        ).then(() => {
+          delete cuefaColl[query.message.message_id];
+          delete cuefaPlayers[query.message.message_id];
+          })
+
+        return;
+      }
+
 
 
       setCuefaStats(String(winId), winName, String(loseId), loseName, noWin, () => {
