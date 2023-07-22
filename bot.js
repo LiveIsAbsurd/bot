@@ -528,6 +528,9 @@ bot.on("callback_query", (query) => {
 
   if (query.data == "cuefaReplay") {
     cuefaGame(null, query, true);
+    bot.answerCallbackQuery(query.id, {
+      text: "Перезапуск 🔄",
+    });
   }
 });
 
