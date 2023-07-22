@@ -21,8 +21,8 @@ function hiText(username) {
 const bot = new TelegramBot(token, { polling: { interval: 1000 } });
 
 //камень, ножницы, бумага________________________________________________
-let cuefaPlayer1Id;
-let cuefaPlayer2Id;
+let cuefaPlayer1Id = {};
+let cuefaPlayer2Id = {};
 let cuefaPlayers = {};
 let cuefaColl = {};
 let cuefaToEmoji = {
@@ -215,7 +215,7 @@ function cuefaGame(msg = null, query = null, replay = false) {
           query.from.username
         ].select = cuefaToEmoji[query.data];
         cuefaColl[query.message.message_id].steps.player1Step = true;
-        cuefaPlayer1Id = query.from.id;
+        cuefaPlayer1Id[query.message.message_id] = query.from.id;
 
         if (!cuefaColl[query.message.message_id].steps.player2Step) {
           bot.editMessageText(
@@ -239,7 +239,7 @@ function cuefaGame(msg = null, query = null, replay = false) {
       cuefaColl[query.message.message_id].player2 = newPlayer;
       cuefaColl[query.message.message_id].steps.player2Step = true;
       cuefaPlayers[query.message.message_id][1] = query.from.username;
-      cuefaPlayer2Id = query.from.id;
+      cuefaPlayer2Id[query.message.message_id] = query.from.id;
 
       if (!cuefaColl[query.message.message_id].steps.player1Step) {
         bot.editMessageText(
@@ -258,7 +258,7 @@ function cuefaGame(msg = null, query = null, replay = false) {
           query.from.username
         ].select = cuefaToEmoji[query.data];
         cuefaColl[query.message.message_id].steps.player2Step = true;
-        cuefaPlayer2Id = query.from.id;
+        cuefaPlayer2Id[query.message.message_id] = query.from.id;
 
         if (!cuefaColl[query.message.message_id].steps.player1Step) {
           bot.editMessageText(
@@ -301,61 +301,61 @@ function cuefaGame(msg = null, query = null, replay = false) {
       if (step1 == "🤜" && step2 == "✌️") {
         winner = `Победитель - @${cuefaPlayers[query.message.message_id][0]} 🏆`;
         winName = cuefaPlayers[query.message.message_id][0];
-        winId = cuefaPlayer1Id;
+        winId = cuefaPlayer1Id[query.message.message_id];
         loseName = cuefaPlayers[query.message.message_id][1];
-        loseId = cuefaPlayer2Id;
+        loseId = cuefaPlayer2Id[query.message.message_id];
       }
 
       if (step1 == "🤜" && step2 == "✋") {
         winner = `Победитель - @${cuefaPlayers[query.message.message_id][1]} 🏆`;
         winName = cuefaPlayers[query.message.message_id][1];
-        winId = cuefaPlayer2Id;
+        winId = cuefaPlayer2Id[query.message.message_id];
         loseName = cuefaPlayers[query.message.message_id][0];
-        loseId = cuefaPlayer1Id;
+        loseId = cuefaPlayer1Id[query.message.message_id];
       }
 
       if (step1 == "✌️" && step2 == "✋") {
         winner = `Победитель - @${cuefaPlayers[query.message.message_id][0]} 🏆`;
         winName = cuefaPlayers[query.message.message_id][0];
-        winId = cuefaPlayer1Id;
+        winId = cuefaPlayer1Id[query.message.message_id];
         loseName = cuefaPlayers[query.message.message_id][1];
-        loseId = cuefaPlayer2Id;
+        loseId = cuefaPlayer2Id[query.message.message_id];
       }
 
       if (step1 == "✌️" && step2 == "🤜") {
         winner = `Победитель - @${cuefaPlayers[query.message.message_id][1]} 🏆`;
         winName = cuefaPlayers[query.message.message_id][1];
-        winId = cuefaPlayer2Id;
+        winId = cuefaPlayer2Id[query.message.message_id];
         loseName = cuefaPlayers[query.message.message_id][0];
-        loseId = cuefaPlayer1Id;
+        loseId = cuefaPlayer1Id[query.message.message_id];
       }
 
       if (step1 == "✋" && step2 == "✌️") {
         winner = `Победитель - @${cuefaPlayers[query.message.message_id][1]} 🏆`;
         winName = cuefaPlayers[query.message.message_id][1];
-        winId = cuefaPlayer2Id;
+        winId = cuefaPlayer2Id[query.message.message_id];
         loseName = cuefaPlayers[query.message.message_id][0];
-        loseId = cuefaPlayer1Id;
+        loseId = cuefaPlayer1Id[query.message.message_id];
       }
 
       if (step1 == "✋" && step2 == "🤜") {
         winner = `Победитель - @${cuefaPlayers[query.message.message_id][0]} 🏆`;
         winName = cuefaPlayers[query.message.message_id][0];
-        winId = cuefaPlayer1Id;
+        winId = cuefaPlayer1Id[query.message.message_id];
         loseName = cuefaPlayers[query.message.message_id][1];
-        loseId = cuefaPlayer2Id;
+        loseId = cuefaPlayer2Id[query.message.message_id];
       }
 
       if (step1 == step2) {
         winner = `Ничья 🤝`
         winName = cuefaPlayers[query.message.message_id][0];
-        winId = cuefaPlayer1Id;
+        winId = cuefaPlayer1Id[query.message.message_id];
         loseName = cuefaPlayers[query.message.message_id][1];
-        loseId = cuefaPlayer2Id;
+        loseId = cuefaPlayer2Id[query.message.message_id];
         noWin = true;
       }
 
-      if (cuefaPlayer1Id == cuefaPlayer2Id) {
+      if (cuefaPlayer1Id[query.message.message_id] == cuefaPlayer2Id[query.message.message_id]) {
         bot.editMessageText(
           `Ошибка!`,
           {
@@ -373,8 +373,6 @@ function cuefaGame(msg = null, query = null, replay = false) {
         return;
       }
 
-
-
       setCuefaStats(String(winId), winName, String(loseId), loseName, noWin, () => {
         fs.readFile("../cuefaStats.json", "UTF-8", (err, data) => {
           let stats = JSON.parse(data);
@@ -385,8 +383,8 @@ function cuefaGame(msg = null, query = null, replay = false) {
 
 ${winner}
 
-@${stats[String(cuefaPlayer1Id)].name}: ${stats[String(cuefaPlayer1Id)].vs[String(cuefaPlayer2Id)][0]}
-@${stats[String(cuefaPlayer2Id)].name}: ${stats[String(cuefaPlayer2Id)].vs[String(cuefaPlayer1Id)][0]}`,
+@${stats[String(cuefaPlayer1Id[query.message.message_id])].name}: ${stats[String(cuefaPlayer1Id[query.message.message_id])].vs[String(cuefaPlayer2Id[query.message.message_id])][0]}
+@${stats[String(cuefaPlayer2Id[query.message.message_id])].name}: ${stats[String(cuefaPlayer2Id[query.message.message_id])].vs[String(cuefaPlayer1Id[query.message.message_id])][0]}`,
             {
               chat_id: query.message.chat.id,
               message_id: query.message.message_id,
