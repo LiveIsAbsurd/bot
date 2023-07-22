@@ -27,7 +27,8 @@ fs.writeFile("../cuefaStats.json", JSON.stringify(test), "UTF-8", (err) => {
 const bot = new TelegramBot(token, { polling: { interval: 1000 } });
 
 //камень, ножницы, бумага________________________________________________
-let cuefaStats = {};
+let cuefaPlayer1Id;
+let cuefaPlayer2Id;
 let cuefaPlayers = {};
 let cuefaColl = {};
 let cuefaToEmoji = {
@@ -52,13 +53,110 @@ bot.onText(/\/cuefa/, (msg) => {
   }
 });
 
+function setCuefaStats(winer, winerName, loser, loserName, noWin = false, getCuefaStats) {
+  fs.readFile("../cuefaStats.json", "UTF-8", (err, data) => {
+    let stats = JSON.parse(data);
+
+    if (!Object.keys(stats).includes(winer)) {
+        if (!noWin) {
+            stats[winer] = {
+                total: 1,
+                win: 1,
+                lose: 0,
+                vs: {},
+            }
+
+            stats[winer].name = winerName;
+            stats[winer].vs[loser] = [1, 0, 0];
+        } else {
+            stats[winer] = {
+                total: 1,
+                win: 0,
+                lose: 0,
+                vs: {},
+            }
+
+            stats[winer].name = winerName;
+            stats[winer].vs[loser] = [0, 0, 1];
+        }
+    } else {
+        stats[winer].total += 1;
+
+        if (!noWin) {
+            stats[winer].win += 1;
+
+            if(!Object.keys(stats[winer].vs).includes(loser)) {
+                stats[winer].vs[loser] = [1, 0, 0]
+            } else {
+                stats[winer].vs[loser][0] += 1;
+            }
+        } else {
+            if(!Object.keys(stats[winer].vs).includes(loser)) {
+                stats[winer].vs[loser] = [0, 0, 1]
+            } else {
+                stats[winer].vs[loser][2] += 1;
+            }
+        }
+    }
+
+    if (!Object.keys(stats).includes(loser)) {
+        if (!noWin) {
+            stats[loser] = {
+                total: 1,
+                win: 0,
+                lose: 1,
+                vs: {},
+            }
+
+            stats[loser].name = loserName;
+            stats[loser].vs[winer] = [0, 1, 0];
+        } else {
+            stats[loser] = {
+                total: 1,
+                win: 0,
+                lose: 0,
+                vs: {},
+            }
+
+            stats[loser].name = loserName;
+            stats[loser].vs[winer] = [0, 0, 1];
+        }
+    } else {
+        stats[loser].total += 1;
+
+        if (!noWin) {
+            stats[loser].lose += 1;
+
+            if(!Object.keys(stats[loser].vs).includes(winer)) {
+                stats[loser].vs[winer] = [0, 1, 0]
+            } else {
+                stats[loser].vs[winer][1] += 1;
+            }
+        } else {
+            if(!Object.keys(stats[loser].vs).includes(winer)) {
+                stats[loser].vs[winer] = [0, 0, 1]
+            } else {
+                stats[loser].vs[winer][2] += 1;
+            }
+        }
+    }
+
+    fs.writeFile("../cuefaStats.json", JSON.stringify(stats), "UTF-8", (err) => {
+      if (err) {
+        console.log(err);
+      }
+
+      getCuefaStats();
+    });
+  })
+}
+
 function cuefaGame(msg = null, query = null, replay = false) {
   if (msg || replay) {
     const player1 = {};
     player1[
       replay ? query.from.username : msg.from.username
     ] = { select: undefined };
-    // console.log(player1);
 
     const player2 = {};
     if (replay) {
@@ -123,6 +221,7 @@ function cuefaGame(msg = null, query = null, replay = false) {
           query.from.username
         ].select = cuefaToEmoji[query.data];
         cuefaColl[query.message.message_id].steps.player1Step = true;
+        cuefaPlayer1Id = query.from.id;
 
         if (!cuefaColl[query.message.message_id].steps.player2Step) {
           bot.editMessageText(
@@ -146,6 +245,7 @@ function cuefaGame(msg = null, query = null, replay = false) {
       cuefaColl[query.message.message_id].player2 = newPlayer;
       cuefaColl[query.message.message_id].steps.player2Step = true;
       cuefaPlayers[query.message.message_id][1] = query.from.username;
+      cuefaPlayer2Id = query.from.id;
 
       if (!cuefaColl[query.message.message_id].steps.player1Step) {
         bot.editMessageText(
@@ -164,6 +264,7 @@ function cuefaGame(msg = null, query = null, replay = false) {
           query.from.username
         ].select = cuefaToEmoji[query.data];
         cuefaColl[query.message.message_id].steps.player2Step = true;
+        cuefaPlayer2Id = query.from.id;
 
         if (!cuefaColl[query.message.message_id].steps.player1Step) {
           bot.editMessageText(
@@ -197,51 +298,95 @@ function cuefaGame(msg = null, query = null, replay = false) {
         cuefaColl[query.message.message_id].player2[cuefaPlayers[query.message.message_id][1]].select;
       let winner;
 
+      let winName;
+      let winId;
+      let loseName;
+      let loseId;
+      let noWin = false;
+
       if (step1 == "🤜" && step2 == "✌️") {
         winner = `Победитель - @${cuefaPlayers[query.message.message_id][0]} 🏆`;
+        winName = cuefaPlayers[query.message.message_id][0];
+        winId = cuefaPlayer1Id;
+        loseName = cuefaPlayers[query.message.message_id][1];
+        loseId = cuefaPlayer2Id;
       }
 
       if (step1 == "🤜" && step2 == "✋") {
         winner = `Победитель - @${cuefaPlayers[query.message.message_id][1]} 🏆`;
+        winName = cuefaPlayers[query.message.message_id][1];
+        winId = cuefaPlayer2Id;
+        loseName = cuefaPlayers[query.message.message_id][0];
+        loseId = cuefaPlayer1Id;
       }
 
       if (step1 == "✌️" && step2 == "✋") {
         winner = `Победитель - @${cuefaPlayers[query.message.message_id][0]} 🏆`;
+        winName = cuefaPlayers[query.message.message_id][0];
+        winId = cuefaPlayer1Id;
+        loseName = cuefaPlayers[query.message.message_id][1];
+        loseId = cuefaPlayer2Id;
       }
 
       if (step1 == "✌️" && step2 == "🤜") {
         winner = `Победитель - @${cuefaPlayers[query.message.message_id][1]} 🏆`;
+        winName = cuefaPlayers[query.message.message_id][1];
+        winId = cuefaPlayer2Id;
+        loseName = cuefaPlayers[query.message.message_id][0];
+        loseId = cuefaPlayer1Id;
       }
 
       if (step1 == "✋" && step2 == "✌️") {
         winner = `Победитель - @${cuefaPlayers[query.message.message_id][1]} 🏆`;
+        winName = cuefaPlayers[query.message.message_id][1];
+        winId = cuefaPlayer2Id;
+        loseName = cuefaPlayers[query.message.message_id][0];
+        loseId = cuefaPlayer1Id;
       }
 
       if (step1 == "✋" && step2 == "🤜") {
         winner = `Победитель - @${cuefaPlayers[query.message.message_id][0]} 🏆`;
+        winName = cuefaPlayers[query.message.message_id][0];
+        winId = cuefaPlayer1Id;
+        loseName = cuefaPlayers[query.message.message_id][1];
+        loseId = cuefaPlayer2Id;
       }
 
       if (step1 == step2) {
         winner = `Ничья 🤝`
+        winName = cuefaPlayers[query.message.message_id][0];
+        winId = cuefaPlayer1Id;
+        loseName = cuefaPlayers[query.message.message_id][1];
+        loseId = cuefaPlayer2Id;
+        noWin = true;
       }
 
 
 
-      bot.editMessageText(
-        `Камень, ножницы, бумага
+      setCuefaStats(String(winId), winName, String(loseId), loseName, noWin, () => {
+        fs.readFile("../cuefaStats.json", "UTF-8", (err, data) => {
+          let stats = JSON.parse(data);
+
+          bot.editMessageText(
+            `Камень, ножницы, бумага
 @${cuefaPlayers[query.message.message_id][0]} ${step1} 🆚 ${step2} @${cuefaPlayers[query.message.message_id][1]}
-${winner}`,
-        {
-          chat_id: query.message.chat.id,
-          message_id: query.message.message_id,
-          reply_markup: {
-            inline_keyboard: [[{ text: "Повторить 🔄", callback_data: "cuefaReplay" }]]
-          }
-        }
-      ).then(() => {
-        delete cuefaColl[query.message.message_id];
-        delete cuefaPlayers[query.message.message_id];
-      })
+
+${winner}
+
+@${stats[String(cuefaPlayer1Id)].name} ${stats[String(cuefaPlayer1Id)].vs[String(cuefaPlayer2Id)][0]} - ${stats[String(cuefaPlayer2Id)].vs[String(cuefaPlayer1Id)][0]} @${stats[String(cuefaPlayer2Id)].name}`,
+            {
+              chat_id: query.message.chat.id,
+              message_id: query.message.message_id,
+              reply_markup: {
+                inline_keyboard: [[{ text: "Повторить 🔄", callback_data: "cuefaReplay" }]]
+              }
+            }
+          ).then(() => {
+            delete cuefaColl[query.message.message_id];
+            delete cuefaPlayers[query.message.message_id];
+            })
+        });
+      });
     }
   }
 }
