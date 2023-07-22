@@ -373,7 +373,8 @@ function cuefaGame(msg = null, query = null, replay = false) {
 
 ${winner}
 
-@${stats[String(cuefaPlayer1Id)].name} ${stats[String(cuefaPlayer1Id)].vs[String(cuefaPlayer2Id)][0]} - ${stats[String(cuefaPlayer2Id)].vs[String(cuefaPlayer1Id)][0]} @${stats[String(cuefaPlayer2Id)].name}`,
+@${stats[String(cuefaPlayer1Id)].name}: ${stats[String(cuefaPlayer1Id)].vs[String(cuefaPlayer2Id)][0]}
+@${stats[String(cuefaPlayer2Id)].name}: ${stats[String(cuefaPlayer2Id)].vs[String(cuefaPlayer1Id)][0]}`,
             {
               chat_id: query.message.chat.id,
               message_id: query.message.message_id,
