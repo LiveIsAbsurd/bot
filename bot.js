@@ -42,7 +42,7 @@ const cuefaKeyboard = {
 
 bot.onText(/\/cuefa/, (msg) => {
   if (msg.chat.id == "-1001807749316") {
-    if (query.from.username) {
+    if (msg.from.username) {
       bot.deleteMessage(msg.chat.id, msg.message_id);
       cuefaGame(msg);
     } else {
@@ -52,7 +52,7 @@ bot.onText(/\/cuefa/, (msg) => {
       )
     }
   }
-});
+});//
 
 function setCuefaStats(winer, winerName, loser, loserName, noWin = false, getCuefaStats) {
   fs.readFile("../cuefaStats.json", "UTF-8", (err, data) => {
