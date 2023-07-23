@@ -405,11 +405,13 @@ ${winner}
               }
             }
           ).then(() => {
+            console.log(cuefaColl)
             setTimeout(() => {
               delete cuefaColl[query.message.message_id];
               delete cuefaPlayers[query.message.message_id];
               delete cuefaPlayer1Id[query.message.message_id];
               delete cuefaPlayer2Id[query.message.message_id];
+              console.log(cuefaColl)
             }, 5000);
           })
         });
