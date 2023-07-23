@@ -173,6 +173,10 @@ function cuefaGame(msg = null, query = null, replay = false) {
       Object.keys(player2)[0] != "undefined"
         ? `@${Object.keys(player2)[0]}`
         : "(Ожидание игрока...)";
+
+    if (player1Name == player2Name) {
+      bot.sendMessage(msg.chat.id, "Хочешь играть с самим собой?");
+    }
     
     chatId = replay ? query.message.chat.id : msg.chat.id;
 
