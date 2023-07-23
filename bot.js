@@ -59,87 +59,97 @@ function setCuefaStats(winer, winerName, loser, loserName, noWin = false, getCue
     let stats = JSON.parse(data);
 
     if (!Object.keys(stats).includes(winer)) {
-        if (!noWin) {
-            stats[winer] = {
-                total: 1,
-                win: 1,
-                lose: 0,
-                vs: {},
-            }
+      if (!noWin) {
+          stats[winer] = {
+              total: 1,
+              win: 1,
+              lose: 0,
+              vs: {},
+          }
 
-            stats[winer].name = winerName;
-            stats[winer].vs[loser] = [1, 0, 0];
-        } else {
-            stats[winer] = {
-                total: 1,
-                win: 0,
-                lose: 0,
-                vs: {},
-            }
+          stats[winer].name = winerName;
+          stats[winer].vs[loser] = [1, 0, 0];
+      } else {
+          stats[winer] = {
+              total: 1,
+              win: 0,
+              lose: 0,
+              vs: {},
+          }
 
-            stats[winer].name = winerName;
-            stats[winer].vs[loser] = [0, 0, 1];
-        }
+          stats[winer].name = winerName;
+          stats[winer].vs[loser] = [0, 0, 1];
+      }
     } else {
-        stats[winer].total += 1;
 
-        if (!noWin) {
-            stats[winer].win += 1;
+      if (stats[winer].name != winerName) {
+        stats[winer].name = winerName;
+      }
 
-            if(!Object.keys(stats[winer].vs).includes(loser)) {
-                stats[winer].vs[loser] = [1, 0, 0]
-            } else {
-                stats[winer].vs[loser][0] += 1;
-            }
-        } else {
-            if(!Object.keys(stats[winer].vs).includes(loser)) {
-                stats[winer].vs[loser] = [0, 0, 1]
-            } else {
-                stats[winer].vs[loser][2] += 1;
-            }
-        }
+      stats[winer].total += 1;
+
+      if (!noWin) {
+          stats[winer].win += 1;
+
+          if(!Object.keys(stats[winer].vs).includes(loser)) {
+              stats[winer].vs[loser] = [1, 0, 0]
+          } else {
+              stats[winer].vs[loser][0] += 1;
+          }
+      } else {
+          if(!Object.keys(stats[winer].vs).includes(loser)) {
+              stats[winer].vs[loser] = [0, 0, 1]
+          } else {
+              stats[winer].vs[loser][2] += 1;
+          }
+      }
     }
 
     if (!Object.keys(stats).includes(loser)) {
-        if (!noWin) {
-            stats[loser] = {
-                total: 1,
-                win: 0,
-                lose: 1,
-                vs: {},
-            }
+      if (!noWin) {
+          stats[loser] = {
+              total: 1,
+              win: 0,
+              lose: 1,
+              vs: {},
+          }
 
-            stats[loser].name = loserName;
-            stats[loser].vs[winer] = [0, 1, 0];
-        } else {
-            stats[loser] = {
-                total: 1,
-                win: 0,
-                lose: 0,
-                vs: {},
-            }
+          stats[loser].name = loserName;
+          stats[loser].vs[winer] = [0, 1, 0];
+      } else {
+          stats[loser] = {
+              total: 1,
+              win: 0,
+              lose: 0,
+              vs: {},
+          }
 
-            stats[loser].name = loserName;
-            stats[loser].vs[winer] = [0, 0, 1];
-        }
+          stats[loser].name = loserName;
+          stats[loser].vs[winer] = [0, 0, 1];
+      }
     } else {
-        stats[loser].total += 1;
 
-        if (!noWin) {
-            stats[loser].lose += 1;
+      if (stats[loser].name != loserName) {
+        stats[loser].name = loserName;
+      }
 
-            if(!Object.keys(stats[loser].vs).includes(winer)) {
-                stats[loser].vs[winer] = [0, 1, 0]
-            } else {
-                stats[loser].vs[winer][1] += 1;
-            }
-        } else {
-            if(!Object.keys(stats[loser].vs).includes(winer)) {
-                stats[loser].vs[winer] = [0, 0, 1]
-            } else {
-                stats[loser].vs[winer][2] += 1;
-            }
-        }
+      stats[loser].total += 1;
+
+      if (!noWin) {
+          stats[loser].lose += 1;
+
+          if(!Object.keys(stats[loser].vs).includes(winer)) {
+              stats[loser].vs[winer] = [0, 1, 0]
+          } else {
+              stats[loser].vs[winer][1] += 1;
+          }
+      } else {
+          if(!Object.keys(stats[loser].vs).includes(winer)) {
+              stats[loser].vs[winer] = [0, 0, 1]
+          } else {
+              stats[loser].vs[winer][2] += 1;
+          }
+      }
     }
 
     fs.writeFile("../cuefaStats.json", JSON.stringify(stats), "UTF-8", (err) => {
