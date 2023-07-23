@@ -42,8 +42,15 @@ const cuefaKeyboard = {
 
 bot.onText(/\/cuefa/, (msg) => {
   if (msg.chat.id == "-1001807749316") {
-    bot.deleteMessage(msg.chat.id, msg.message_id);
-    cuefaGame(msg);
+    if (query.from.username) {
+      bot.deleteMessage(msg.chat.id, msg.message_id);
+      cuefaGame(msg);
+    } else {
+      bot.sendMessage(
+        msg.chat.id,
+        `Для игры установи (имя пользователя)`
+      )
+    }
   }
 });
 
@@ -523,14 +530,28 @@ bot.on("callback_query", (query) => {
   }
 
   if (query.data == "rock" || query.data == "nosh" || query.data == "paper") {
-    cuefaGame(null, query);
+    if (query.from.username) {
+      cuefaGame(null, query);
+    } else {
+      bot.answerCallbackQuery(query.id, {
+        text: "Для игры установи @username (имя пользователя)",
+        show_alert: true,
+      });
+    }
   }
 
   if (query.data == "cuefaReplay") {
-    cuefaGame(null, query, true);
-    bot.answerCallbackQuery(query.id, {
-      text: "Перезапуск 🔄",
-    });
+    if (query.from.username) {
+      cuefaGame(null, query, true);
+      bot.answerCallbackQuery(query.id, {
+        text: "Перезапуск 🔄",
+      });
+    } else {
+      bot.answerCallbackQuery(query.id, {
+        text: "Для игры установи @username (имя пользователя)",
+        show_alert: true,
+      });
+    }
   }
 });
 
