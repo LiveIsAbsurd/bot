@@ -176,6 +176,7 @@ function cuefaGame(msg = null, query = null, replay = false) {
 
     if (player1Name == player2Name) {
       bot.sendMessage(msg.chat.id, "Хочешь играть с самим собой?");
+      return;
     }
     
     chatId = replay ? query.message.chat.id : msg.chat.id;
