@@ -174,7 +174,7 @@ function cuefaGame(msg = null, query = null, replay = false) {
         ? `@${Object.keys(player2)[0]}`
         : "(Ожидание игрока...)";
 
-    if (player1Name == player2Name) {
+    if (player1Name == player2Name.replace("@", "")) {
       bot.sendMessage(msg.chat.id, "Хочешь играть с самим собой?");
       return;
     }
