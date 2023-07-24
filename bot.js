@@ -56,7 +56,10 @@ bot.onText(/\/cuefa/, (msg) => {
 
 bot.onText(/\/getcuefastats/, msg => {
   if (msg.chat.id == "-1001807749316") {
-    if (msg.from.username) {
+    if (msg.reply_to_message) {
+      console.log(msg.reply_to_message);
+
+    } else if (msg.from.username) {
       getUserCuefaStats(String(msg.from.id), msg);
     }
   }
