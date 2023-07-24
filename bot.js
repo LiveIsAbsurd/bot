@@ -55,6 +55,7 @@ bot.onText(/\/cuefa/, (msg) => {
 });
 
 bot.onText(/\/getcuefastats/, msg => {
+  bot.deleteMessage(msg.chat.id, msg.message_id);
   if (msg.chat.id == "-1001807749316") {
     if (msg.reply_to_message) {
       getUserCuefaStats(String(msg.reply_to_message.from.id), msg);
@@ -65,6 +66,7 @@ bot.onText(/\/getcuefastats/, msg => {
 });
 
 bot.onText(/\/getfullcuefastats/, msg => {
+  bot.deleteMessage(msg.chat.id, msg.message_id);
   if (msg.chat.id == "-1001807749316") {
     getFullCuefaState(msg);
   }
