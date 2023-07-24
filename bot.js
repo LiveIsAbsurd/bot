@@ -57,14 +57,13 @@ bot.onText(/\/cuefa/, (msg) => {
 bot.onText(/\/cuefastats/, msg => {
   if (msg.chat.id == "-1001807749316") {
     if (msg.from.username) {
-      bot.deleteMessage(msg.chat.id, msg.message_id);
       getUserCuefaStats(String(msg.from.id), msg);
     }
   }
 });
 
 function getUserCuefaStats(user, msg) {
-  fs.readFile("cuefaStats.json", "UTF-8", (err, data) => {
+  fs.readFile("../cuefaStats.json", "UTF-8", (err, data) => {
     let stats = JSON.parse(data);
 
     if (Object.keys(stats).includes(user)) {
