@@ -110,7 +110,8 @@ function getFullCuefaState(msg) {
       })
 
       bot.sendMessage(msg.chat.id,
-          `# | Игры | Победы | Поражения
+          `Статистика "камень, ножницы, бумага":
+# | Игры | Победы | Поражения
 
 ${text}`);
   })
