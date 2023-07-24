@@ -57,8 +57,7 @@ bot.onText(/\/cuefa/, (msg) => {
 bot.onText(/\/getcuefastats/, msg => {
   if (msg.chat.id == "-1001807749316") {
     if (msg.reply_to_message) {
-      console.log(msg.reply_to_message);
-
+      getUserCuefaStats(String(msg.reply_to_message.from.id), msg);
     } else if (msg.from.username) {
       getUserCuefaStats(String(msg.from.id), msg);
     }
@@ -80,7 +79,7 @@ function getUserCuefaStats(user, msg) {
   
     } else {
       bot.sendMessage(msg.chat.id,
-`@${msg.from.username}, у тебя ещё нет статистики`);
+`Статистика отсутствует`);
     }
   })
 }
