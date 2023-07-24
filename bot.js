@@ -64,6 +64,10 @@ bot.onText(/\/getcuefastats/, msg => {
   }
 });
 
+bot.onText(/\/getfullcuefastats/, msg => {
+  getFullCuefaState(msg);
+});
+
 function getUserCuefaStats(user, msg) {
   fs.readFile("../cuefaStats.json", "UTF-8", (err, data) => {
     let stats = JSON.parse(data);
@@ -81,6 +85,32 @@ function getUserCuefaStats(user, msg) {
       bot.sendMessage(msg.chat.id,
 `Статистика отсутствует`);
     }
+  })
+}
+
+function getFullCuefaState(msg) {
+  fs.readFile("../cuefaStats.json", "UTF-8", (err, data) => {
+      let stats = JSON.parse(data);
+      let fullState = Object.values(stats);
+
+
+
+      fullState.sort((a, b) => {
+          return b.win - a.win;
+      });
+
+      let text = "";
+      let i = 1;
+
+      fullState.forEach(el => {
+          text += `${i}. @${el.name} - ${el.total} | ${el.win} | ${el.lose} \n`
+          i++;
+      })
+
+      bot.sendMessage(msg.chat.id,
+          `# | Игры | Победы | Поражения
+
+${text}`);
   })
 }
 
