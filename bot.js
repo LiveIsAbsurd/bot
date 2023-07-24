@@ -77,7 +77,7 @@ function getUserCuefaStats(user, msg) {
     if (Object.keys(stats).includes(user)) {
 
       bot.sendMessage(msg.chat.id,
-        `Игрок ${stats[user].name}
+        `Игрок @${stats[user].name}
 Число игр: ${stats[user].total}
 Побед: ${stats[user].win}
 Поражений: ${stats[user].lose}
@@ -105,7 +105,7 @@ function getFullCuefaState(msg) {
       let i = 1;
 
       fullState.forEach(el => {
-          text += `${i}. @${el.name} - ${el.total} | ${el.win} | ${el.lose} \n`
+          text += `${i}. ${el.name} - ${el.total} | ${el.win} | ${el.lose} \n`
           i++;
       })
 
