@@ -65,7 +65,9 @@ bot.onText(/\/getcuefastats/, msg => {
 });
 
 bot.onText(/\/getfullcuefastats/, msg => {
-  getFullCuefaState(msg);
+  if (msg.chat.id == "-1001807749316") {
+    getFullCuefaState(msg);
+  }
 });
 
 function getUserCuefaStats(user, msg) {
