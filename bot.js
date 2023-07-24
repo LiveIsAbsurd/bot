@@ -111,6 +111,7 @@ function getFullCuefaState(msg) {
 
       bot.sendMessage(msg.chat.id,
           `Статистика "камень, ножницы, бумага":
+          
 # | Игры | Победы | Поражения
 
 ${text}`);
