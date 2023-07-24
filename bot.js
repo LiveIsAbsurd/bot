@@ -52,7 +52,36 @@ bot.onText(/\/cuefa/, (msg) => {
       )
     }
   }
-});//
+});
+
+bot.onText(/\/cuefastats/, msg => {
+  if (msg.chat.id == "-1001807749316") {
+    if (msg.from.username) {
+      bot.deleteMessage(msg.chat.id, msg.message_id);
+      getUserCuefaStats(String(msg.from.id), msg);
+    }
+  }
+});
+
+function getUserCuefaStats(user, msg) {
+  fs.readFile("cuefaStats.json", "UTF-8", (err, data) => {
+    let stats = JSON.parse(data);
+
+    if (Object.keys(stats).includes(user)) {
+
+      bot.sendMessage(msg.chat.id,
+        `Игрок @${stats[user].name}
+Число игр: ${stats[user].total}
+Побед: ${stats[user].win}
+Поражений: ${stats[user].lose}
+Винрейт: ${((stats[user].win / stats[user].total) * 100).toFixed(2)}%`);
+  
+    } else {
+      bot.sendMessage(msg.chat.id,
+`@${msg.from.username}, у тебя ещё нет статистики`);
+    }
+  })
+}
 
 function setCuefaStats(winer, winerName, loser, loserName, noWin = false, getCuefaStats) {
   fs.readFile("../cuefaStats.json", "UTF-8", (err, data) => {
