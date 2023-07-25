@@ -5,7 +5,7 @@ const TelegramBot = require("node-telegram-bot-api");
 const bot = new TelegramBot(token);
 
 function getFullCuefaState(msg) {
-    fs.readFile("../../cuefaStats.json", "UTF-8", (err, data) => {
+    fs.readFile("../cuefaStats.json", "UTF-8", (err, data) => {
       let stats = JSON.parse(data);
       let fullState = Object.values(stats);
   
