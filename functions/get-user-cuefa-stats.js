@@ -12,10 +12,10 @@ function getUserCuefaStats(user, msg) {
   
         bot.sendMessage(msg.chat.id,
           `Игрок @${stats[user].name}
-  Число игр: ${stats[user].total}
-  Побед: ${stats[user].win}
-  Поражений: ${stats[user].lose}
-  Винрейт: ${((stats[user].win / stats[user].total) * 100).toFixed(2)}%`);
+Число игр: ${stats[user].total}
+Побед: ${stats[user].win}
+Поражений: ${stats[user].lose}
+Винрейт: ${((stats[user].win / stats[user].total) * 100).toFixed(2)}%`);
     
       } else {
         bot.sendMessage(msg.chat.id,

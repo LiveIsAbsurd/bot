@@ -158,9 +158,9 @@ function setCuefaStats(winer, winerName, loser, loserName, noWin = false, getCue
       bot.sendMessage(
           chatId,
           `Камень, ножницы, бумага
-  @${player1Name} 🆚 ${player2Name}
-  ${isMeme ? "" : `Это ограниченная версия игры, 
-  полная версия в meme_house_chat.t.me`}`,
+@${player1Name} 🆚 ${player2Name}
+${isMeme ? "" : `Это ограниченная версия игры, 
+полная версия в meme_house_chat.t.me`}`,
           { reply_markup: cuefaKeyboard }
         )
         .then((msg) => {
@@ -201,7 +201,7 @@ function setCuefaStats(winer, winerName, loser, loserName, noWin = false, getCue
           if (!cuefaColl[query.message.message_id].steps.player2Step) {
             bot.editMessageText(
               `Камень, ножницы, бумага
-  @${cuefaPlayers[query.message.message_id][0]} 👍 🆚 ${player2Name}`,
+@${cuefaPlayers[query.message.message_id][0]} 👍 🆚 ${player2Name}`,
               {
                 chat_id: query.message.chat.id,
                 message_id: query.message.message_id,
@@ -225,7 +225,7 @@ function setCuefaStats(winer, winerName, loser, loserName, noWin = false, getCue
         if (!cuefaColl[query.message.message_id].steps.player1Step) {
           bot.editMessageText(
             `Камень, ножницы, бумага
-  @${cuefaPlayers[query.message.message_id][0]} 🆚 👍 @${cuefaPlayers[query.message.message_id][1]}`,
+@${cuefaPlayers[query.message.message_id][0]} 🆚 👍 @${cuefaPlayers[query.message.message_id][1]}`,
             {
               chat_id: query.message.chat.id,
               message_id: query.message.message_id,
@@ -243,7 +243,7 @@ function setCuefaStats(winer, winerName, loser, loserName, noWin = false, getCue
           if (!cuefaColl[query.message.message_id].steps.player1Step) {
             bot.editMessageText(
               `Камень, ножницы, бумага
-  @${cuefaPlayers[query.message.message_id][0]} 🆚 👍 ${player2Name}`,
+@${cuefaPlayers[query.message.message_id][0]} 🆚 👍 ${player2Name}`,
               {
                 chat_id: query.message.chat.id,
                 message_id: query.message.message_id,
@@ -360,12 +360,12 @@ function setCuefaStats(winer, winerName, loser, loserName, noWin = false, getCue
   
               bot.editMessageText(
                 `Камень, ножницы, бумага
-  @${cuefaPlayers[query.message.message_id][0]} ${step1} 🆚 ${step2} @${cuefaPlayers[query.message.message_id][1]}
+@${cuefaPlayers[query.message.message_id][0]} ${step1} 🆚 ${step2} @${cuefaPlayers[query.message.message_id][1]}
   
-  ${winner}
+${winner}
   
-  @${stats[String(cuefaPlayer1Id[query.message.message_id])].name}: ${stats[String(cuefaPlayer1Id[query.message.message_id])].vs[String(cuefaPlayer2Id[query.message.message_id])][0]}
-  @${stats[String(cuefaPlayer2Id[query.message.message_id])].name}: ${stats[String(cuefaPlayer2Id[query.message.message_id])].vs[String(cuefaPlayer1Id[query.message.message_id])][0]}`,
+@${stats[String(cuefaPlayer1Id[query.message.message_id])].name}: ${stats[String(cuefaPlayer1Id[query.message.message_id])].vs[String(cuefaPlayer2Id[query.message.message_id])][0]}
+@${stats[String(cuefaPlayer2Id[query.message.message_id])].name}: ${stats[String(cuefaPlayer2Id[query.message.message_id])].vs[String(cuefaPlayer1Id[query.message.message_id])][0]}`,
                 {
                   chat_id: query.message.chat.id,
                   message_id: query.message.message_id,
