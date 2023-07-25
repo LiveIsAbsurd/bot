@@ -17,14 +17,14 @@ function getFullCuefaState(msg) {
       let i = 1;
   
       fullState.forEach(el => {
-        text += `${i}. ${el.name} - ${el.total} | ${el.win} | ${el.lose} \n`
+        text += `${i}. ${el.name} - ${el.total} | ${el.win} | ${el.lose} | ${((stats[user].win / (stats[user].win + stats[user].lose)) * 100).toFixed(2)}% \n`
         i++;
       })
   
       bot.sendMessage(msg.chat.id,
         `Статистика "камень, ножницы, бумага":
             
-# | Игры | Победы | Поражения
+# | Игры | Победы | Поражения | ВР(без ничьих)
   
 ${text}`);
     });
