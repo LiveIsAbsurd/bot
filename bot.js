@@ -626,7 +626,11 @@ bot.on("callback_query", (query) => {
 
   if (query.data == "rock" || query.data == "nosh" || query.data == "paper") {
     if (query.from.username) {
-      cuefaGame(null, query, false, true);
+      if (msg.chat.id == "-1001807749316") {
+        cuefaGame(null, query, false, true);
+      } else {
+        cuefaGame(null, query, false);
+      }
     } else {
       bot.answerCallbackQuery(query.id, {
         text: "Для игры установи @username (имя пользователя)",
