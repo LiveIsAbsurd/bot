@@ -32,7 +32,7 @@ function hiCount(query, options, collection, userId = undefined) {
       });
   
       fs.writeFile(
-        "../hiMembers.json",
+        "../../hiMembers.json",
         JSON.stringify(collection),
         "UTF-8",
         (err) => {
