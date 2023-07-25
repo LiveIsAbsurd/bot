@@ -626,7 +626,7 @@ bot.on("callback_query", (query) => {
 
   if (query.data == "rock" || query.data == "nosh" || query.data == "paper") {
     if (query.from.username) {
-      cuefaGame(null, query);
+      cuefaGame(null, query, false, true);
     } else {
       bot.answerCallbackQuery(query.id, {
         text: "Для игры установи @username (имя пользователя)",
@@ -637,7 +637,7 @@ bot.on("callback_query", (query) => {
 
   if (query.data == "cuefaReplay") {
     if (query.from.username) {
-      cuefaGame(null, query, true);
+      cuefaGame(null, query, true, true);
       bot.answerCallbackQuery(query.id, {
         text: "Перезапуск 🔄",
       });
