@@ -49,7 +49,7 @@ bot.onText(/\/cuefa/, (msg) => {
       bot.sendMessage(
         msg.chat.id,
         `Для игры установи имя пользователя`
-      )
+      );
     }
   }
 });
@@ -87,38 +87,36 @@ function getUserCuefaStats(user, msg) {
   
     } else {
       bot.sendMessage(msg.chat.id,
-`Статистика отсутствует`);
+        `Статистика отсутствует`);
     }
-  })
-}
+  });
+};
 
 function getFullCuefaState(msg) {
   fs.readFile("../cuefaStats.json", "UTF-8", (err, data) => {
-      let stats = JSON.parse(data);
-      let fullState = Object.values(stats);
+    let stats = JSON.parse(data);
+    let fullState = Object.values(stats);
 
+    fullState.sort((a, b) => {
+      return b.win - a.win;
+    });
 
+    let text = "";
+    let i = 1;
 
-      fullState.sort((a, b) => {
-          return b.win - a.win;
-      });
+    fullState.forEach(el => {
+      text += `${i}. ${el.name} - ${el.total} | ${el.win} | ${el.lose} \n`
+      i++;
+    })
 
-      let text = "";
-      let i = 1;
-
-      fullState.forEach(el => {
-          text += `${i}. ${el.name} - ${el.total} | ${el.win} | ${el.lose} \n`
-          i++;
-      })
-
-      bot.sendMessage(msg.chat.id,
-          `Статистика "камень, ножницы, бумага":
+    bot.sendMessage(msg.chat.id,
+      `Статистика "камень, ножницы, бумага":
           
 # | Игры | Победы | Поражения
 
 ${text}`);
-  })
-}
+  });
+};
 
 function setCuefaStats(winer, winerName, loser, loserName, noWin = false, getCuefaStats) {
   fs.readFile("../cuefaStats.json", "UTF-8", (err, data) => {
@@ -231,24 +229,18 @@ function setCuefaStats(winer, winerName, loser, loserName, noWin = false, getCue
 function cuefaGame(msg = null, query = null, replay = false) {
   if (msg || replay) {
     const player1 = {};
-    player1[
-      replay ? query.from.username : msg.from.username
-    ] = { select: undefined };
+    player1[replay ? query.from.username : msg.from.username] = { select: undefined };
 
     const player2 = {};
     if (replay) {
-      player2["undefined"] = { select: undefined }
+      player2["undefined"] = { select: undefined };
     } else {
-      player2[
-        msg.reply_to_message ? msg.reply_to_message.from.username : undefined
-      ] = { select: undefined };
+      player2[msg.reply_to_message ? msg.reply_to_message.from.username : undefined] = { select: undefined };
     }
 
     const player1Name = Object.keys(player1)[0];
     const player2Name =
-      Object.keys(player2)[0] != "undefined"
-        ? `@${Object.keys(player2)[0]}`
-        : "(Ожидание игрока...)";
+      Object.keys(player2)[0] != "undefined" ? `@${Object.keys(player2)[0]}` : "(Ожидание игрока...)";
 
     if (player1Name == player2Name.replace("@", "")) {
       bot.sendMessage(msg.chat.id, "Хочешь играть с самим собой?");
@@ -257,8 +249,7 @@ function cuefaGame(msg = null, query = null, replay = false) {
     
     chatId = replay ? query.message.chat.id : msg.chat.id;
 
-    bot
-      .sendMessage(
+    bot.sendMessage(
         chatId,
         `Камень, ножницы, бумага
 @${player1Name} 🆚 ${player2Name}`,
@@ -449,7 +440,7 @@ function cuefaGame(msg = null, query = null, replay = false) {
         ).then(() => {
           delete cuefaColl[query.message.message_id];
           delete cuefaPlayers[query.message.message_id];
-          })
+        });
 
         return;
       }
@@ -480,12 +471,12 @@ ${winner}
               delete cuefaPlayer1Id[query.message.message_id];
               delete cuefaPlayer2Id[query.message.message_id];
             }, 5000);
-          })
+          });
         });
       });
     }
   }
-}
+};
 
 //__________________________________________________
 
@@ -560,7 +551,7 @@ function hiCount(query, options, collection, userId = undefined) {
       }
     );
   }
-}
+};
 
 bot.on("callback_query", (query) => {
   const messageId = query.message.message_id;
