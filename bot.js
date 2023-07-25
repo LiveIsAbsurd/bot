@@ -278,6 +278,7 @@ function cuefaGame(msg = null, query = null, replay = false) {
         ];
       });
   } else if (query && !replay) {
+
     if (!cuefaColl[query.message.message_id]) {
       bot.editMessageText(
         "Время вышло!",
@@ -290,18 +291,11 @@ function cuefaGame(msg = null, query = null, replay = false) {
     }
 
     const player2Name =
-      cuefaPlayers[query.message.message_id][1] != "undefined"
-        ? `@${cuefaPlayers[query.message.message_id][1]}`
-        : "(Ожидание игрока...)";
+      cuefaPlayers[query.message.message_id][1] != "undefined" ? `@${cuefaPlayers[query.message.message_id][1]}` : "(Ожидание игрока...)";
 
     if (cuefaPlayers[query.message.message_id][0] == query.from.username) {
-      if (
-        !cuefaColl[query.message.message_id].steps.player1Step &&
-        cuefaPlayers[query.message.message_id].includes(query.from.username)
-      ) {
-        cuefaColl[query.message.message_id].player1[
-          query.from.username
-        ].select = cuefaToEmoji[query.data];
+      if (!cuefaColl[query.message.message_id].steps.player1Step && cuefaPlayers[query.message.message_id].includes(query.from.username)) {
+        cuefaColl[query.message.message_id].player1[query.from.username].select = cuefaToEmoji[query.data];
         cuefaColl[query.message.message_id].steps.player1Step = true;
         cuefaPlayer1Id[query.message.message_id] = query.from.id;
 
@@ -342,9 +336,8 @@ function cuefaGame(msg = null, query = null, replay = false) {
       }
     } else if (cuefaPlayers[query.message.message_id][1] == query.from.username) {
       if (!cuefaColl[query.message.message_id].steps.player2Step) {
-        cuefaColl[query.message.message_id].player2[
-          query.from.username
-        ].select = cuefaToEmoji[query.data];
+
+        cuefaColl[query.message.message_id].player2[query.from.username].select = cuefaToEmoji[query.data];
         cuefaColl[query.message.message_id].steps.player2Step = true;
         cuefaPlayer2Id[query.message.message_id] = query.from.id;
 
