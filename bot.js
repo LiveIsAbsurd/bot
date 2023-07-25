@@ -625,9 +625,9 @@ bot.on("callback_query", (query) => {
   }
 
   if (query.data == "rock" || query.data == "nosh" || query.data == "paper") {
-    console.log(query);
+    //console.log(query);
     if (query.from.username) {
-      if (query.chat.id == "-1001807749316") {
+      if (query.message.chat.id == "-1001807749316") {
         cuefaGame(null, query, false, true);
       } else {
         cuefaGame(null, query, false);
