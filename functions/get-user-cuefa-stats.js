@@ -1,3 +1,5 @@
+const token = require("../../token.js");
+
 const fs = require("fs");
 const TelegramBot = require("node-telegram-bot-api");
 const bot = new TelegramBot(token);
