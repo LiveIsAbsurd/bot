@@ -17,7 +17,7 @@ function getFullCuefaState(msg) {
       let i = 1;
   
       fullState.forEach(el => {
-        text += `${i}. ${el.name} - ${el.total} | ${el.win} | ${el.lose} | ${((stats[user].win / (stats[user].win + stats[user].lose)) * 100).toFixed(2)}% \n`
+        text += `${i}. ${el.name} - ${el.total} | ${el.win} | ${el.lose} | ${((el.win / (el.win + el.lose)) * 100).toFixed(2)}% \n`
         i++;
       })
   
