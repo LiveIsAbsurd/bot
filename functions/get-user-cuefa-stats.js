@@ -15,7 +15,7 @@ function getUserCuefaStats(user, msg) {
 Число игр: ${stats[user].total}
 Победы: ${stats[user].win}
 Поражения: ${stats[user].lose}
-Ничья: ${stats[user].total - (stats[user].win - stats[user].lose)}
+Ничья: ${stats[user].total - (stats[user].win + stats[user].lose)}
 Винрейт(без нечьих): ${((stats[user].win / (stats[user].win + stats[user].lose)) * 100).toFixed(2)}%`);
     
       } else {
