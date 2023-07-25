@@ -7,6 +7,8 @@ const { json } = require("body-parser");
 
 const cuefaGame = require("./functions/cuefa-game.js");
 const getUserCuefaStats = require("./functions/get-user-cuefa-stats.js");
+const getFullCuefaState = require("./functions/get-full-cuefa-state.js");
+const hiCount = require("./functions/hi-count.js");
 
 function hiText(username) {
   let text = `
@@ -55,36 +57,6 @@ bot.onText(/\/getfullcuefastats/, msg => {
   }
 });
 
-function getFullCuefaState(msg) {
-  fs.readFile("../cuefaStats.json", "UTF-8", (err, data) => {
-    let stats = JSON.parse(data);
-    let fullState = Object.values(stats);
-
-    fullState.sort((a, b) => {
-      return b.win - a.win;
-    });
-
-    let text = "";
-    let i = 1;
-
-    fullState.forEach(el => {
-      text += `${i}. ${el.name} - ${el.total} | ${el.win} | ${el.lose} \n`
-      i++;
-    })
-
-    bot.sendMessage(msg.chat.id,
-      `Статистика "камень, ножницы, бумага":
-          
-# | Игры | Победы | Поражения
-
-${text}`);
-  });
-};
-
-
-
-//__________________________________________________
-
 bot.on("inline_query", (query) => {
   //console.log(query);
   //console.log(query.query == "/start");
@@ -117,46 +89,6 @@ bot.onText(/\/getKey/, (msg) => {
     bot.sendMessage(msg.chat.id, "Тестовая кнопка", opts);
   }
 });
-
-function hiCount(query, options, collection, userId = undefined) {
-  const messageId = query.message.message_id;
-
-  if (!collection[messageId]) {
-    collection[messageId] = {
-      count: 1,
-      users: [],
-    };
-  }
-
-  if (userId && collection[messageId]["users"].includes(userId)) {
-    bot.answerCallbackQuery(query.id, {
-      text: "Ты уже поприветствовал участника!",
-      show_alert: true,
-    });
-  } else {
-    collection[messageId].count += 1;
-
-    if (userId) {
-      collection[messageId]["users"].push(userId);
-    }
-
-    bot.editMessageReplyMarkup(options, {
-      chat_id: query.message.chat.id,
-      message_id: messageId,
-    });
-
-    fs.writeFile(
-      "../hiMembers.json",
-      JSON.stringify(collection),
-      "UTF-8",
-      (err) => {
-        if (err) {
-          console.log(err);
-        }
-      }
-    );
-  }
-};
 
 bot.on("callback_query", (query) => {
   const messageId = query.message.message_id;
