@@ -255,7 +255,8 @@ function cuefaGame(msg = null, query = null, replay = false, isMeme = false) {
         chatId,
         `Камень, ножницы, бумага
 @${player1Name} 🆚 ${player2Name}
-${isMeme ? "" : `Это ограниченная версия игры, полная версия в meme_house_chat.t.me`}`,
+${isMeme ? "" : `Это ограниченная версия игры, 
+полная версия в meme_house_chat.t.me`}`,
         { reply_markup: cuefaKeyboard }
       )
       .then((msg) => {
