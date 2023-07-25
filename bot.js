@@ -44,13 +44,15 @@ bot.onText(/\/cuefa/, (msg) => {
   if (msg.chat.id == "-1001807749316") {
     if (msg.from.username) {
       bot.deleteMessage(msg.chat.id, msg.message_id);
-      cuefaGame(msg);
+      cuefaGame(msg, null, false, true);
     } else {
       bot.sendMessage(
         msg.chat.id,
         `Для игры установи имя пользователя`
       );
     }
+  } else {
+    cuefaGame(msg);
   }
 });
 
@@ -226,7 +228,7 @@ function setCuefaStats(winer, winerName, loser, loserName, noWin = false, getCue
   })
 }
 
-function cuefaGame(msg = null, query = null, replay = false) {
+function cuefaGame(msg = null, query = null, replay = false, isMeme = false) {
   if (msg || replay) {
     const player1 = {};
     player1[replay ? query.from.username : msg.from.username] = { select: undefined };
@@ -252,7 +254,8 @@ function cuefaGame(msg = null, query = null, replay = false) {
     bot.sendMessage(
         chatId,
         `Камень, ножницы, бумага
-@${player1Name} 🆚 ${player2Name}`,
+@${player1Name} 🆚 ${player2Name}
+${isMeme ? "" : `Это ограниченная версия игры, полная версия в meme_house_chat.t.me`}`,
         { reply_markup: cuefaKeyboard }
       )
       .then((msg) => {
@@ -445,35 +448,59 @@ function cuefaGame(msg = null, query = null, replay = false) {
         return;
       }
 
-      setCuefaStats(String(winId), winName, String(loseId), loseName, noWin, () => {
-        fs.readFile("../cuefaStats.json", "UTF-8", (err, data) => {
-          let stats = JSON.parse(data);
+      if (isMeme) {//если чат доверенный
+        setCuefaStats(String(winId), winName, String(loseId), loseName, noWin, () => {
+          fs.readFile("../cuefaStats.json", "UTF-8", (err, data) => {
+            let stats = JSON.parse(data);
 
-          bot.editMessageText(
-            `Камень, ножницы, бумага
-@${cuefaPlayers[query.message.message_id][0]} ${step1} 🆚 ${step2} @${cuefaPlayers[query.message.message_id][1]}
+            bot.editMessageText(
+              `Камень, ножницы, бумага
+  @${cuefaPlayers[query.message.message_id][0]} ${step1} 🆚 ${step2} @${cuefaPlayers[query.message.message_id][1]}
 
-${winner}
+  ${winner}
 
-@${stats[String(cuefaPlayer1Id[query.message.message_id])].name}: ${stats[String(cuefaPlayer1Id[query.message.message_id])].vs[String(cuefaPlayer2Id[query.message.message_id])][0]}
-@${stats[String(cuefaPlayer2Id[query.message.message_id])].name}: ${stats[String(cuefaPlayer2Id[query.message.message_id])].vs[String(cuefaPlayer1Id[query.message.message_id])][0]}`,
-            {
-              chat_id: query.message.chat.id,
-              message_id: query.message.message_id,
-              reply_markup: {
-                inline_keyboard: [[{ text: "Повторить 🔄", callback_data: "cuefaReplay" }]]
+  @${stats[String(cuefaPlayer1Id[query.message.message_id])].name}: ${stats[String(cuefaPlayer1Id[query.message.message_id])].vs[String(cuefaPlayer2Id[query.message.message_id])][0]}
+  @${stats[String(cuefaPlayer2Id[query.message.message_id])].name}: ${stats[String(cuefaPlayer2Id[query.message.message_id])].vs[String(cuefaPlayer1Id[query.message.message_id])][0]}`,
+              {
+                chat_id: query.message.chat.id,
+                message_id: query.message.message_id,
+                reply_markup: {
+                  inline_keyboard: [[{ text: "Повторить 🔄", callback_data: "cuefaReplay" }]]
+                }
               }
-            }
-          ).then(() => {
-            setTimeout(() => {
-              delete cuefaColl[query.message.message_id];
-              delete cuefaPlayers[query.message.message_id];
-              delete cuefaPlayer1Id[query.message.message_id];
-              delete cuefaPlayer2Id[query.message.message_id];
-            }, 5000);
+            ).then(() => {
+              setTimeout(() => {
+                delete cuefaColl[query.message.message_id];
+                delete cuefaPlayers[query.message.message_id];
+                delete cuefaPlayer1Id[query.message.message_id];
+                delete cuefaPlayer2Id[query.message.message_id];
+              }, 5000);
+            });
           });
         });
-      });
+      } else { //если чат не является доверенным
+        bot.editMessageText(
+          `Камень, ножницы, бумага
+@${cuefaPlayers[query.message.message_id][0]} ${step1} 🆚 ${step2} @${cuefaPlayers[query.message.message_id][1]}
+
+${winner}`,
+          {
+            chat_id: query.message.chat.id,
+            message_id: query.message.message_id,
+            reply_markup: {
+              inline_keyboard: [[{ text: "Полная версия игры", url: "meme_house_chat.t.me" }]]
+            }
+          }
+        ).then(() => {
+          setTimeout(() => {
+            delete cuefaColl[query.message.message_id];
+            delete cuefaPlayers[query.message.message_id];
+            delete cuefaPlayer1Id[query.message.message_id];
+            delete cuefaPlayer2Id[query.message.message_id];
+          }, 5000);
+        });
+      }
+
     }
   }
 };
