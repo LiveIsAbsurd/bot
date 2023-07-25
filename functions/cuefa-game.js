@@ -25,7 +25,7 @@ const cuefaKeyboard = {
 };
 
 function setCuefaStats(winer, winerName, loser, loserName, noWin = false, getCuefaStats) {
-    fs.readFile("../../cuefaStats.json", "UTF-8", (err, data) => {
+    fs.readFile("../cuefaStats.json", "UTF-8", (err, data) => {
       let stats = JSON.parse(data);
   
       if (!Object.keys(stats).includes(winer)) {
@@ -122,7 +122,7 @@ function setCuefaStats(winer, winerName, loser, loserName, noWin = false, getCue
         }
       }
   
-      fs.writeFile("../../cuefaStats.json", JSON.stringify(stats), "UTF-8", (err) => {
+      fs.writeFile("../cuefaStats.json", JSON.stringify(stats), "UTF-8", (err) => {
         if (err) {
           console.log(err);
         }
@@ -355,7 +355,7 @@ ${isMeme ? "" : `Это ограниченная версия игры,
   
         if (isMeme) {//если чат доверенный
           setCuefaStats(String(winId), winName, String(loseId), loseName, noWin, () => {
-            fs.readFile("../../cuefaStats.json", "UTF-8", (err, data) => {
+            fs.readFile("../cuefaStats.json", "UTF-8", (err, data) => {
               let stats = JSON.parse(data);
   
               bot.editMessageText(
