@@ -456,12 +456,12 @@ ${isMeme ? "" : `Это ограниченная версия игры,
 
             bot.editMessageText(
               `Камень, ножницы, бумага
-  @${cuefaPlayers[query.message.message_id][0]} ${step1} 🆚 ${step2} @${cuefaPlayers[query.message.message_id][1]}
+@${cuefaPlayers[query.message.message_id][0]} ${step1} 🆚 ${step2} @${cuefaPlayers[query.message.message_id][1]}
 
-  ${winner}
+${winner}
 
-  @${stats[String(cuefaPlayer1Id[query.message.message_id])].name}: ${stats[String(cuefaPlayer1Id[query.message.message_id])].vs[String(cuefaPlayer2Id[query.message.message_id])][0]}
-  @${stats[String(cuefaPlayer2Id[query.message.message_id])].name}: ${stats[String(cuefaPlayer2Id[query.message.message_id])].vs[String(cuefaPlayer1Id[query.message.message_id])][0]}`,
+@${stats[String(cuefaPlayer1Id[query.message.message_id])].name}: ${stats[String(cuefaPlayer1Id[query.message.message_id])].vs[String(cuefaPlayer2Id[query.message.message_id])][0]}
+@${stats[String(cuefaPlayer2Id[query.message.message_id])].name}: ${stats[String(cuefaPlayer2Id[query.message.message_id])].vs[String(cuefaPlayer1Id[query.message.message_id])][0]}`,
               {
                 chat_id: query.message.chat.id,
                 message_id: query.message.message_id,
