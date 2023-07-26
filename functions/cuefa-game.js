@@ -180,7 +180,7 @@ ${isMeme ? "" : `Это ограниченная версия игры,
   
       if (!cuefaColl[query.message.message_id]) {
         bot.editMessageText(
-          "Время вышло!",
+          "Время вышло или много нажатий!",
           {
             chat_id: query.message.chat.id,
             message_id:query.message.message_id
