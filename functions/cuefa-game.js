@@ -374,12 +374,10 @@ ${winner}
                   }
                 }
               ).then(() => {
-                setTimeout(() => {
                   delete cuefaColl[query.message.message_id];
                   delete cuefaPlayers[query.message.message_id];
                   delete cuefaPlayer1Id[query.message.message_id];
                   delete cuefaPlayer2Id[query.message.message_id];
-                }, 5000);
               });
             });
           });
@@ -397,12 +395,10 @@ ${winner}`,
               }
             }
           ).then(() => {
-            setTimeout(() => {
               delete cuefaColl[query.message.message_id];
               delete cuefaPlayers[query.message.message_id];
               delete cuefaPlayer1Id[query.message.message_id];
               delete cuefaPlayer2Id[query.message.message_id];
-            }, 5000);
           });
         }
   
