@@ -6,7 +6,7 @@ const { Module } = require("module");
 const bot = new TelegramBot(token);
 
 function setChatState(msg, state) {
-    console.log(msg);
+    //console.log(msg);
   
     let userId = msg.from.id;
     let userName = msg.from.username ? msg.from.username : null;
