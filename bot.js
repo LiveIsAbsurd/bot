@@ -359,6 +359,15 @@ bot.onText(/\/setDescription (.+)/, (msg, match) => {
     });
 });
 
+setInterval((chatState) => {
+  fs.writeFile("../chatStats.json", JSON.stringify(chatState), "UTF-8", (err) => {
+    if (err) {
+      console.log(err);
+    }
+    console.log("Запись");
+  });
+}, 60000);
+
 process.on("SIGINT", () => {
   fs.writeFile("../chatStats.json", JSON.stringify(chatState), "UTF-8", (err) => {
     if (err) {
