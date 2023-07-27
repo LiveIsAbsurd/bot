@@ -12,7 +12,7 @@ function setChatState(msg, state) {
     let userName = msg.from.username ? msg.from.username : null;
     let userFirstName = msg.from.first_name;
     let date = new Date();
-    let realDate = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDay()}`;
+    let realDate = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
   
     state.totalMessage += 1;
   
