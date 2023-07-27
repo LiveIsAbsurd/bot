@@ -24,7 +24,7 @@ function hiText(username) {
 
 const bot = new TelegramBot(token, { polling: { interval: 1000 } });
 
-let chatState = JSON.parse(fs.readFileSync("./chatStats.json", "UTF-8"));
+let chatState = JSON.parse(fs.readFileSync("../chatStats.json", "UTF-8"));
 
 bot.on("message", (msg) => {
   if (msg.chat.id == "-1001807749316") {
@@ -360,7 +360,7 @@ bot.onText(/\/setDescription (.+)/, (msg, match) => {
 });
 
 process.on("SIGINT", () => {
-  fs.writeFile("./chatStats.json", JSON.stringify(chatState), "UTF-8", (err) => {
+  fs.writeFile("../chatStats.json", JSON.stringify(chatState), "UTF-8", (err) => {
     if (err) {
       console.log(err);
     }
