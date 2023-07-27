@@ -25,10 +25,12 @@ function hiText(username) {
 const bot = new TelegramBot(token, { polling: { interval: 1000 } });
 
 let chatState = JSON.parse(fs.readFileSync("../chatStats.json", "UTF-8"));
+let editState = false;
 
 bot.on("message", (msg) => {
   if (msg.chat.id == "-1001807749316") {
     setChatState(msg, chatState);
+    editState = true;
   }
 });
 
@@ -360,12 +362,15 @@ bot.onText(/\/setDescription (.+)/, (msg, match) => {
 });
 
 setInterval(() => {
-  fs.writeFile("../chatStats.json", JSON.stringify(chatState), "UTF-8", (err) => {
-    if (err) {
-      console.log(err);
-    }
-    console.log("Запись");
-  });
+  if (editState) {
+    fs.writeFile("../chatStats.json", JSON.stringify(chatState), "UTF-8", (err) => {
+      if (err) {
+        console.log(err);
+      }
+      editState = false;
+      console.log("Запись");
+    });
+  }
 }, 60000);
 
 process.on("SIGINT", () => {
