@@ -12,6 +12,7 @@ const hiCount = require("./functions/hi-count.js");
 const setChatState = require("./functions/set-chat-state.js");
 const createPaginationButtons = require("./functions/create-pagination-button.js");
 let currentPage = {};
+const getChatState = require("./functions/get-chat-state.js");
 
 function hiText(username) {
   let text = `
@@ -26,13 +27,19 @@ function hiText(username) {
 
 const bot = new TelegramBot(token, { polling: { interval: 1000 } });
 
-let chatState = JSON.parse(fs.readFileSync("../chatStats.json", "UTF-8"));
+let chatState = JSON.parse(fs.readFileSync("../chatStats.json", "UTF-8"),null, 2);
 let editState = false;
 
 bot.on("message", (msg) => {
   if (msg.chat.id == "-1001807749316") {
     setChatState(msg, chatState);
     editState = true;
+  }
+});
+
+bot.onText(/\/chatstate/, msg => {
+  if (msg.chat.id == "-1001807749316") {
+    getChatState(msg, chatState);
   }
 });
 
@@ -376,7 +383,7 @@ bot.onText(/\/setDescription (.+)/, (msg, match) => {
 
 setInterval(() => {
   if (editState) {
-    fs.writeFile("../chatStats.json", JSON.stringify(chatState), "UTF-8", (err) => {
+    fs.writeFile("../chatStats.json", JSON.stringify(chatState, null, 2), "UTF-8", (err) => {
       if (err) {
         console.log(err);
       }
@@ -387,7 +394,7 @@ setInterval(() => {
 }, 60000);
 
 process.on("SIGINT", () => {
-  fs.writeFile("../chatStats.json", JSON.stringify(chatState), "UTF-8", (err) => {
+  fs.writeFile("../chatStats.json", JSON.stringify(chatState, null, 2), "UTF-8", (err) => {
     if (err) {
       console.log(err);
     }
