@@ -10,6 +10,8 @@ const getUserCuefaStats = require("./functions/get-user-cuefa-stats.js");
 const getFullCuefaState = require("./functions/get-full-cuefa-state.js");
 const hiCount = require("./functions/hi-count.js");
 const setChatState = require("./functions/set-chat-state.js");
+const createPaginationButtons = require("./functions/create-pagination-button.js");
+let currentPage = {};
 
 function hiText(username) {
   let text = `
@@ -64,7 +66,8 @@ bot.onText(/\/getcuefastats/, msg => {
 bot.onText(/\/getfullcuefastats/, msg => {
   bot.deleteMessage(msg.chat.id, msg.message_id);
   if (msg.chat.id == "-1001807749316") {
-    getFullCuefaState(msg);
+    let message = getFullCuefaState(msg);
+    displayList(msg, null, message, 5);
   }
 });
 
@@ -172,6 +175,16 @@ bot.on("callback_query", (query) => {
         show_alert: true,
       });
     }
+  }
+
+  if (query.data == "prev") {
+    currentPage[query.message.message_id] -= 1;
+    displayList(null, query, array, 5);
+  }
+
+  if (query.data == "next") {
+    currentPage[query.message.message_id] += 1;
+    displayList(null, query, array, 5);
   }
 });
 
@@ -382,3 +395,41 @@ process.on("SIGINT", () => {
     process.exit(0);
   });
 })
+
+//__________________________________
+
+function displayList(msg, query, array, usersPerPage) {
+  
+  const start = query ? (currentPage[query.message.message_id] - 1) * usersPerPage : 0;
+  const end = start + usersPerPage;
+  const page = array.slice(start, end);
+
+  let message = page.map((el, index) => `${start + index + 1}. ${el.name} - ${el.total} | ${el.win} | ${el.lose} | ${isNaN(((el.win / (el.win + el.lose)) * 100).toFixed(2)) ? 0 : ((el.win / (el.win + el.lose)) * 100).toFixed(2)}%`).join('\n');
+  let buttons = createPaginationButtons(array, query ? currentPage[query.message.message_id] : 1, usersPerPage);
+
+  let keys = {
+      reply_markup: {
+          inline_keyboard: [buttons],
+      }
+  };
+
+  if (msg) {
+      bot.sendMessage(msg.chat.id, message, keys)
+      .then(msg => {
+          currentPage[msg.message_id] = 1;
+          console.log(currentPage);
+      })
+  } else if (query) {
+      bot.editMessageText(message, {
+          chat_id: query.message.chat.id,
+          message_id: query.message.message_id,
+          ...keys,
+      })
+      .catch(() => {
+          bot.editMessageText("Ошибка", {
+              chat_id: query.message.chat.id,
+              message_id: query.message.message_id,
+          })
+      });
+  }
+}
