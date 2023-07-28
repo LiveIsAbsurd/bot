@@ -370,7 +370,7 @@ bot.onText(/\/setDescription (.+)/, (msg, match) => {
 
 setInterval(() => {
   if (editState) {
-    fs.writeFile("../chatStats.json", JSON.stringify(chatState), "UTF-8", (err) => {
+    fs.writeFile("../chatStats.json", JSON.stringify(chatState, null, 2), "UTF-8", (err) => {
       if (err) {
         console.log(err);
       }
@@ -381,7 +381,7 @@ setInterval(() => {
 }, 60000);
 
 process.on("SIGINT", () => {
-  fs.writeFile("../chatStats.json", JSON.stringify(chatState), "UTF-8", (err) => {
+  fs.writeFile("../chatStats.json", JSON.stringify(chatState, null, 2), "UTF-8", (err) => {
     if (err) {
       console.log(err);
     }
