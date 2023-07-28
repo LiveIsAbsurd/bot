@@ -73,9 +73,11 @@ bot.onText(/\/getcuefastats/, msg => {
 bot.onText(/\/getfullcuefastats/, msg => {
   bot.deleteMessage(msg.chat.id, msg.message_id);
   if (msg.chat.id == "-1001807749316") {
-    let message = getFullCuefaState(msg);
-    console.log(message);
-    displayList(msg, null, message, 5);
+    async () => {
+      let message = await getFullCuefaState(msg);
+      console.log(message);
+      displayList(msg, null, message, 5);
+    }
   }
 });
 
