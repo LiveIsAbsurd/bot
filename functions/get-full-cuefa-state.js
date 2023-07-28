@@ -9,7 +9,7 @@ function getFullCuefaState(msg) {
       let stats = JSON.parse(data);
       let fullState = Object.values(stats);
   
-      fullState.sort((a, b) => {
+      return fullState.sort((a, b) => {
         return b.win - a.win;
       });
   
@@ -28,7 +28,7 @@ function getFullCuefaState(msg) {
   
 // ${text}`);
 
-      return fullState;
+      
      });
   };
 
