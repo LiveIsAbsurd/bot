@@ -10,6 +10,7 @@ const getUserCuefaStats = require("./functions/get-user-cuefa-stats.js");
 const getFullCuefaState = require("./functions/get-full-cuefa-state.js");
 const hiCount = require("./functions/hi-count.js");
 const setChatState = require("./functions/set-chat-state.js");
+const getChatState = require("./functions/get-chat-state.js");
 
 function hiText(username) {
   let text = `
@@ -31,6 +32,12 @@ bot.on("message", (msg) => {
   if (msg.chat.id == "-1001807749316") {
     setChatState(msg, chatState);
     editState = true;
+  }
+});
+
+bot.onText(/\/chatstate/, msg => {
+  if (msg.chat.id == "-1001807749316") {
+    getChatState(msg, chatState);
   }
 });
 
