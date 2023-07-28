@@ -25,7 +25,7 @@ function hiText(username) {
 
 const bot = new TelegramBot(token, { polling: { interval: 1000 } });
 
-let chatState = JSON.parse(fs.readFileSync("../chatStats.json", "UTF-8"));
+let chatState = JSON.parse(fs.readFileSync("../chatStats.json", "UTF-8"),null, 2);
 let editState = false;
 
 bot.on("message", (msg) => {
