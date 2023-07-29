@@ -438,7 +438,6 @@ process.on("SIGINT", () => {
 //__________________________________
 
 function displayList(msg, query, array, usersPerPage, header, cbDop) {
-  console.log("Тест");
   
   const start = query ? (currentPage[query.message.message_id] - 1) * usersPerPage : 0;
   const end = start + usersPerPage;
