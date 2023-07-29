@@ -462,7 +462,7 @@ function displayList(msg, query, array, usersPerPage, header, cbDop) {
 `
 ${header}
 
-${message};
+${message}
 `, keys)
       .then(msg => {
           currentPage[msg.message_id] = 1;
@@ -472,7 +472,7 @@ ${message};
 `
 ${header}
 
-${message};
+${message}
 `, {
           chat_id: query.message.chat.id,
           message_id: query.message.message_id,
