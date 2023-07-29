@@ -10,9 +10,10 @@ function getChatState(state, cb) {
     userStats.sort((a, b) => {
       return b.count - a.count;
     });
+    console.log("Функция 1");
 
     cb(userStats);
-    console.log("Функция 1");
+    
   
 //     userStats.forEach(el => {
 //       text += `${i}. ${el.userName ? el.userName : el.userFirstName} - ${el.count} \n`;
