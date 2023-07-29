@@ -212,9 +212,7 @@ bot.on("callback_query", (query) => {
       displayList(null, query, message, 5, `
 Статистика с 27.07.23
 Всего сообщений: ${chatState.totalMessage}
-  
-Топ:
-      `, "chatState")
+Топ:`, "chatState")
     }));
   }
 
@@ -224,9 +222,7 @@ bot.on("callback_query", (query) => {
       displayList(null, query, message, 5, `
 Статистика с 27.07.23
 Всего сообщений: ${chatState.totalMessage}
-  
-Топ:
-      `, "chatState")
+Топ:`, "chatState")
     }));
   }
 });
