@@ -4,7 +4,7 @@ const TelegramBot = require("node-telegram-bot-api");
 const bot = new TelegramBot(token);
 
 function getChatState(state, cb) {
-  console.log("Функция 1");
+  
     let userStats = Object.values(state.userMessage);
   
     userStats.sort((a, b) => {
@@ -12,6 +12,7 @@ function getChatState(state, cb) {
     });
 
     cb(userStats);
+    console.log("Функция 1");
   
 //     userStats.forEach(el => {
 //       text += `${i}. ${el.userName ? el.userName : el.userFirstName} - ${el.count} \n`;
