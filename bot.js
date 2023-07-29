@@ -429,12 +429,22 @@ function displayList(msg, query, array, usersPerPage) {
   };
 
   if (msg) {
-      bot.sendMessage(msg.chat.id, message, keys)
+      bot.sendMessage(msg.chat.id, 
+`
+# | Игры | Победы | Поражения | ВР(без ничьих)
+
+${message};
+`, keys)
       .then(msg => {
           currentPage[msg.message_id] = 1;
       })
   } else if (query) {
-      bot.editMessageText(message, {
+      bot.editMessageText(
+`
+# | Игры | Победы | Поражения | ВР(без ничьих)
+
+${message};
+`, {
           chat_id: query.message.chat.id,
           message_id: query.message.message_id,
           ...keys,
