@@ -208,7 +208,7 @@ bot.on("callback_query", (query) => {
 
   if (query.data == "prev-chatState") {
     currentPage[query.message.message_id] -= 1;
-    getChatState(msg, chatState, (message => {
+    getChatState(chatState, (message => {
       displayList(null, query, message, 5, `
 Статистика с 27.07.23
 Всего сообщений: ${chatState.totalMessage}
@@ -220,7 +220,7 @@ bot.on("callback_query", (query) => {
 
   if (query.data == "next-chatState") {
     currentPage[query.message.message_id] += 1;
-    getChatState(msg, chatState, (message => {
+    getChatState(chatState, (message => {
       displayList(null, query, message, 5, `
 Статистика с 27.07.23
 Всего сообщений: ${chatState.totalMessage}
