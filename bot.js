@@ -439,11 +439,5 @@ function displayList(msg, query, array, usersPerPage) {
           message_id: query.message.message_id,
           ...keys,
       })
-      .catch(() => {
-          bot.editMessageText("Ошибка", {
-              chat_id: query.message.chat.id,
-              message_id: query.message.message_id,
-          })
-      });
   }
 }
