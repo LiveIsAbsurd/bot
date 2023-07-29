@@ -278,7 +278,7 @@ bot.on("new_chat_members", (msg) => {
   if (chatId == "-1001807749316") {
     const opts = {
       reply_markup: {
-        inline_keyboard: [[{ text: "Привет! \u{1F44b}", callback_data: "hi" }]],
+        inline_keyboard: [[{ text: "Привет! \u{1F44b}", callback_data: "hi" }], [{text: "Наш сайт", url: "https://liveisabsurd.github.io/Meme_House/"}]],
       },
     };
 
