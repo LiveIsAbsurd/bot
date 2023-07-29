@@ -211,7 +211,7 @@ bot.on("callback_query", (query) => {
     getChatState(msg, chatState, (message => {
       displayList(null, query, message, 5, `
 Статистика с 27.07.23
-Всего сообщений: ${state.totalMessage}
+Всего сообщений: ${chatState.totalMessage}
   
 Топ:
       `, "chatState")
@@ -223,7 +223,7 @@ bot.on("callback_query", (query) => {
     getChatState(msg, chatState, (message => {
       displayList(null, query, message, 5, `
 Статистика с 27.07.23
-Всего сообщений: ${state.totalMessage}
+Всего сообщений: ${chatState.totalMessage}
   
 Топ:
       `, "chatState")
