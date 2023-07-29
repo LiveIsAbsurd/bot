@@ -75,7 +75,7 @@ bot.onText(/\/getfullcuefastats/, msg => {
   if (msg.chat.id == "-1001807749316") {
     
     getFullCuefaState(message => {
-      displayList(msg, null, message, 5);
+      displayList(msg, null, message, 5, "# | Игры | Победы | Поражения | ВР(без ничьих)");
     })
     
     
@@ -191,14 +191,14 @@ bot.on("callback_query", (query) => {
   if (query.data == "prev") {
     currentPage[query.message.message_id] -= 1;
     getFullCuefaState(message => {
-      displayList(null, query, message, 5);
+      displayList(null, query, message, 5, "# | Игры | Победы | Поражения | ВР(без ничьих)");
     })
   }
 
   if (query.data == "next") {
     currentPage[query.message.message_id] += 1;
     getFullCuefaState(message => {
-      displayList(null, query, message, 5);
+      displayList(null, query, message, 5, "# | Игры | Победы | Поражения | ВР(без ничьих)");
     })
   }
 });
@@ -413,7 +413,7 @@ process.on("SIGINT", () => {
 
 //__________________________________
 
-function displayList(msg, query, array, usersPerPage) {
+function displayList(msg, query, array, usersPerPage, header) {
   
   const start = query ? (currentPage[query.message.message_id] - 1) * usersPerPage : 0;
   const end = start + usersPerPage;
@@ -431,7 +431,7 @@ function displayList(msg, query, array, usersPerPage) {
   if (msg) {
       bot.sendMessage(msg.chat.id, 
 `
-# | Игры | Победы | Поражения | ВР(без ничьих)
+${header}
 
 ${message};
 `, keys)
@@ -441,7 +441,7 @@ ${message};
   } else if (query) {
       bot.editMessageText(
 `
-# | Игры | Победы | Поражения | ВР(без ничьих)
+${header}
 
 ${message};
 `, {
