@@ -40,7 +40,6 @@ bot.on("message", (msg) => {
 bot.onText(/\/chatstate/, msg => {
   if (msg.chat.id == "-1001807749316") {
     getChatState(chatState, (message => {
-      console.log(message);
       displayList(msg, null, message, 5, `
 Статистика с 27.07.23
 Всего сообщений: ${state.totalMessage}
@@ -448,9 +447,15 @@ function displayList(msg, query, array, usersPerPage, header, cbDop) {
   const start = query ? (currentPage[query.message.message_id] - 1) * usersPerPage : 0;
   const end = start + usersPerPage;
   const page = array.slice(start, end);
+  let message;
 
+  if (cbDop == "cuefa") {
+    message = page.map((el, index) => `${start + index + 1}. ${el.name} - ${el.total} | ${el.win} | ${el.lose} | ${isNaN(((el.win / (el.win + el.lose)) * 100).toFixed(2)) ? 0 : ((el.win / (el.win + el.lose)) * 100).toFixed(2)}%`).join('\n');
+  }
 
-  let message = page.map((el, index) => `${start + index + 1}. ${el.name} - ${el.total} | ${el.win} | ${el.lose} | ${isNaN(((el.win / (el.win + el.lose)) * 100).toFixed(2)) ? 0 : ((el.win / (el.win + el.lose)) * 100).toFixed(2)}%`).join('\n');
+  if (cbDop == "chatState") {
+    message = page.map((el, index) => `${start + index + 1}. ${el.userName ? el.userName : el.userFirstName} - ${el.count}`).join('\n');
+  }
   let buttons = createPaginationButtons(array, query ? currentPage[query.message.message_id] : 1, usersPerPage, cbDop);
 
   let keys = {
