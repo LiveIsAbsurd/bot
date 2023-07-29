@@ -3,7 +3,7 @@ const token = require("../../token.js");
 const TelegramBot = require("node-telegram-bot-api");
 const bot = new TelegramBot(token);
 
-function getChatState(msg, state, cb) {
+function getChatState(state, cb) {
     let userStats = Object.values(state.userMessage);
     let text = "";
     let i = 1;
