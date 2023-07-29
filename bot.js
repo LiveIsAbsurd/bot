@@ -148,6 +148,7 @@ bot.on("callback_query", (query) => {
               callback_data: "hi",
             },
           ],
+          [{text: "Наш сайт", url: "https://liveisabsurd.github.io/Meme_House/"}]
         ],
       };
 
