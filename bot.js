@@ -75,7 +75,6 @@ bot.onText(/\/getfullcuefastats/, msg => {
   if (msg.chat.id == "-1001807749316") {
     
     getFullCuefaState(message => {
-      console.log(message);
       displayList(msg, null, message, 5);
     })
     
@@ -191,12 +190,16 @@ bot.on("callback_query", (query) => {
 
   if (query.data == "prev") {
     currentPage[query.message.message_id] -= 1;
-    displayList(null, query, array, 5);
+    getFullCuefaState(message => {
+      displayList(null, query, message, 5);
+    })
   }
 
   if (query.data == "next") {
     currentPage[query.message.message_id] += 1;
-    displayList(null, query, array, 5);
+    getFullCuefaState(message => {
+      displayList(null, query, message, 5);
+    })
   }
 });
 
