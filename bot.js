@@ -42,7 +42,7 @@ bot.onText(/\/chatstate/, msg => {
     getChatState(chatState, (message => {
       displayList(msg, null, message, 5, `
 Статистика с 27.07.23
-Всего сообщений: ${state.totalMessage}
+Всего сообщений: ${chatState.totalMessage}
   
 Топ:
       `, "chatState")
