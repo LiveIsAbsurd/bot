@@ -39,7 +39,14 @@ bot.on("message", (msg) => {
 
 bot.onText(/\/chatstate/, msg => {
   if (msg.chat.id == "-1001807749316") {
-    getChatState(msg, chatState);
+    getChatState(msg, chatState, (message => {
+      displayList(msg, null, message, 5, `
+Статистика с 27.07.23
+Всего сообщений: ${state.totalMessage}
+  
+Топ:
+      `, "chatState")
+    }));
   }
 });
 
@@ -73,12 +80,9 @@ bot.onText(/\/getcuefastats/, msg => {
 bot.onText(/\/getfullcuefastats/, msg => {
   bot.deleteMessage(msg.chat.id, msg.message_id);
   if (msg.chat.id == "-1001807749316") {
-    
     getFullCuefaState(message => {
       displayList(msg, null, message, 5, "# | Игры | Победы | Поражения | ВР(без ничьих)", "cuefa");
-    })
-    
-    
+    });
   }
 });
 
@@ -200,6 +204,30 @@ bot.on("callback_query", (query) => {
     getFullCuefaState(message => {
       displayList(null, query, message, 5, "# | Игры | Победы | Поражения | ВР(без ничьих)", "cuefa");
     })
+  }
+
+  if (query.data == "prev-chatState") {
+    currentPage[query.message.message_id] -= 1;
+    getChatState(msg, chatState, (message => {
+      displayList(null, query, message, 5, `
+Статистика с 27.07.23
+Всего сообщений: ${state.totalMessage}
+  
+Топ:
+      `, "chatState")
+    }));
+  }
+
+  if (query.data == "next-chatState") {
+    currentPage[query.message.message_id] += 1;
+    getChatState(msg, chatState, (message => {
+      displayList(null, query, message, 5, `
+Статистика с 27.07.23
+Всего сообщений: ${state.totalMessage}
+  
+Топ:
+      `, "chatState")
+    }));
   }
 });
 
