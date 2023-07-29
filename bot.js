@@ -40,6 +40,7 @@ bot.on("message", (msg) => {
 bot.onText(/\/chatstate/, msg => {
   if (msg.chat.id == "-1001807749316") {
     getChatState(chatState, (message => {
+      console.log(message);
       displayList(msg, null, message, 5, `
 Статистика с 27.07.23
 Всего сообщений: ${state.totalMessage}

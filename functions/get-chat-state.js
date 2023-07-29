@@ -10,7 +10,6 @@ function getChatState(state, cb) {
     userStats.sort((a, b) => {
       return b.count - a.count;
     });
-    console.log("Функция 1");
 
     cb(userStats);
     
