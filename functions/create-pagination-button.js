@@ -1,18 +1,18 @@
-function createPaginationButtons(array, currentPage, usersPerPage) {
+function createPaginationButtons(array, currentPage, usersPerPage, cbDop) {
     let buttons = [];
     let totalPages = Math.ceil(array.length / usersPerPage);
 
     if (currentPage > 1) {
         buttons.push({
             text: "⬅️",
-            callback_data: "prev",
+            callback_data: `prev-${cbDop}`,
         });
     }
 
     if (currentPage < totalPages) {
         buttons.push({
             text: "➡️",
-            callback_data: "next",
+            callback_data: `next-${cbDop}`,
         });
     }
 

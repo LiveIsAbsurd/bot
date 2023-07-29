@@ -75,7 +75,7 @@ bot.onText(/\/getfullcuefastats/, msg => {
   if (msg.chat.id == "-1001807749316") {
     
     getFullCuefaState(message => {
-      displayList(msg, null, message, 5, "# | Игры | Победы | Поражения | ВР(без ничьих)");
+      displayList(msg, null, message, 5, "# | Игры | Победы | Поражения | ВР(без ничьих)", "cuefa");
     })
     
     
@@ -188,17 +188,17 @@ bot.on("callback_query", (query) => {
     }
   }
 
-  if (query.data == "prev") {
+  if (query.data == "prev-cuefa") {
     currentPage[query.message.message_id] -= 1;
     getFullCuefaState(message => {
-      displayList(null, query, message, 5, "# | Игры | Победы | Поражения | ВР(без ничьих)");
+      displayList(null, query, message, 5, "# | Игры | Победы | Поражения | ВР(без ничьих)", "cuefa");
     })
   }
 
-  if (query.data == "next") {
+  if (query.data == "next-cuefa") {
     currentPage[query.message.message_id] += 1;
     getFullCuefaState(message => {
-      displayList(null, query, message, 5, "# | Игры | Победы | Поражения | ВР(без ничьих)");
+      displayList(null, query, message, 5, "# | Игры | Победы | Поражения | ВР(без ничьих)", "cuefa");
     })
   }
 });
@@ -413,14 +413,14 @@ process.on("SIGINT", () => {
 
 //__________________________________
 
-function displayList(msg, query, array, usersPerPage, header) {
+function displayList(msg, query, array, usersPerPage, header, cbDop) {
   
   const start = query ? (currentPage[query.message.message_id] - 1) * usersPerPage : 0;
   const end = start + usersPerPage;
   const page = array.slice(start, end);
 
   let message = page.map((el, index) => `${start + index + 1}. ${el.name} - ${el.total} | ${el.win} | ${el.lose} | ${isNaN(((el.win / (el.win + el.lose)) * 100).toFixed(2)) ? 0 : ((el.win / (el.win + el.lose)) * 100).toFixed(2)}%`).join('\n');
-  let buttons = createPaginationButtons(array, query ? currentPage[query.message.message_id] : 1, usersPerPage);
+  let buttons = createPaginationButtons(array, query ? currentPage[query.message.message_id] : 1, usersPerPage, cbDop);
 
   let keys = {
       reply_markup: {
