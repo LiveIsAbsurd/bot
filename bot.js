@@ -21,7 +21,7 @@ function hiText(username) {
 Чувствуйте себя как у @user148 дома!
 Все правила в закрепе.
 Желаю освоиться в нашем чатике!
-Заходи на сайт нашего чата: https://liveisabsurd.github.io/Meme_House/`;
+Заходи на сайт нашего чата!`;
   return text;
 }
 
