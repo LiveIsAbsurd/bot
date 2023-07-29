@@ -432,7 +432,6 @@ function displayList(msg, query, array, usersPerPage) {
       bot.sendMessage(msg.chat.id, message, keys)
       .then(msg => {
           currentPage[msg.message_id] = 1;
-          console.log(currentPage);
       })
   } else if (query) {
       bot.editMessageText(message, {

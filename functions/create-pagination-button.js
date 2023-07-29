@@ -4,14 +4,14 @@ function createPaginationButtons(array, currentPage, usersPerPage) {
 
     if (currentPage > 1) {
         buttons.push({
-            text: "Назад",
+            text: "⬅️",
             callback_data: "prev",
         });
     }
 
     if (currentPage < totalPages) {
         buttons.push({
-            text: "Вперёд",
+            text: "➡️",
             callback_data: "next",
         });
     }
