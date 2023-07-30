@@ -156,6 +156,8 @@ bot.on("callback_query", (query) => {
     });
   }
 
+  //-----------------------------------------------------------------------------------------------------------
+
   if (query.data == "rock" || query.data == "nosh" || query.data == "paper") {
     //console.log(query);
     if (query.from.username) {
@@ -250,6 +252,7 @@ bot.onText(/\/kick/, (msg) => {
             )
             .then(() => {
               bot.sendMessage(chatId, "Участник исключен из чата");
+              bot.deleteMessage(msg.chat.id, msg.reply_to_message.message_id);
             })
             .catch((error) => {
               console.log(error);
