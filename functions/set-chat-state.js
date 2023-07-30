@@ -30,6 +30,14 @@ function setChatState(msg, state) {
         state.userMessage[userId].userName = userName;
       }
     }
+
+    if (state.userMessage[userId].count % 100 == 0) {
+      bot.sendMessage(msg.chat.id, 
+  `
+  ${state.userMessage[userId].userName ? `@${state.userMessage[userId].userName}` : state.userMessage[userId].userFirstName} написал уже ${state.userMessage[userId].count} сообщений!
+  `
+        );
+    }
   
     if (!state.messageOnDate[realDate]) {
       state.messageOnDate[realDate] = {
