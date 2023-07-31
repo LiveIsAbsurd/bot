@@ -256,18 +256,19 @@ bot.onText(/\/kick/, (msg) => {
               `https://api.telegram.org/bot${token}/kickChatMember?chat_id=${chatId}&user_id=${userId}`
             )
             .then(() => {
-              bot.sendMessage(chatId, "Участник исключен из чата");
+              bot.sendMessage(chatId, "Участник исключен из чата", {reply_to_message_id: msg.message_id});
               bot.deleteMessage(msg.chat.id, msg.reply_to_message.message_id);
             })
             .catch((error) => {
               console.log(error);
               bot.sendMessage(
                 chatId,
-                "Произошла ошибка при исключении участника"
+                "Произошла ошибка при исключении участника",
+                {reply_to_message_id: msg.message_id}
               );
             });
         } else {
-          bot.sendMessage(chatId, "Ты кто такой, чтобы такое делать?");
+          bot.sendMessage(chatId, "Ты кто такой, чтобы такое делать?", {reply_to_message_id: msg.message_id});
         }
       });
   } else {
