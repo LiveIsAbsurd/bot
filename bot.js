@@ -432,16 +432,15 @@ setInterval(() => {
 }, 15000);
 
 process.on("SIGINT", () => {
+  bot.editMessageText(`Бот временно отключён`, {
+    chat_id: "-1001807749316",
+    message_id: "59131"
+  });
   fs.writeFile("../chatStats.json", JSON.stringify(chatState, null, 2), "UTF-8", (err) => {
     if (err) {
       console.log(err);
     }
     console.log("Запись");
-
-    bot.editMessageText(`Бот временно отключён`, {
-      chat_id: "-1001807749316",
-      message_id: "59131"
-    });
     process.exit(0);
   });
 })
