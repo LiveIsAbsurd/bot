@@ -29,11 +29,6 @@ const bot = new TelegramBot(token, { polling: { interval: 1000 } });
 let chatState = JSON.parse(fs.readFileSync("../chatStats.json", "UTF-8"),null, 2);
 let editState = false;
 
-bot.editMessageText(`Сообщений с 27.07.2023: ${chatState.totalMessage}`, {
-  chat_id: "-1001807749316",
-  message_id: "59131"
-});
-
 bot.on("message", (msg) => {
   if (msg.chat.id == "-1001807749316") {
     setChatState(msg, chatState);
