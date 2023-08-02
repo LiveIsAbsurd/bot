@@ -10,7 +10,7 @@ bot.on("message", msg => {
   let trigArr = Object.keys(triggers);
 
   trigArr.forEach(el => {
-    if (text.includes(el)) {
+    if (text.some(el)) {
       let rnd = Math.floor(Math.random() * (triggers[el].length));
       bot.sendMessage(msg.chat.id, triggers[el][rnd], {reply_to_message_id: msg.message_id});
     }
