@@ -22,7 +22,7 @@ bot.on("message", msg => {
 
 bot.onText(/\/addTrigger (.+)/, (msg, match) => {
   if (msg.from.id == "261749882" || msg.from.id == "300711096") {
-    let trigger = match[1];
+    let trigger = match[1].toLowerCase();
     let trigText = match.input.replace(match[0], "").replace("\n", "")
 
     if (!triggers[trigger]) {
