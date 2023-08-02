@@ -3,7 +3,7 @@ const TelegramBot = require("node-telegram-bot-api");
 const fs = require("fs");
 const bot = new TelegramBot(token, { polling: { interval: 1000 } });
 
-let triggers = JSON.parse(fs.readFileSync("./file.json", "UTF-8"), null, 2);
+let triggers = JSON.parse(fs.readFileSync("../file.json", "UTF-8"), null, 2);
 
 bot.on("message", msg => {
   let text = msg.text.toLowerCase();
@@ -28,7 +28,7 @@ bot.onText(/\/addTrigger (.+)/, (msg, match) => {
 
     triggers[trigger].push(trigText);
 
-    fs.writeFile("./file.json", JSON.stringify(triggers, null, 2), "utf-8", err => {
+    fs.writeFile("../file.json", JSON.stringify(triggers, null, 2), "utf-8", err => {
       bot.sendMessage(msg.chat.id, `Триггер: ${trigger} \nтекст: ${trigText}`);
     });
   }
