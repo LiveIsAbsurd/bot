@@ -4,17 +4,20 @@ const fs = require("fs");
 const bot = new TelegramBot(token, { polling: { interval: 1000 } });
 
 let triggers = JSON.parse(fs.readFileSync("../file.json", "UTF-8"), null, 2);
+let trig = false
 
 bot.on("message", msg => {
   let text = msg.text.toLowerCase();
   let trigArr = Object.keys(triggers);
 
   trigArr.some(el => {
-    if (text.includes(el)) {
+    if (text.includes(el) && !trig) {
       let rnd = Math.floor(Math.random() * (triggers[el].length));
       bot.sendMessage(msg.chat.id, triggers[el][rnd], {reply_to_message_id: msg.message_id});
+      trig = true;
     }
   })
+  trig = false;
 })
 
 bot.onText(/\/addTrigger (.+)/, (msg, match) => {
