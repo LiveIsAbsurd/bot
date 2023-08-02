@@ -9,8 +9,8 @@ bot.on("message", msg => {
   let text = msg.text.toLowerCase();
   let trigArr = Object.keys(triggers);
 
-  trigArr.forEach(el => {
-    if (text.some(el)) {
+  trigArr.some(el => {
+    if (text.includes(el)) {
       let rnd = Math.floor(Math.random() * (triggers[el].length));
       bot.sendMessage(msg.chat.id, triggers[el][rnd], {reply_to_message_id: msg.message_id});
     }
