@@ -34,5 +34,7 @@ bot.onText(/\/addTrigger (.+)/, (msg, match) => {
     fs.writeFile("../file.json", JSON.stringify(triggers, null, 2), "utf-8", err => {
       bot.sendMessage(msg.chat.id, `Триггер: ${trigger} \nтекст: ${trigText}`);
     });
+  } else {
+    bot.sendMessage(msg.chat.id,  "А пшёл-ка ты нахуй, в моём списке ты опущенный", {reply_to_message_id: msg.message_id});
   }
 })
