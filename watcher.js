@@ -22,7 +22,7 @@ bot.onText(/\/addTrigger (.+)/, (msg, match) => {
       bot.sendMessage(msg.chat.id, `Триггер: ${trigger} \nтекст: ${trigText}`);
     });
   } else {
-    bot.sendMessage(msg.chat.id,  "А пшёл-ка ты нахуй, в моём списке ты опущенный", {reply_to_message_id: msg.message_id});
+    bot.sendMessage(msg.chat.id,  "А нет, у тебя нет доступа", {reply_to_message_id: msg.message_id});
   }
 })
 
