@@ -31,6 +31,7 @@ bot.on("message", msg => {
   let trigArr = Object.keys(triggers);
   let regTrig = "\\b ("+ trigArr.join("|") + ") \\b"
   let regex = new RegExp(regTrig)
+  console.log(regex.test(text));
 
   trigArr.some(el => {
     if (regex.test(text) && !trig) {
