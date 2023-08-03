@@ -29,9 +29,11 @@ bot.onText(/\/addTrigger (.+)/, (msg, match) => {
 bot.on("message", msg => {
   let text = msg.text.toLowerCase();
   let trigArr = Object.keys(triggers);
+  let regTrig = "\\b ("+ trigArr.join("|") + ") \\b"
+  let regex = new RegExp(regTrig)
 
   trigArr.some(el => {
-    if (text.includes(el) && !trig) {
+    if (regex.test(text) && !trig) {
       let rnd = Math.floor(Math.random() * (triggers[el].length));
       bot.sendMessage(msg.chat.id, triggers[el][rnd], {reply_to_message_id: msg.message_id});
       trig = true;
