@@ -10,7 +10,7 @@ function getFullCuefaState(cb) {
       let fullState = Object.values(stats);
   
       fullState.sort((a, b) => {
-        return (b.lose / b.win) - (a.lose / a.win);
+        return b.win - a.win;
       });
   
 //       let text = "";
