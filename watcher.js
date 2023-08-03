@@ -29,6 +29,8 @@ bot.onText(/\/addTrigger (.+)/, (msg, match) => {
 bot.on("message", msg => {
   let text = msg.text.toLowerCase();
   let trigArr = Object.keys(triggers);
+  // let regTrig = "\\b ("+ trigArr.join("|") + ") \\b"
+  // let regex = new RegExp(regTrig)
 
   trigArr.some(el => {
     if (text.includes(el) && !trig) {
