@@ -102,6 +102,22 @@ bot.on("inline_query", (query) => {
 
     bot.answerInlineQuery(query.id, result);
   }
+
+  if (query.query == "cuefa") {
+    const result = [
+      {
+        id: "1",
+        type: "article",
+        title: "Камень, ножницы, бумага",
+        input_message_content: {
+          message_text: "Камень, ножницы, бумага. Сыграем?",
+          reply_markup: {
+            inline_keyboard: [[{ text: "Старт!", callback_data: "cuefaReplay" }]]
+          }
+        }
+      }
+    ];
+  }
 });
 
 bot.onText(/\/getKey/, (msg) => {
