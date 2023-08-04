@@ -200,7 +200,7 @@ bot.on("callback_query", (query) => {
         displayList(null, query, message, 5, "# | Игры | Победы | Поражения | ВР(без ничьих)", "cuefa");
       })
     } else {
-      bot.deleteMessage(query.chat.id, msg.message.message_id);
+      bot.deleteMessage(query.message.chat.id, msg.message.message_id);
     }
   }
 
@@ -211,7 +211,7 @@ bot.on("callback_query", (query) => {
         displayList(null, query, message, 5, "# | Игры | Победы | Поражения | ВР(без ничьих)", "cuefa");
       })
     } else {
-      bot.deleteMessage(query.chat.id, msg.message.message_id);
+      bot.deleteMessage(query.message.chat.id, msg.message.message_id);
     }
   }
 
@@ -222,19 +222,18 @@ bot.on("callback_query", (query) => {
         displayList(null, query, message, 5, "# | Игры | Победы | Поражения | ВР(без ничьих)", "cuefa");
       })
     } else {
-      bot.deleteMessage(query.chat.id, msg.message.message_id);
+      bot.deleteMessage(query.message.chat.id, msg.message.message_id);
     }
   }
 
   if (query.data == "next-chatState") {
-    console.log(query);
     if (currentPage[query.message.message_id]) {
       currentPage[query.message.message_id] += 1;
       getFullCuefaState(message => {
         displayList(null, query, message, 5, "# | Игры | Победы | Поражения | ВР(без ничьих)", "cuefa");
       })
     } else {
-      bot.deleteMessage(query.chat.id, query.message.message_id);
+      bot.deleteMessage(query.message.chat.id, query.message.message_id);
     }
   }
 });
