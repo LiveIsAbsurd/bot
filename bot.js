@@ -230,7 +230,6 @@ bot.on("callback_query", (query) => {
   }
 
   if (query.data == "next-chatState") {
-    console.log(query);
     if (currentPage[query.message.message_id]) {
       currentPage[query.message.message_id] += 1;
     getChatState(chatState, (message => {
