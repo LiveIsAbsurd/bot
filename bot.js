@@ -194,21 +194,21 @@ bot.on("callback_query", (query) => {
   }
 
   if (query.data == "prev-cuefa") {
-    currentPage[query.message.message_id] -= 1;
+    currentPage[query.message.message_id] ? currentPage[query.message.message_id] -= 1 : currentPage[query.message.message_id] = 1;
     getFullCuefaState(message => {
       displayList(null, query, message, 5, "# | Игры | Победы | Поражения | ВР(без ничьих)", "cuefa");
     })
   }
 
   if (query.data == "next-cuefa") {
-    currentPage[query.message.message_id] += 1;
+    currentPage[query.message.message_id] ? currentPage[query.message.message_id] += 1 : currentPage[query.message.message_id] = 1;
     getFullCuefaState(message => {
       displayList(null, query, message, 5, "# | Игры | Победы | Поражения | ВР(без ничьих)", "cuefa");
     })
   }
 
   if (query.data == "prev-chatState") {
-    currentPage[query.message.message_id] -= 1;
+    currentPage[query.message.message_id] ? currentPage[query.message.message_id] -= 1 : currentPage[query.message.message_id] = 1;
     getChatState(chatState, (message => {
       displayList(null, query, message, 5, `
 Статистика с 27.07.23
@@ -218,7 +218,7 @@ bot.on("callback_query", (query) => {
   }
 
   if (query.data == "next-chatState") {
-    currentPage[query.message.message_id] += 1;
+    currentPage[query.message.message_id] ? currentPage[query.message.message_id] += 1 : currentPage[query.message.message_id] = 1;
     getChatState(chatState, (message => {
       displayList(null, query, message, 5, `
 Статистика с 27.07.23
