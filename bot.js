@@ -112,12 +112,22 @@ bot.on("inline_query", (query) => {
         input_message_content: {
           message_text: "Камень, ножницы, бумага. Сыграем?",
         }
-      }
+      },
     ];
 
-    bot.answerInlineQuery(query.id, result, {
+    bot.answerInlineQuery(query.id, {
+      results: result, // Результаты ответа
       reply_markup: {
-        inline_keyboard: [[{ text: "Старт!", callback_data: "cuefaReplay" }]]
+        inline_keyboard: [
+          [
+            { text: 'Кнопка 1', callback_data: 'button1' },
+            { text: 'Кнопка 2', callback_data: 'button2' }
+          ],
+          [
+            { text: 'Кнопка 3', callback_data: 'button3' },
+            { text: 'Кнопка 4', callback_data: 'button4' }
+          ]
+        ]
       }
     });
   }
