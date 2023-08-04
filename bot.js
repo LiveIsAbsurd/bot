@@ -117,6 +117,8 @@ bot.on("inline_query", (query) => {
         }
       }
     ];
+
+    bot.answerInlineQuery(query.id, result);
   }
 });
 
