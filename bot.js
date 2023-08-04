@@ -111,14 +111,15 @@ bot.on("inline_query", (query) => {
         title: "Камень, ножницы, бумага",
         input_message_content: {
           message_text: "Камень, ножницы, бумага. Сыграем?",
-          reply_markup: {
-            inline_keyboard: [[{ text: "Старт!", callback_data: "cuefaReplay" }]]
-          }
         }
       }
     ];
 
-    bot.answerInlineQuery(query.id, result);
+    bot.answerInlineQuery(query.id, result, {
+      reply_markup: {
+        inline_keyboard: [[{ text: "Старт!", callback_data: "cuefaReplay" }]]
+      }
+    });
   }
 });
 
