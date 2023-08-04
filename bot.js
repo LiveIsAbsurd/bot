@@ -102,30 +102,6 @@ bot.on("inline_query", (query) => {
 
     bot.answerInlineQuery(query.id, result);
   }
-
-  if (query.query == "cuefa") {
-    const result = [
-      {
-        id: "1",
-        type: "article",
-        title: "Камень, ножницы, бумага",
-        input_message_content: {
-          message_text: "Камень, ножницы, бумага. Сыграем?",
-          reply_markup: {
-            inline_keyboard: [
-              [
-                { text: 'Камень', callback_data: 'rock' },
-                { text: 'Ножницы', callback_data: 'scissors' },
-                { text: 'Бумага', callback_data: 'paper' }
-              ]
-            ]
-          }
-        }
-      },
-    ];
-    
-    bot.answerInlineQuery(query.id, result);
-  }
 });
 
 bot.onText(/\/getKey/, (msg) => {
