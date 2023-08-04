@@ -111,25 +111,20 @@ bot.on("inline_query", (query) => {
         title: "Камень, ножницы, бумага",
         input_message_content: {
           message_text: "Камень, ножницы, бумага. Сыграем?",
+          reply_markup: {
+            inline_keyboard: [
+              [
+                { text: 'Камень', callback_data: 'rock' },
+                { text: 'Ножницы', callback_data: 'scissors' },
+                { text: 'Бумага', callback_data: 'paper' }
+              ]
+            ]
+          }
         }
       },
     ];
-
-    bot.answerInlineQuery(query.id, {
-      results: result, // Результаты ответа
-      reply_markup: {
-        inline_keyboard: [
-          [
-            { text: 'Кнопка 1', callback_data: 'button1' },
-            { text: 'Кнопка 2', callback_data: 'button2' }
-          ],
-          [
-            { text: 'Кнопка 3', callback_data: 'button3' },
-            { text: 'Кнопка 4', callback_data: 'button4' }
-          ]
-        ]
-      }
-    });
+    
+    bot.answerInlineQuery(query.id, result);
   }
 });
 
