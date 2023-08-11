@@ -44,6 +44,20 @@ bot.on("message", (msg) => {
   }
 });
 
+bot.onText(/\/help/, msg => {
+  bot.deleteMessage(msg.chat.id, msg.message_id);
+  bot.sendMessage(msg.chat.id,
+    `
+Основные команды: 
+/start - приветствие
+/chatstate - статистика чата
+/kick - (в ответ на сообщение) удаление участника (только для админов)
+/cuefa - камень, ножницы, бумага
+/getcuefastats - цуефа статистика игрока
+/getfullcuefastats - цуефа полная статистика
+    `, {reply_to_message_id: msg.message_id});
+});
+
 bot.onText(/\/chatstate/, msg => {
   bot.deleteMessage(msg.chat.id, msg.message_id);
   getChatState(chatState, (message => {
