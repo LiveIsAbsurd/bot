@@ -249,9 +249,9 @@ bot.on("callback_query", (query) => {
   if (query.data == "chatState") {
     getChatState(chatState, (message => {
       displayList(null, query, message, 5, `
-  Статистика с 27.07.23
-  Всего сообщений: ${chatState.totalMessage}
-  Топ:`, "chatState")
+Статистика с 27.07.23
+Всего сообщений: ${chatState.totalMessage}
+Топ:`, "chatState")
     }));
   }
 });
