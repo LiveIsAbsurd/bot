@@ -248,7 +248,7 @@ bot.on("callback_query", (query) => {
 
   if (query.data == "chatState") {
     getChatState(chatState, (message => {
-      displayList(null, null, message, 5, `
+      displayList(null, query, message, 5, `
   Статистика с 27.07.23
   Всего сообщений: ${chatState.totalMessage}
   Топ:`, "chatState")
@@ -488,7 +488,7 @@ process.on("SIGINT", async () => {
 function displayList(msg, query, array, usersPerPage, header, cbDop) {
   
   let start;
-  if (!msg || query.data == "chatState") {
+  if (!msg && query.data == "chatState") {
     start = 0;
   } else {
     start = query ? (currentPage[query.message.message_id] - 1) * usersPerPage : 0;
@@ -506,7 +506,7 @@ function displayList(msg, query, array, usersPerPage, header, cbDop) {
   }
 
   let qq;
-  if (!msg || query.data == "chatState") {
+  if (!msg && query.data == "chatState") {
     qq = 1
   } else {
     qq = query ? currentPage[query.message.message_id] : 1, usersPerPage
