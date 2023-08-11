@@ -458,7 +458,7 @@ setInterval(() => {
       console.log("Запись");
     });
 
-    bot.editMessageText(`Сообщений с 27.07.2023: ${chatState.totalMessage}`, {
+    bot.editMessageText(`Сообщений с 27.07.2023:`, {
       chat_id: "-1001807749316",
       message_id: "59131",
       reply_markup: {
@@ -487,7 +487,12 @@ process.on("SIGINT", async () => {
 
 function displayList(msg, query, array, usersPerPage, header, cbDop) {
   
-  const start = query ? (currentPage[query.message.message_id] - 1) * usersPerPage : 0;
+  let start;
+  if (!msg || query.data == "chatState") {
+    start = 0;
+  } else {
+    start = query ? (currentPage[query.message.message_id] - 1) * usersPerPage : 0;
+  }
   const end = start + usersPerPage;
   const page = array.slice(start, end);
   let message;
@@ -499,7 +504,15 @@ function displayList(msg, query, array, usersPerPage, header, cbDop) {
   if (cbDop == "chatState") {
     message = page.map((el, index) => `${start + index + 1}. ${el.userName ? el.userName : el.userFirstName} - ${el.count}`).join('\n');
   }
-  let buttons = createPaginationButtons(array, query ? currentPage[query.message.message_id] : 1, usersPerPage, cbDop);
+
+  let qq;
+  if (!msg || query.data == "chatState") {
+    qq = 1
+  } else {
+    qq = query ? currentPage[query.message.message_id] : 1, usersPerPage
+  }
+
+  let buttons = createPaginationButtons(array, qq, cbDop);
 
   let keys = {
       reply_markup: {
