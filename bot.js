@@ -29,7 +29,7 @@ const bot = new TelegramBot(token, { polling: { interval: 1000 } });
 let chatState = JSON.parse(fs.readFileSync("../chatStats.json", "UTF-8"),null, 2);
 let editState = false;
 
-bot.editMessageText(`Сообщений с 27.07.2023: ${chatState.totalMessage}`, {
+bot.editMessageText(`Сообщений с 27.07.2023:`, {
   chat_id: "-1001807749316",
   message_id: "59131",
   reply_markup: {
@@ -245,6 +245,15 @@ bot.on("callback_query", (query) => {
       bot.deleteMessage(query.message.chat.id, query.message.message_id);
     }
   }
+
+  if (query.data == "chatstate") {
+    getChatState(chatState, (message => {
+      displayList(null, null, message, 5, `
+  Статистика с 27.07.23
+  Всего сообщений: ${chatState.totalMessage}
+  Топ:`, "chatState")
+    }));
+  }
 });
 
 bot.onText(/\/kick/, (msg) => {
@@ -451,7 +460,10 @@ setInterval(() => {
 
     bot.editMessageText(`Сообщений с 27.07.2023: ${chatState.totalMessage}`, {
       chat_id: "-1001807749316",
-      message_id: "59131"
+      message_id: "59131",
+      reply_markup: {
+        inline_keyboard: [[{ text: `${chatState.totalMessage}`, callback_data: "chatstate" }]]
+      }
     });
   }
 }, 15000);
@@ -495,8 +507,8 @@ function displayList(msg, query, array, usersPerPage, header, cbDop) {
       }
   };
 
-  if (msg) {
-      bot.sendMessage(msg.chat.id, 
+  if (msg || query.data === "chatstate") {
+      bot.sendMessage(msg ? msg.chat.id : query.message.chat.id, 
 `
 ${header}
 
