@@ -509,11 +509,10 @@ function displayList(msg, query, array, usersPerPage, header, cbDop) {
   if (!msg && query.data == "chatState") {
     qq = 1
   } else {
-    qq = query ? currentPage[query.message.message_id] : 1, usersPerPage
+    qq = query ? currentPage[query.message.message_id] : 1;
   }
 
-  let buttons = createPaginationButtons(array, qq, cbDop);
-  console.log(qq);
+  let buttons = createPaginationButtons(array, qq, usersPerPage, cbDop);
 
   let keys = {
       reply_markup: {

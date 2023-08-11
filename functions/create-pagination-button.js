@@ -1,4 +1,5 @@
 function createPaginationButtons(array, currentPage, usersPerPage, cbDop) {
+    console.log(currentPage);
     let buttons = [];
     let totalPages = Math.ceil(array.length / usersPerPage);
 
