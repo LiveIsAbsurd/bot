@@ -513,6 +513,7 @@ function displayList(msg, query, array, usersPerPage, header, cbDop) {
   }
 
   let buttons = createPaginationButtons(array, qq, cbDop);
+  console.log(buttons);
 
   let keys = {
       reply_markup: {
