@@ -31,7 +31,10 @@ let editState = false;
 
 bot.editMessageText(`Сообщений с 27.07.2023: ${chatState.totalMessage}`, {
   chat_id: "-1001807749316",
-  message_id: "59131"
+  message_id: "59131",
+  reply_markup: {
+    inline_keyboard: [[{ text: `${chatState.totalMessage}`, callback_data: "chatstate" }]]
+  }
 });
 
 bot.on("message", (msg) => {
