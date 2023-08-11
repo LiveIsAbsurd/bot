@@ -33,7 +33,7 @@ bot.editMessageText(`Сообщений с 27.07.2023:`, {
   chat_id: "-1001807749316",
   message_id: "59131",
   reply_markup: {
-    inline_keyboard: [[{ text: `${chatState.totalMessage}`, callback_data: "chatstate" }]]
+    inline_keyboard: [[{ text: `${chatState.totalMessage}`, callback_data: "chatState" }]]
   }
 });
 
@@ -246,7 +246,7 @@ bot.on("callback_query", (query) => {
     }
   }
 
-  if (query.data == "chatstate") {
+  if (query.data == "chatState") {
     getChatState(chatState, (message => {
       displayList(null, null, message, 5, `
   Статистика с 27.07.23
@@ -462,7 +462,7 @@ setInterval(() => {
       chat_id: "-1001807749316",
       message_id: "59131",
       reply_markup: {
-        inline_keyboard: [[{ text: `${chatState.totalMessage}`, callback_data: "chatstate" }]]
+        inline_keyboard: [[{ text: `${chatState.totalMessage}`, callback_data: "chatState" }]]
       }
     });
   }
@@ -520,7 +520,7 @@ function displayList(msg, query, array, usersPerPage, header, cbDop) {
       }
   };
 
-  if (msg || query.data === "chatstate") {
+  if (msg || query.data === "chatState") {
       bot.sendMessage(msg ? msg.chat.id : query.message.chat.id, 
 `
 ${header}
