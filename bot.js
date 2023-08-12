@@ -20,7 +20,8 @@ function hiText(username) {
 Добро пожаловать в наш замечательный и скромный чатик!
 Чувствуйте себя как у @user148 дома!
 Желаю освоиться в нашем чатике!
-Заходи на наш сайт!`;
+Заходи на наш сайт!
+/help - основные команды бота.`;
   return text;
 }
 
@@ -29,9 +30,12 @@ const bot = new TelegramBot(token, { polling: { interval: 1000 } });
 let chatState = JSON.parse(fs.readFileSync("../chatStats.json", "UTF-8"),null, 2);
 let editState = false;
 
-bot.editMessageText(`Сообщений с 27.07.2023 ${chatState.totalMessage}`, {
+bot.editMessageText(`Сообщений с 27.07.2023:`, {
   chat_id: "-1001807749316",
-  message_id: "59131"
+  message_id: "59131",
+  reply_markup: {
+    inline_keyboard: [[{ text: `${chatState.totalMessage}`, callback_data: "chatState" }]]
+  }
 });
 
 bot.on("message", (msg) => {
@@ -39,6 +43,20 @@ bot.on("message", (msg) => {
     setChatState(msg, chatState);
     editState = true;
   }
+});
+
+bot.onText(/\/help/, msg => {
+  bot.deleteMessage(msg.chat.id, msg.message_id);
+  bot.sendMessage(msg.chat.id,
+    `
+Основные команды: 
+/start - приветствие
+/chatstate - статистика чата
+/kick - (в ответ на сообщение) удаление участника (только для админов)
+/cuefa - камень, ножницы, бумага
+/getcuefastats - цуефа статистика игрока
+/getfullcuefastats - цуефа полная статистика
+    `, {reply_to_message_id: msg.message_id});
 });
 
 bot.onText(/\/chatstate/, msg => {
@@ -218,9 +236,12 @@ bot.on("callback_query", (query) => {
   if (query.data == "prev-chatState") {
     if (currentPage[query.message.message_id]) {
       currentPage[query.message.message_id] -= 1;
-      getFullCuefaState(message => {
-        displayList(null, query, message, 5, "# | Игры | Победы | Поражения | ВР(без ничьих)", "cuefa");
-      })
+    getChatState(chatState, (message => {
+      displayList(null, query, message, 5, `
+Статистика с 27.07.23
+Всего сообщений: ${chatState.totalMessage}
+Топ:`, "chatState")
+    }));
     } else {
       bot.deleteMessage(query.message.chat.id, query.message.message_id);
     }
@@ -229,12 +250,24 @@ bot.on("callback_query", (query) => {
   if (query.data == "next-chatState") {
     if (currentPage[query.message.message_id]) {
       currentPage[query.message.message_id] += 1;
-      getFullCuefaState(message => {
-        displayList(null, query, message, 5, "# | Игры | Победы | Поражения | ВР(без ничьих)", "cuefa");
-      })
+    getChatState(chatState, (message => {
+      displayList(null, query, message, 5, `
+Статистика с 27.07.23
+Всего сообщений: ${chatState.totalMessage}
+Топ:`, "chatState")
+    }));
     } else {
       bot.deleteMessage(query.message.chat.id, query.message.message_id);
     }
+  }
+
+  if (query.data == "chatState") {
+    getChatState(chatState, (message => {
+      displayList(null, query, message, 5, `
+Статистика с 27.07.23
+Всего сообщений: ${chatState.totalMessage}
+Топ:`, "chatState")
+    }));
   }
 });
 
@@ -440,9 +473,12 @@ setInterval(() => {
       console.log("Запись");
     });
 
-    bot.editMessageText(`Сообщений с 27.07.2023 ${chatState.totalMessage}`, {
+    bot.editMessageText(`Сообщений с 27.07.2023:`, {
       chat_id: "-1001807749316",
-      message_id: "59131"
+      message_id: "59131",
+      reply_markup: {
+        inline_keyboard: [[{ text: `${chatState.totalMessage}`, callback_data: "chatState" }]]
+      }
     });
   }
 }, 15000);
@@ -466,7 +502,12 @@ process.on("SIGINT", async () => {
 
 function displayList(msg, query, array, usersPerPage, header, cbDop) {
   
-  const start = query ? (currentPage[query.message.message_id] - 1) * usersPerPage : 0;
+  let start;
+  if (!msg && query.data == "chatState") {
+    start = 0;
+  } else {
+    start = query ? (currentPage[query.message.message_id] - 1) * usersPerPage : 0;
+  }
   const end = start + usersPerPage;
   const page = array.slice(start, end);
   let message;
@@ -478,7 +519,15 @@ function displayList(msg, query, array, usersPerPage, header, cbDop) {
   if (cbDop == "chatState") {
     message = page.map((el, index) => `${start + index + 1}. ${el.userName ? el.userName : el.userFirstName} - ${el.count}`).join('\n');
   }
-  let buttons = createPaginationButtons(array, query ? currentPage[query.message.message_id] : 1, usersPerPage, cbDop);
+
+  let qq;
+  if (!msg && query.data == "chatState") {
+    qq = 1
+  } else {
+    qq = query ? currentPage[query.message.message_id] : 1;
+  }
+
+  let buttons = createPaginationButtons(array, qq, usersPerPage, cbDop);
 
   let keys = {
       reply_markup: {
@@ -486,8 +535,8 @@ function displayList(msg, query, array, usersPerPage, header, cbDop) {
       }
   };
 
-  if (msg) {
-      bot.sendMessage(msg.chat.id, 
+  if (msg || query.data === "chatState") {
+      bot.sendMessage(msg ? msg.chat.id : query.message.chat.id, 
 `
 ${header}
 
