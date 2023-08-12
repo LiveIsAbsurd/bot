@@ -30,7 +30,7 @@ const bot = new TelegramBot(token, { polling: { interval: 1000 } });
 let chatState = JSON.parse(fs.readFileSync("../chatStats.json", "UTF-8"),null, 2);
 let editState = false;
 
-bot.editMessageText(`Сообщений с 27.07.2023:`, {
+bot.editMessageText(`Сообщений с 27.07.2023`, {
   chat_id: "-1001807749316",
   message_id: "59131",
   reply_markup: {
@@ -473,7 +473,7 @@ setInterval(() => {
       console.log("Запись");
     });
 
-    bot.editMessageText(`Сообщений с 27.07.2023:`, {
+    bot.editMessageText(`Сообщений с 27.07.2023`, {
       chat_id: "-1001807749316",
       message_id: "59131",
       reply_markup: {
