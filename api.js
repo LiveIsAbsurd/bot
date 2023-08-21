@@ -89,10 +89,19 @@ app.get("/sendAdminPhotoInfo/:id", (req, res) => {
             });
         })
         .catch((err) => console.log(err));
+});
+    
+app.get("/sendChatState", (req, res) => {
+    fs.readFile("../chatStats.json", "UTF-8", (err, data) => {
+        res.setHeader("Access-Control-Allow-Origin", "*");
+        const state = JSON.parse(data, null, 2);
+    
+        res.json(state);
     });
+});
     
 app.get("/iswork", (req, res) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
     res.json("Server Is Work!");
-    });
+});
       
