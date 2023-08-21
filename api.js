@@ -99,7 +99,11 @@ app.get("/sendChatState", (req, res) => {
         
         res.setHeader("Access-Control-Allow-Origin", "*");
         const state = JSON.parse(data, null, 2);
-    
+
+        state.sort((a, b) => {
+            return b.count - a.count;
+        });
+
         res.json(state);
     });
 });
