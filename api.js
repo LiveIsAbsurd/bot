@@ -93,6 +93,9 @@ app.get("/sendAdminPhotoInfo/:id", (req, res) => {
     
 app.get("/sendChatState", (req, res) => {
     fs.readFile("../chatStats.json", "UTF-8", (err, data) => {
+        if (err) {
+            console.log(err);
+        }
         res.setHeader("Access-Control-Allow-Origin", "*");
         const state = JSON.parse(data, null, 2);
     
