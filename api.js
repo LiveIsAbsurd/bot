@@ -96,6 +96,7 @@ app.get("/sendChatState", (req, res) => {
         if (err) {
             console.log(err);
         }
+        
         res.setHeader("Access-Control-Allow-Origin", "*");
         const state = JSON.parse(data, null, 2);
     
