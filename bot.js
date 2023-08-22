@@ -240,7 +240,7 @@ bot.on("callback_query", (query) => {
       displayList(null, query, message, 5, `
 Статистика с 27.07.23
 Всего сообщений: ${chatState.totalMessage}
-Топ:`, "chatState")
+Топ:`, "chatState", chatState)
     }));
     } else {
       bot.deleteMessage(query.message.chat.id, query.message.message_id);
@@ -254,7 +254,7 @@ bot.on("callback_query", (query) => {
       displayList(null, query, message, 5, `
 Статистика с 27.07.23
 Всего сообщений: ${chatState.totalMessage}
-Топ:`, "chatState")
+Топ:`, "chatState", chatState)
     }));
     } else {
       bot.deleteMessage(query.message.chat.id, query.message.message_id);
@@ -530,7 +530,7 @@ function displayList(msg, query, array, usersPerPage, header, cbDop, state = und
         reward = "🥉"
       }
 
-      let text = `${reward ? "" : `${stateNum}.`}${reward ? reward : ""} ${el.userName ? el.userName : el.userFirstName} - ${el.count}/${el.count/totalCount*100}%`;
+      let text = `${reward ? "" : `${stateNum}.`}${reward ? reward : ""} ${el.userName ? el.userName : el.userFirstName} - ${el.count}/${Math.floor(el.count/totalCount*100)}%`;
       return text;
     }).join('\n');
   }
