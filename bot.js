@@ -266,7 +266,7 @@ bot.on("callback_query", (query) => {
       displayList(null, query, message, 5, `
 Статистика с 27.07.23
 Всего сообщений: ${chatState.totalMessage}
-Топ:`, "chatState")
+Топ:`, "chatState", chatState)
     }));
   }
 });
@@ -500,7 +500,7 @@ process.on("SIGINT", async () => {
 
 //__________________________________
 
-function displayList(msg, query, array, usersPerPage, header, cbDop) {
+function displayList(msg, query, array, usersPerPage, header, cbDop, state = undefined) {
   
   let start;
   if (!msg && query.data == "chatState") {
@@ -517,6 +517,7 @@ function displayList(msg, query, array, usersPerPage, header, cbDop) {
   }
 
   if (cbDop == "chatState") {
+    const totalCount = state.totalMessage;
     message = page.map((el, index) => {
       let reward;
       let stateNum = start + index + 1;
@@ -529,7 +530,7 @@ function displayList(msg, query, array, usersPerPage, header, cbDop) {
         reward = "🥉"
       }
 
-      let text = `${reward ? "" : `${stateNum}.`}${reward ? reward : ""} ${el.userName ? el.userName : el.userFirstName} - ${el.count}`;
+      let text = `${reward ? "" : `${stateNum}.`}${reward ? reward : ""} ${el.userName ? el.userName : el.userFirstName} - ${el.count}/${el.count/totalCount*100}%`;
       return text;
     }).join('\n');
   }
