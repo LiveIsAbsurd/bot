@@ -529,7 +529,7 @@ function displayList(msg, query, array, usersPerPage, header, cbDop) {
         reward = "🥉"
       }
 
-      let text = `${stateNum}${reward ? reward : ""}. ${el.userName ? el.userName : el.userFirstName} - ${el.count}`;
+      let text = `${reward ? "" : stateNum}${reward ? reward : ""}. ${el.userName ? el.userName : el.userFirstName} - ${el.count}`;
       return text;
     }).join('\n');
   }
