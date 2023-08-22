@@ -517,7 +517,21 @@ function displayList(msg, query, array, usersPerPage, header, cbDop) {
   }
 
   if (cbDop == "chatState") {
-    message = page.map((el, index) => `${start + index + 1}. ${el.userName ? el.userName : el.userFirstName} - ${el.count}`).join('\n');
+    message = page.map((el, index) => {
+      let reward;
+      let stateNum = start + index + 1;
+      
+      if (stateNum == 1) {
+        reward = "🥇"
+      } else if (stateNum == 2) {
+        reward = "🥈"
+      } else if (stateNum == 3) {
+        reward = "🥉"
+      }
+
+      let text = `${reward ? reward : ""} ${stateNum}. ${el.userName ? el.userName : el.userFirstName} - ${el.count}`;
+      return text;
+    }).join('\n');
   }
 
   let qq;
