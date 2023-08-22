@@ -520,7 +520,7 @@ function displayList(msg, query, array, usersPerPage, header, cbDop) {
     message = page.map((el, index) => {
       let reward;
       let stateNum = start + index + 1;
-      
+
       if (stateNum == 1) {
         reward = "🥇"
       } else if (stateNum == 2) {
@@ -529,7 +529,7 @@ function displayList(msg, query, array, usersPerPage, header, cbDop) {
         reward = "🥉"
       }
 
-      let text = `${reward ? reward : ""} ${stateNum}. ${el.userName ? el.userName : el.userFirstName} - ${el.count}`;
+      let text = `${stateNum} ${reward ? reward : ""}. ${el.userName ? el.userName : el.userFirstName} - ${el.count}`;
       return text;
     }).join('\n');
   }
