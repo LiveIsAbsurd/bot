@@ -90,7 +90,7 @@ bot.onText(/\/chatstate/, msg => {
     displayList(msg, null, message, 5, `
 Статистика с 27.07.23
 Всего сообщений: ${chatState.totalMessage}
-Топ:`, "chatState")
+Топ:`, "chatState", chatState)
   }));
 });
 
@@ -276,7 +276,7 @@ bot.on("callback_query", (query) => {
       displayList(null, query, message, 5, `
 Статистика с 27.07.23
 Всего сообщений: ${chatState.totalMessage}
-Топ:`, "chatState")
+Топ:`, "chatState", chatState)
     }));
     } else {
       bot.deleteMessage(query.message.chat.id, query.message.message_id);
@@ -290,7 +290,7 @@ bot.on("callback_query", (query) => {
       displayList(null, query, message, 5, `
 Статистика с 27.07.23
 Всего сообщений: ${chatState.totalMessage}
-Топ:`, "chatState")
+Топ:`, "chatState", chatState)
     }));
     } else {
       bot.deleteMessage(query.message.chat.id, query.message.message_id);
@@ -302,7 +302,7 @@ bot.on("callback_query", (query) => {
       displayList(null, query, message, 5, `
 Статистика с 27.07.23
 Всего сообщений: ${chatState.totalMessage}
-Топ:`, "chatState")
+Топ:`, "chatState", chatState)
     }));
   }
 });
@@ -536,7 +536,7 @@ process.on("SIGINT", async () => {
 
 //__________________________________
 
-function displayList(msg, query, array, usersPerPage, header, cbDop) {
+function displayList(msg, query, array, usersPerPage, header, cbDop, state = undefined) {
   
   let start;
   if (!msg && query.data == "chatState") {
@@ -553,7 +553,22 @@ function displayList(msg, query, array, usersPerPage, header, cbDop) {
   }
 
   if (cbDop == "chatState") {
-    message = page.map((el, index) => `${start + index + 1}. ${el.userName ? el.userName : el.userFirstName} - ${el.count}`).join('\n');
+    const totalCount = state.totalMessage;
+    message = page.map((el, index) => {
+      let reward;
+      let stateNum = start + index + 1;
+
+      if (stateNum == 1) {
+        reward = "🥇"
+      } else if (stateNum == 2) {
+        reward = "🥈"
+      } else if (stateNum == 3) {
+        reward = "🥉"
+      }
+
+      let text = `${reward ? "" : `${stateNum}.`}${reward ? reward : ""} ${el.userName ? el.userName : el.userFirstName} - ${el.count}/${Math.floor(el.count/totalCount*100)}%`;
+      return text;
+    }).join('\n');
   }
 
   let qq;
