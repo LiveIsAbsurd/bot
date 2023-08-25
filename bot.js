@@ -722,7 +722,7 @@ function xoGame(query) {
 
 ${xoPlaceId[id].player1.name}${xoPlaceId[id].player1.step ? xoPlaceId[id].player1.step : ""} 
 🆚
-${xoPlaceId[id].player2.step ? xoPlaceId[id].player2.step : ""}${xoPlaceId[id].player2.name ? `${xoPlaceId[id].player2.name}` : "(Ожидание игрока)"}
+${xoPlaceId[id].player2.name ? `${xoPlaceId[id].player2.name}${xoPlaceId[id].player2.step ? xoPlaceId[id].player2.step : ""}` : "(Ожидание игрока)"}
 
 Ходит ${xoPlaceId[id].step}`,
     {
@@ -797,7 +797,7 @@ function xoGameStop(query, id, noWin, winner) {
 
 ${xoPlaceId[id].player1.name}${xoPlaceId[id].player1.step ? xoPlaceId[id].player1.step : ""}
 🆚
-${xoPlaceId[id].player2.step ? xoPlaceId[id].player2.step : ""}${xoPlaceId[id].player2.name}
+${xoPlaceId[id].player2.name}${xoPlaceId[id].player2.step ? xoPlaceId[id].player2.step : ""}
 
 ${noWin ? "Ничья 🤝" : `Победитель - ${winner} 🏆`}
 
