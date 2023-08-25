@@ -613,6 +613,11 @@ ${message}
 //крестики-нолики________________________________________________________
 function xoGame(query) {
   let id = query.message.message_id;
+
+  if (!xoPlaceId[id]) {
+    bot.deleteMessage(query.message.chat.id, query.message.message_id);
+    return:
+  }
   
   if (xoPlaceId[id].player1.step == undefined && xoPlaceId[id].player1.id == query.from.id) {
     xoPlaceId[id].player1.step = xoPlaceId[id].step;
