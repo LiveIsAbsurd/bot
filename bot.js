@@ -641,7 +641,12 @@ function xoGame(query) {
     return;
   }
 
-  if (Object.keys(playersId).includes(String(query.from.id)) && playersId[query.from.id].step != xoPlaceId[id].step) {
+  if (xoPlaceId[id][query.data.replace("xo", "")] == "❌" || xoPlaceId[id][query.data.replace("xo", "")] == "⭕️") {
+    bot.answerCallbackQuery(query.id, {
+      text: "Клетка занята",
+    });
+    return;
+  } else if (Object.keys(playersId).includes(String(query.from.id)) && playersId[query.from.id].step != xoPlaceId[id].step) {
     bot.answerCallbackQuery(query.id, {
       text: "Не твой ход",
     });
