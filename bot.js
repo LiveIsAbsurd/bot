@@ -616,7 +616,7 @@ function xoGame(query) {
 
   if (!xoPlaceId[id]) {
     bot.deleteMessage(query.message.chat.id, query.message.message_id);
-    return:
+    return;
   }
   
   if (xoPlaceId[id].player1.step == undefined && xoPlaceId[id].player1.id == query.from.id) {
