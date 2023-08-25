@@ -675,11 +675,6 @@ function xoGame(query) {
  
 
   xoPlaceId[id].stepCount += 1;
-  
-  if (xoPlaceId[id].stepCount == 9) {
-    xoGameStop(query, id, true);
-    return;
-  }
 
   let winner;
 
@@ -701,6 +696,11 @@ function xoGame(query) {
 
   if (winner) {
     xoGameStop(query, id, false, winner);
+    return;
+  }
+
+  if (xoPlaceId[id].stepCount == 9) {
+    xoGameStop(query, id, true);
     return;
   }
 
