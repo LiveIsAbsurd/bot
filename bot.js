@@ -754,7 +754,7 @@ function xoGameStart(msg, query = undefined) {
   bot.sendMessage(query ? query.message.chat.id : msg.chat.id,
     `❌Крестики-нолики⭕️
 ${player1.name} 🆚 (Ожидание игрока)
-Ходит ${xoPlaceId[id].step}`,
+Ходит ❌`,
     {
     reply_markup: {
       ...xoKeys
