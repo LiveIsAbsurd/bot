@@ -713,8 +713,12 @@ function xoGame(query) {
   }
 
   bot.editMessageText(
-  `❌Крестики-нолики⭕️
-${xoPlaceId[id].player1.name}${xoPlaceId[id].player1.step ? xoPlaceId[id].player1.step : ""} 🆚 ${xoPlaceId[id].player2.step ? xoPlaceId[id].player2.step : ""}${xoPlaceId[id].player2.name ? `${xoPlaceId[id].player2.name}` : "(Ожидание игрока)"}
+  `Крестики-нолики
+
+${xoPlaceId[id].player1.name}${xoPlaceId[id].player1.step ? xoPlaceId[id].player1.step : ""} 
+🆚
+${xoPlaceId[id].player2.step ? xoPlaceId[id].player2.step : ""}${xoPlaceId[id].player2.name ? `${xoPlaceId[id].player2.name}` : "(Ожидание игрока)"}
+
 Ходит ${xoPlaceId[id].step}`,
     {
       chat_id: query.message.chat.id,
@@ -752,8 +756,12 @@ function xoGameStart(msg, query = undefined) {
   }
 
   bot.sendMessage(query ? query.message.chat.id : msg.chat.id,
-    `❌Крестики-нолики⭕️
-${player1.name} 🆚 (Ожидание игрока)
+    `Крестики-нолики
+
+${player1.name} 
+🆚 
+(Ожидание игрока)
+
 Ходит ❌`,
     {
     reply_markup: {
@@ -780,10 +788,14 @@ function xoGameStop(query, id, noWin, winner) {
   });
   //console.log("Конец");
   bot.editMessageText(
-    `❌Крестики-нолики⭕️
-${xoPlaceId[id].player1.name}${xoPlaceId[id].player1.step ? xoPlaceId[id].player1.step : ""} 🆚 ${xoPlaceId[id].player2.step ? xoPlaceId[id].player2.step : ""}${xoPlaceId[id].player2.name}
+    `Крестики-нолики
 
-${noWin ? "Ничья 🤝": `Победитель - ${winner} 🏆`}
+${xoPlaceId[id].player1.name}${xoPlaceId[id].player1.step ? xoPlaceId[id].player1.step : ""}
+🆚
+${xoPlaceId[id].player2.step ? xoPlaceId[id].player2.step : ""}${xoPlaceId[id].player2.name}
+
+${noWin ? "Ничья 🤝" : `Победитель - ${winner} 🏆`}
+
 ${place}`,
       {
         chat_id: query.message.chat.id,
