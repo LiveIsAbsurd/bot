@@ -158,7 +158,9 @@ function setCuefaStats(winer, winerName, loser, loserName, noWin = false, getCue
       bot.sendMessage(
           chatId,
           `Камень, ножницы, бумага
-@${player1Name} 🆚 ${player2Name}
+@${player1Name} 
+🆚
+${player2Name}
 ${isMeme ? "" : `Это ограниченная версия игры, 
 полная версия в meme_house_chat.t.me`}`,
           { reply_markup: cuefaKeyboard }
@@ -201,7 +203,9 @@ ${isMeme ? "" : `Это ограниченная версия игры,
           if (!cuefaColl[query.message.message_id].steps.player2Step) {
             bot.editMessageText(
               `Камень, ножницы, бумага
-@${cuefaPlayers[query.message.message_id][0]} 👍 🆚 ${player2Name}`,
+@${cuefaPlayers[query.message.message_id][0]} 👍 
+🆚
+${player2Name}`,
               {
                 chat_id: query.message.chat.id,
                 message_id: query.message.message_id,
@@ -225,7 +229,9 @@ ${isMeme ? "" : `Это ограниченная версия игры,
         if (!cuefaColl[query.message.message_id].steps.player1Step) {
           bot.editMessageText(
             `Камень, ножницы, бумага
-@${cuefaPlayers[query.message.message_id][0]} 🆚 👍 @${cuefaPlayers[query.message.message_id][1]}`,
+@${cuefaPlayers[query.message.message_id][0]} 
+🆚
+@${cuefaPlayers[query.message.message_id][1]} 👍`,
             {
               chat_id: query.message.chat.id,
               message_id: query.message.message_id,
@@ -243,7 +249,9 @@ ${isMeme ? "" : `Это ограниченная версия игры,
           if (!cuefaColl[query.message.message_id].steps.player1Step) {
             bot.editMessageText(
               `Камень, ножницы, бумага
-@${cuefaPlayers[query.message.message_id][0]} 🆚 👍 ${player2Name}`,
+@${cuefaPlayers[query.message.message_id][0]} 
+🆚
+${player2Name} 👍`,
               {
                 chat_id: query.message.chat.id,
                 message_id: query.message.message_id,
@@ -360,7 +368,9 @@ ${isMeme ? "" : `Это ограниченная версия игры,
   
               bot.editMessageText(
                 `Камень, ножницы, бумага
-@${cuefaPlayers[query.message.message_id][0]} ${step1} 🆚 ${step2} @${cuefaPlayers[query.message.message_id][1]}
+@${cuefaPlayers[query.message.message_id][0]} ${step1} 
+🆚
+@${cuefaPlayers[query.message.message_id][1]} ${step2}
   
 ${winner}
   
