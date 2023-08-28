@@ -809,6 +809,8 @@ ${place}`,
           inline_keyboard: [[{ text: "Повторить 🔄", callback_data: "xoReplay" }]]
         }
       }
-  );
+  ).then(msg => {
+    delete xoPlaceId[msg.message_id]
+  });
 }
 //крестики-нолики________________________________________________________
