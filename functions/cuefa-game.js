@@ -394,7 +394,9 @@ ${winner}
         } else { //если чат не является доверенным
           bot.editMessageText(
             `Камень, ножницы, бумага
-@${cuefaPlayers[query.message.message_id][0]} ${step1} 🆚 ${step2} @${cuefaPlayers[query.message.message_id][1]}
+@${cuefaPlayers[query.message.message_id][0]} ${step1} 
+🆚
+@${cuefaPlayers[query.message.message_id][1]} ${step2}
   
 ${winner}`,
             {
