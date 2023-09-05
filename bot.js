@@ -33,7 +33,7 @@ let editState = false;
 let dayNews = [];
 news(null, true);
 
-cron.schedule('36 12 * * *', () => {
+cron.schedule('0 9 * * *', () => {
   news();
 })
 
