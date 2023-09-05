@@ -77,6 +77,10 @@ bot.on("message", (msg) => {
   }
 });
 
+bot.onText(/\/news/, msg => {
+  news(msg);
+});
+
 bot.onText(/\/help/, msg => {
   bot.deleteMessage(msg.chat.id, msg.message_id);
   bot.sendMessage(msg.chat.id,
@@ -88,6 +92,8 @@ bot.onText(/\/help/, msg => {
 /cuefa - камень, ножницы, бумага
 /getcuefastats - цуефа статистика игрока
 /getfullcuefastats - цуефа полная статистика
+/xo - крестики-нолики
+/news - последние новости
     `, {reply_to_message_id: msg.message_id});
 });
 
