@@ -842,7 +842,7 @@ function news(msg = null, reload = false) {
       .then(data => {
         dayNews = data.data.articles;
         let text = data.data.articles.map((el, i) => {
-          return `${i + 1}. ${el.title} /news_${i + 1}`
+          return `${i + 1}. ${el.title} /news_${i + 1} \n`
         }).join("\n");
         bot.sendMessage("-1001807749316", `
     Всем доброго утра и хорошего настроения!
