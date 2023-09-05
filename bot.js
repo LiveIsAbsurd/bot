@@ -5,7 +5,6 @@ const axios = require("axios");
 const fs = require("fs");
 const { json } = require("body-parser");
 const cron = require('node-cron');
-const fetch = require('fetch');
 
 const cuefaGame = require("./functions/cuefa-game.js");
 const getUserCuefaStats = require("./functions/get-user-cuefa-stats.js");
@@ -825,7 +824,7 @@ ${place}`,
 
 function news(msg = null, reload = false) {
   if (reload) {
-    fetch('https://newsapi.org/v2/top-headlines?category=technology&country=ru&pageSize=5&apiKey=08fb80b4c9104defafe8e7b1d1aa9f4f').then(res => res.json())
+    axios.get('https://newsapi.org/v2/top-headlines?category=technology&country=ru&pageSize=5&apiKey=08fb80b4c9104defafe8e7b1d1aa9f4f')
       .then(data => { 
         dayNews = data.articles;
       })
@@ -833,7 +832,7 @@ function news(msg = null, reload = false) {
   }
 
   if (!msg) {
-    fetch('https://newsapi.org/v2/top-headlines?category=technology&country=ru&pageSize=5&apiKey=08fb80b4c9104defafe8e7b1d1aa9f4f').then(res => res.json())
+    axios.get('https://newsapi.org/v2/top-headlines?category=technology&country=ru&pageSize=5&apiKey=08fb80b4c9104defafe8e7b1d1aa9f4f')
       .then(data => {
         console.log(data.articles)
         dayNews = data.articles;
