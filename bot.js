@@ -832,7 +832,6 @@ function news(msg = null, reload = false) {
   if (reload) {
     axios.get('https://newsapi.org/v2/top-headlines?category=technology&country=ru&pageSize=5&apiKey=08fb80b4c9104defafe8e7b1d1aa9f4f')
       .then(data => { 
-        console.log(data.data);
         dayNews = data.data.articles;
       })
     return;
@@ -841,7 +840,6 @@ function news(msg = null, reload = false) {
   if (!msg) {
     axios.get('https://newsapi.org/v2/top-headlines?category=technology&country=ru&pageSize=5&apiKey=08fb80b4c9104defafe8e7b1d1aa9f4f')
       .then(data => {
-        console.log(data.data.articles)
         dayNews = data.data.articles;
         let text = data.data.articles.map((el, i) => {
           return `${i + 1}. ${el.title} /news_${i + 1}`
