@@ -846,7 +846,7 @@ function news(msg = null, reload = false) {
         let text = data.data.articles.map((el, i) => {
           return `${i + 1}. ${el.title} /news_${i + 1}`
         }).join("\n");
-        bot.sendMessage("-1001939923162", `
+        bot.sendMessage("-1001807749316", `
     Всем доброго утра и хорошего настроения!
 
 Главные новости в сфере технологий на сегодня:
