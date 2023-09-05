@@ -830,7 +830,7 @@ ${place}`,
 
 function news(msg = null, reload = false) {
   if (reload) {
-    axios.get('https://newsapi.org/v2/top-headlines?category=technology&country=ru&pageSize=5&apiKey=08fb80b4c9104defafe8e7b1d1aa9f4f')
+    axios.get('https://newsapi.org/v2/top-headlines?country=ru&pageSize=5&apiKey=08fb80b4c9104defafe8e7b1d1aa9f4f')
       .then(data => { 
         dayNews = data.data.articles;
       })
@@ -838,7 +838,7 @@ function news(msg = null, reload = false) {
   }
 
   if (!msg) {
-    axios.get('https://newsapi.org/v2/top-headlines?category=technology&country=ru&pageSize=5&apiKey=08fb80b4c9104defafe8e7b1d1aa9f4f')
+    axios.get('https://newsapi.org/v2/top-headlines?country=ru&pageSize=5&apiKey=08fb80b4c9104defafe8e7b1d1aa9f4f')
       .then(data => {
         dayNews = data.data.articles;
         let text = data.data.articles.map((el, i) => {
@@ -847,7 +847,7 @@ function news(msg = null, reload = false) {
         bot.sendMessage("-1001807749316", `
     Всем доброго утра и хорошего настроения!
 
-Главные новости в сфере технологий на сегодня:
+Главные новости на сегодня:
       
 ${text}`);
       })
