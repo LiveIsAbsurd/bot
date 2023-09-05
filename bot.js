@@ -4,6 +4,7 @@ const TelegramBot = require("node-telegram-bot-api");
 const axios = require("axios");
 const fs = require("fs");
 const { json } = require("body-parser");
+const cron = require('node-cron')
 
 const cuefaGame = require("./functions/cuefa-game.js");
 const getUserCuefaStats = require("./functions/get-user-cuefa-stats.js");
@@ -29,6 +30,12 @@ const bot = new TelegramBot(token, { polling: { interval: 1000 } });
 
 let chatState = JSON.parse(fs.readFileSync("../chatStats.json", "UTF-8"),null, 2);
 let editState = false;
+let dayNews = [];
+news(null, true);
+
+cron.schedule('25 12 * * *', () => {
+  news();
+})
 
 bot.editMessageText(`Сообщений с 27.07.2023`, {
   chat_id: "-1001807749316",
@@ -814,3 +821,50 @@ ${place}`,
   });
 }
 //крестики-нолики________________________________________________________
+
+function news(msg = null, reload = false) {
+  if (reload) {
+    fetch('https://newsapi.org/v2/top-headlines?category=technology&country=ru&pageSize=5&apiKey=08fb80b4c9104defafe8e7b1d1aa9f4f').then(res => res.json())
+      .then(data => { 
+        dayNews = data.articles;
+      })
+    return;
+  }
+
+  if (!msg) {
+    fetch('https://newsapi.org/v2/top-headlines?category=technology&country=ru&pageSize=5&apiKey=08fb80b4c9104defafe8e7b1d1aa9f4f').then(res => res.json())
+      .then(data => {
+        console.log(data.articles)
+        dayNews = data.articles;
+        let text = data.articles.map((el, i) => {
+          return `${i + 1}. ${el.title} /news_${i + 1}`
+        }).join("\n");
+        bot.sendMessage("-1001807749316", `
+    Всем доброго утра и хорошего настроения!
+
+Главные новости в сфере технологий на сегодня:
+      
+${text}`);
+      })
+  } else {
+    let id = parseFloat(msg.text.replace("/news_", "").replace("@Usererbot", "")) - 1;
+
+    if (!isNaN(id)) {
+      
+      bot.sendMessage(msg.chat.id, dayNews[id].url);
+      
+    } else {
+
+    let text = dayNews.map((el, i) => {
+      return `${i + 1}. ${el.title} /news_${i + 1}`
+    }).join("\n");
+
+    bot.sendMessage(msg.chat.id, `${text}`);
+    
+    }
+  }
+}
+
+bot.onText(/\/news/, msg => {
+  news(msg);
+});
