@@ -826,7 +826,8 @@ function news(msg = null, reload = false) {
   if (reload) {
     axios.get('https://newsapi.org/v2/top-headlines?category=technology&country=ru&pageSize=5&apiKey=08fb80b4c9104defafe8e7b1d1aa9f4f')
       .then(data => { 
-        dayNews = data.articles;
+        console.log(data.data);
+        dayNews = data.data.articles;
       })
     return;
   }
@@ -834,12 +835,12 @@ function news(msg = null, reload = false) {
   if (!msg) {
     axios.get('https://newsapi.org/v2/top-headlines?category=technology&country=ru&pageSize=5&apiKey=08fb80b4c9104defafe8e7b1d1aa9f4f')
       .then(data => {
-        console.log(data.articles)
-        dayNews = data.articles;
-        let text = data.articles.map((el, i) => {
+        console.log(data.data.articles)
+        dayNews = data.data.articles;
+        let text = data.data.articles.map((el, i) => {
           return `${i + 1}. ${el.title} /news_${i + 1}`
         }).join("\n");
-        bot.sendMessage("-1001807749316", `
+        bot.sendMessage("-1001939923162", `
     Всем доброго утра и хорошего настроения!
 
 Главные новости в сфере технологий на сегодня:
@@ -847,7 +848,7 @@ function news(msg = null, reload = false) {
 ${text}`);
       })
   } else {
-    let id = parseFloat(msg.text.replace("/news_", "").replace("@Usererbot", "")) - 1;
+    let id = parseFloat(msg.text.replace("/news_", "").replace("@meme_house_bot", "")) - 1;
 
     if (!isNaN(id)) {
       
@@ -864,7 +865,3 @@ ${text}`);
     }
   }
 }
-
-bot.onText(/\/news/, msg => {
-  news(msg);
-});
