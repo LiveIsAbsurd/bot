@@ -861,7 +861,7 @@ ${text}`);
     } else {
 
     let text = dayNews.map((el, i) => {
-      return `${i + 1}. ${el.title} /news_${i + 1}`
+      return `${i + 1}. ${el.title} /news_${i + 1} \n`
     }).join("\n");
 
     bot.sendMessage(msg.chat.id, `${text}`);
