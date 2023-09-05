@@ -830,7 +830,7 @@ ${place}`,
 
 function news(msg = null, reload = false) {
   if (reload) {
-    axios.get('https://newsapi.org/v2/top-headlines?country=ru&pageSize=5&apiKey=08fb80b4c9104defafe8e7b1d1aa9f4f')
+    axios.get('https://newsapi.org/v2/top-headlines?category=science&country=ru&pageSize=5&apiKey=08fb80b4c9104defafe8e7b1d1aa9f4f')
       .then(data => { 
         dayNews = data.data.articles;
       })
@@ -838,7 +838,7 @@ function news(msg = null, reload = false) {
   }
 
   if (!msg) {
-    axios.get('https://newsapi.org/v2/top-headlines?country=ru&pageSize=5&apiKey=08fb80b4c9104defafe8e7b1d1aa9f4f')
+    axios.get('https://newsapi.org/v2/top-headlines?category=science&country=ru&pageSize=5&apiKey=08fb80b4c9104defafe8e7b1d1aa9f4f')
       .then(data => {
         dayNews = data.data.articles;
         let text = data.data.articles.map((el, i) => {
