@@ -94,7 +94,7 @@ bot.onText(/\/help/, msg => {
 /getfullcuefastats - цуефа полная статистика
 /xo - крестики-нолики
 /news - последние новости
-    `, {reply_to_message_id: msg.message_id});
+    `);
 });
 
 bot.onText(/\/chatstate/, msg => {
