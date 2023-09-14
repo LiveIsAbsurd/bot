@@ -885,6 +885,6 @@ bot.onText(/\/cat/, async (msg) => {
   let response = await axios.get('https://api.thecatapi.com/v1/images/search');
   downloadImage(response.data[0].url)
     .then((image) => {
-      bot.sendDocument(msg.chat.id, image, {filename: 'cat.jpg', contentType: 'image/jpeg'});
+      bot.sendPhoto(msg.chat.id, image);
     })
 })
