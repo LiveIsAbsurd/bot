@@ -869,3 +869,22 @@ ${text}`);
     }
   }
 }
+//котики---------------------------
+
+async function downloadImage(url) {
+  const response = await axios({
+    method: 'GET',
+    url: url,
+    responseType: 'stream',
+  })
+
+  return response.data
+}
+
+bot.onText(/\/cat/, async (msg) => {
+  let response = await axios.get('https://api.thecatapi.com/v1/images/search');
+  downloadImage(response.data[0].url)
+    .then((image) => {
+      bot.sendPhoto(msg.chat.id, image);
+    })
+})
