@@ -418,7 +418,7 @@ bot.on("new_chat_members", (msg) => {
 
     bot.sendMessage(chatId, hiText(userName), opts);
     bot.restrictChatMember(chatId, userId, options).then(() => {
-      bot.sendMessage(chatId, "Чтобы писать сообщения нажми на кнопочку с сердечком", {
+      bot.sendMessage(chatId, "Извини, мне нужно проверить что ты не бот, чтобы писать сообщения нажми на кнопочку с сердечком", {
         reply_markup: {
           inline_keyboard: [[{ text: "🐮", callback_data: "unlock" }, { text: "❤️", callback_data: `unlock${userId}` }, { text: "🍎", callback_data: "unlock" }]],
         },
