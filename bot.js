@@ -175,6 +175,30 @@ bot.onText(/\/getKey/, (msg) => {
 bot.on("callback_query", (query) => {
   const messageId = query.message.message_id;
 
+  if (query.data.includes('unlock')) {
+    if (query.data.replace("unlock", "") == query.from.id) {
+      const userId = Number(query.data.replace("unlock", ""));
+      const chatId = query.message.chat.id;
+      const options = {
+        can_send_message: true,
+        can_send_media_message: true,
+        can_send_other_message: true,
+        can_add_web_page_previews: true
+      }
+    
+      bot.promoteChatMember(chatId, userId, options).then(() => {
+        bot.deleteMessage(query.message.chat.id, query.message.message_id);
+        bot.answerCallbackQuery(query.id, {
+          text: "Спасибо! Ты можешь писать сообщения!",
+        });
+      })
+    } else {
+      bot.answerCallbackQuery(query.id, {
+        text: "...",
+      });
+    }
+  } 
+
   if (query.data.includes("xo")) {
     if (query.data == "xoReplay") {
       bot.answerCallbackQuery(query.id, {
@@ -373,9 +397,13 @@ bot.onText(/\/kick/, (msg) => {
 
 bot.on("new_chat_members", (msg) => {
   const chatId = msg.chat.id;
+  const userId = msg.new_chat_member.id;
   const userName = msg.new_chat_member.username
     ? `@${msg.new_chat_member.username}`
     : msg.new_chat_member.first_name;
+  const options = {
+    can_send_message: false
+  };
 
   if (chatId == "-1001807749316") {
     const opts = {
@@ -389,6 +417,13 @@ bot.on("new_chat_members", (msg) => {
     };
 
     bot.sendMessage(chatId, hiText(userName), opts);
+    bot.restrictChatMember(chatId, userId, options).then(() => {
+      bot.sendMessage(chatId, "Чтобы писать сообщения нажми на кнопочку с сердечком", {
+        reply_markup: {
+          inline_keyboard: [[{ text: "🐮", callback_data: "unlock" }, { text: "❤️", callback_data: `unlock${userId}` }, { text: "🍎", callback_data: "unlock" }]],
+        },
+      });
+    })
   }
 });
 
