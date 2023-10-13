@@ -17,12 +17,17 @@ const getChatState = require("./functions/get-chat-state.js");
 
 function hiText(username) {
   let text = `
-  Доброго времени суток, ${username}!
-Добро пожаловать в наш замечательный и скромный чатик!
-Чувствуйте себя как у @user148 дома!
-Желаю освоиться в нашем чатике!
-Заходи на наш сайт!
-/help - основные команды бота.`;
+  Добро пожаловать, ${username}!
+
+Данный чат является королевством мемом, метаиронии, абсурда, абсурдной метаиронии и т.д. по списку...
+Я, главный бот данного чата, очень рад твоему присоединению!
+Желаю тебе побыстрее освоиться тут и попасть в топ участников /chatstate
+На досуге можешь победить других участников в "Крестики-нолики" /xo или "Камень, ножницы, бумага" /cuefa
+
+По команде /help узнаешь все мои команды.
+Если есть вопросы, тегни моего создателя @liveisabsurd или друго админа!
+
+Помни, что всё написанное в данном чате является шуткой, как и оскорбления, которые не несут цели кого-либо задеть или оскорбить :)`;
   return text;
 }
 
@@ -74,6 +79,14 @@ bot.on("message", (msg) => {
   if (msg.chat.id == "-1001807749316") {
     setChatState(msg, chatState);
     editState = true;
+
+    const random = Math.floor(Math.random() * 100 + 1);
+    if (msg.from.id === 6343221238 && random <= 10) {
+      setTimeout(() => {
+        getCat(msg, `А я снова напоминаю что все оскорбления в этом чате не несут цели оскорбить кого-либо.
+Пожалуйста, воспринимайте всё через призму иронии :)`);
+      }, 5000);
+    }
   }
 });
 
@@ -94,6 +107,8 @@ bot.onText(/\/help/, msg => {
 /getfullcuefastats - цуефа полная статистика
 /xo - крестики-нолики
 /news - последние новости
+
+Вопросы? Позови @liveisabsurd :)
     `);
 });
 
@@ -906,6 +921,10 @@ ${text}`);
 }
 //котики---------------------------
 
+bot.onText(/\/cat/, async (msg) => {
+  getCat(msg);
+})
+
 async function downloadImage(url) {
   const response = await axios({
     method: 'GET',
@@ -916,10 +935,13 @@ async function downloadImage(url) {
   return response.data
 }
 
-bot.onText(/\/cat/, async (msg) => {
+const getCat = async (
+  msg,
+  caption = "Котики!"
+) => {
   let response = await axios.get('https://api.thecatapi.com/v1/images/search');
   downloadImage(response.data[0].url)
     .then((image) => {
-      bot.sendPhoto(msg.chat.id, image);
+      bot.sendPhoto(msg.chat.id, image, {caption: caption});
     })
-})
+};
