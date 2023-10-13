@@ -31,7 +31,7 @@ function setChatState(msg, state) {
       }
     }
 
-    if (state.userMessage[userId].count % 100 == 0) {
+    if (state.userMessage[userId].count % 1000 == 0) {
       bot.sendMessage(msg.chat.id, 
   `
   ${state.userMessage[userId].userName ? `@${state.userMessage[userId].userName}` : state.userMessage[userId].userFirstName} написал уже ${state.userMessage[userId].count} сообщений!
