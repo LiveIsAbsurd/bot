@@ -940,7 +940,7 @@ async function downloadImage(url) {
 
 const getCat = async (
   msg,
-  caption = "Котики!"
+  caption = "Вот тебе рандомный котик!"
 ) => {
   let response = await axios.get('https://api.thecatapi.com/v1/images/search');
   downloadImage(response.data[0].url)
