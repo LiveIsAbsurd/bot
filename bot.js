@@ -85,7 +85,7 @@ bot.on("message", (msg) => {
     editState = true;
 
     const random = Math.floor(Math.random() * 100 + 1);
-    if (msg.from.id === 6343221238 && random <= 5) {
+    if (msg.from.id === 6343221238 && random <= 2) {
       setTimeout(() => {
         getCat(msg, `А я снова напоминаю что все оскорбления в этом чате не несут цели оскорбить кого-либо.
 Пожалуйста, воспринимайте всё через призму иронии :)`);
