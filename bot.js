@@ -80,8 +80,8 @@ bot.on("message", (msg) => {
     setChatState(msg, chatState);
     editState = true;
 
-    const random = Math.floor(Math.random() * 500 + 1);
-    if (random == 245) {
+    const random = Math.floor(Math.random() * 300 + 1);
+    if (random == 150) {
       setTimeout(() => {
         getCat(msg, `А я снова напоминаю что все оскорбления в этом чате не несут цели оскорбить кого-либо.
 Пожалуйста, воспринимайте всё через призму иронии :)`);
