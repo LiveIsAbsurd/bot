@@ -101,7 +101,7 @@ bot.onText(/\/fuck/, msg => {
     .then(res => res.json())
     .then(data => {
       console.log(data);
-      bot.sendMessage(msg.chat.id, data.inslt, {reply_to_message_id: msg.reply_to_message.from.id});
+      bot.sendMessage(msg.chat.id, data.insult);
     })
   }
 })
