@@ -94,6 +94,17 @@ bot.onText(/\/news/, msg => {
   news(msg);
 });
 
+bot.onText(/\/fuck/, msg => {
+  if (msg.chat.id == "-1001807749316") {
+    const random = Math.floor(Math.random() * 1000000);
+    fetch(`https://evilinsult.com/generate_insult.php?lang=ru&type=json&_=${random}`)
+    .then(res => res.json())
+    .then(data => {
+      bot.sendMessage(msg.chat.id, data, {reply_to_message_id: msg.reply_to_message.from.id});
+    })
+  }
+})
+
 bot.onText(/\/help/, msg => {
   bot.deleteMessage(msg.chat.id, msg.message_id);
   bot.sendMessage(msg.chat.id,
