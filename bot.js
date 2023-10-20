@@ -97,10 +97,8 @@ bot.onText(/\/news/, msg => {
 bot.onText(/\/fuck/, msg => {
   if (msg.chat.id == "-1001807749316") {
     const random = Math.floor(Math.random() * 1000000);
-    fetch(`https://evilinsult.com/generate_insult.php?lang=ru&type=json&_=${random}`)
-    .then(res => res.json())
+    axios.get(`https://evilinsult.com/generate_insult.php?lang=ru&type=json&_=${random}`)
     .then(data => {
-      console.log(data);
       bot.sendMessage(msg.chat.id, data.insult);
     })
   }
