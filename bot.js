@@ -100,7 +100,8 @@ bot.onText(/\/fuck/, msg => {
     fetch(`https://evilinsult.com/generate_insult.php?lang=ru&type=json&_=${random}`)
     .then(res => res.json())
     .then(data => {
-      bot.sendMessage(msg.chat.id, data, {reply_to_message_id: msg.reply_to_message.from.id});
+      console.log(data);
+      bot.sendMessage(msg.chat.id, data.inslt, {reply_to_message_id: msg.reply_to_message.from.id});
     })
   }
 })
