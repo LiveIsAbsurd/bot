@@ -99,7 +99,8 @@ bot.onText(/\/fuck/, msg => {
     const random = Math.floor(Math.random() * 1000000);
     axios.get(`https://evilinsult.com/generate_insult.php?lang=ru&type=json&_=${random}`)
     .then(data => {
-      bot.sendMessage(msg.chat.id, data.insult);
+      console.log(data);
+      bot.sendMessage(msg.chat.id, data.data.insult);
     })
   }
 })
