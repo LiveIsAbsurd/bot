@@ -639,7 +639,9 @@ function displayList(msg, query, array, usersPerPage, header, cbDop, state = und
         reward = "🥉"
       }
 
-      let text = `${reward ? "" : `${stateNum}.`}${reward ? reward : ""} ${el.userName ? el.userName : el.userFirstName} - ${el.count}/${Math.floor(el.count/totalCount*100)}%`;
+      let percent = el.count/totalCount*100;
+
+      let text = `${reward ? "" : `${stateNum}.`}${reward ? reward : ""} ${el.userName ? el.userName : el.userFirstName} - ${el.count}/${percent.toFixed(1)}%`;
       return text;
     }).join('\n');
   }
