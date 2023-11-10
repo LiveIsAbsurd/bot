@@ -88,7 +88,7 @@ bot.on("message", (msg) => {
 //       }, 5000);
 //     }
   }
-  trigger(msg);
+  //trigger(msg);
 });
 
 bot.onText(/\/news/, msg => {
