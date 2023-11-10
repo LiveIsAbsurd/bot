@@ -77,7 +77,7 @@ bot.onText(/\/xo/, msg => {
 
 bot.on("message", (msg) => {
   if (msg.chat.id == "-1001807749316") {
-    setChatState(msg, chatState);
+    //setChatState(msg, chatState);
     editState = true;
 
 //     const random = Math.floor(Math.random() * 300 + 1);
