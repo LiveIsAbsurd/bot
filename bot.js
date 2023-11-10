@@ -88,6 +88,7 @@ bot.on("message", (msg) => {
 //       }, 5000);
 //     }
   }
+  trigger(msg);
 });
 
 bot.onText(/\/news/, msg => {
@@ -957,3 +958,31 @@ const getCat = async (
       bot.sendPhoto(msg.chat.id, image, {caption: caption});
     })
 };
+
+const trigger = (msg) => {
+  let trigA = false; //буква н
+  let trigB = false; //буква п
+  let trigC = 0; //две буквы д
+
+  let text = msg.text.toLowerCase();
+  console.log(text);
+
+  text.split('').forEach(el => {
+
+    if (el === 'н') {
+      trigA = true;
+    }
+
+    if (el === 'п') {
+      trigB = true;
+    }
+
+    if (el === 'д') {
+      trigC ++;
+    }
+  });
+
+  if (trigA && trigB && trigC >= 2) {
+    bot.sendMessage(msg.chat.id, '🤔', {reply_to_message_id: msg.message_id});
+  }
+}
