@@ -78,15 +78,8 @@ bot.onText(/\/xo/, msg => {
 bot.on("message", (msg) => {
   if (msg.chat.id == "-1001807749316") {
     setChatState(msg, chatState);
+    rescrictUsers(msg);
     editState = true;
-
-//     const random = Math.floor(Math.random() * 300 + 1);
-//     if (random == 150) {
-//       setTimeout(() => {
-//         getCat(msg, `А я снова напоминаю что все оскорбления в этом чате не несут цели оскорбить кого-либо.
-// Пожалуйста, воспринимайте всё через призму иронии :)`);
-//       }, 5000);
-//     }
   }
   trigger(msg);
 });
@@ -94,16 +87,6 @@ bot.on("message", (msg) => {
 bot.onText(/\/news/, msg => {
   news(msg);
 });
-
-// bot.onText(/\/fuck/, msg => {
-//   if (msg.chat.id == "-1001807749316") {
-//     const random = Math.floor(Math.random() * 1000000000000);
-//     axios.get(`https://evilinsult.com/generate_insult.php?lang=ru&type=json&_=${random}`)
-//     .then(response => {
-//       bot.sendMessage(msg.chat.id, response.data.insult, {reply_to_message_id: msg.message_id});
-//     })
-//   }
-// })
 
 bot.onText(/\/help/, msg => {
   bot.deleteMessage(msg.chat.id, msg.message_id);
@@ -985,4 +968,74 @@ const trigger = (msg) => {
   if (trigA && trigB && trigC >= 2) {
     bot.sendMessage(msg.chat.id, '🤔', {reply_to_message_id: msg.message_id});
   }
+}
+
+setInterval(() => {
+  for (user in messageCount) {
+    messageCount[user].count = 0;
+  }
+}, 5000);
+
+setInterval(() => {
+  for (user in messageCount) {
+    messageCount[user].level = 0;
+  }
+}, 86400);
+
+const rescrictUsers = (msg) => {
+  if (!messageCount[msg.from.id]) {
+    messageCount[msg.from.id] = {
+      count: 1,
+      level: 0
+    }
+  } else {
+    messageCount[msg.from.id].count += 1;
+  }
+
+  if (messageCount[msg.from.id].count >= 5) {
+    messageCount[msg.from.id].level = 1;
+
+    if (messageCount[msg.from.id].level == 1) {
+      bot.sendMessage(msg.chat.id, "Слишком много сообщений, предупреждение", {reply_to_message_id: msg.message_id});
+    } else if (messageCount[msg.from.id].level == 2) {
+      const untilDate = Math.floor(Date.now() / 1000) + 3600;
+      bot.restrictChatMember(msg.chat.id, msg.from.id, {
+        until_date: untilDate,
+        can_send_messages: false,
+        can_send_media_messages: false,
+        can_send_other_messages: false,
+        can_add_web_page_previews: false
+      }).then(() => {
+        bot.sendMessage(msg.chat.id, "Заглушен на 1 час", {reply_to_message_id: msg.message_id});
+      }).catch((error) => {
+        console.log(error);
+      });
+    } else if (messageCount[msg.from.id].level == 3) {
+      const untilDate = Math.floor(Date.now() / 1000) + 21600;
+      bot.restrictChatMember(msg.chat.id, msg.from.id, {
+        until_date: untilDate,
+        can_send_messages: false,
+        can_send_media_messages: false,
+        can_send_other_messages: false,
+        can_add_web_page_previews: false
+      }).then(() => {
+        bot.sendMessage(msg.chat.id, "Заглушен на 6 часов", {reply_to_message_id: msg.message_id});
+      }).catch((error) => {
+        console.log(error);
+      });
+  } else if (messageCount[msg.from.id].level == 4) {
+    const untilDate = Math.floor(Date.now() / 1000) + 43200;
+    bot.restrictChatMember(msg.chat.id, msg.from.id, {
+      until_date: untilDate,
+      can_send_messages: false,
+      can_send_media_messages: false,
+      can_send_other_messages: false,
+      can_add_web_page_previews: false
+    }).then(() => {
+      bot.sendMessage(msg.chat.id, "Заглушен на 6 часов", {reply_to_message_id: msg.message_id});
+    }).catch((error) => {
+      console.log(error);
+    });
+  };
+ }
 }
