@@ -36,10 +36,15 @@ const bot = new TelegramBot(token, { polling: { interval: 1000 } });
 let chatState = JSON.parse(fs.readFileSync("../chatStats.json", "UTF-8"),null, 2);
 let editState = false;
 let dayNews = [];
+let messageCount = {};
 news(null, true);
 
 cron.schedule('0 7 * * *', () => {
   news();
+
+  for (user in messageCount) {
+    messageCount[user].level = 0;
+  }
 })
 
 bot.editMessageText(`Сообщений с 27.07.2023`, {
@@ -942,6 +947,8 @@ const getCat = async (
     })
 };
 
+//головоломка
+
 const trigger = (msg) => {
   let trigA = false; //буква н
   let trigB = false; //буква п
@@ -970,17 +977,13 @@ const trigger = (msg) => {
   }
 }
 
+//ограничения
+
 setInterval(() => {
   for (user in messageCount) {
     messageCount[user].count = 0;
   }
 }, 5000);
-
-setInterval(() => {
-  for (user in messageCount) {
-    messageCount[user].level = 0;
-  }
-}, 86400);
 
 const rescrictUsers = (msg) => {
   if (!messageCount[msg.from.id]) {
@@ -1032,7 +1035,7 @@ const rescrictUsers = (msg) => {
       can_send_other_messages: false,
       can_add_web_page_previews: false
     }).then(() => {
-      bot.sendMessage(msg.chat.id, "Заглушен на 6 часов", {reply_to_message_id: msg.message_id});
+      bot.sendMessage(msg.chat.id, "Заглушен на 12 часов", {reply_to_message_id: msg.message_id});
     }).catch((error) => {
       console.log(error);
     });
