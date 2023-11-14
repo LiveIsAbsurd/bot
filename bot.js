@@ -81,7 +81,7 @@ bot.on("message", (msg) => {
     rescrictUsers(msg);
     editState = true;
   }
-  trigger(msg);
+  //trigger(msg);
 });
 
 bot.onText(/\/news/, msg => {
