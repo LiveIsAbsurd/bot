@@ -43,7 +43,11 @@ cron.schedule('0 7 * * *', () => {
   news();
 
   for (user in messageCount) {
-    messageCount[user].level = 0;
+    if (messageCount[user].level == 0) {
+      return;
+    } else {
+      messageCount[user].level -= 1;
+    }
   }
 })
 
@@ -996,7 +1000,8 @@ const rescrictUsers = (msg) => {
   }
 
   if (messageCount[msg.from.id].count >= 5) {
-    messageCount[msg.from.id].level = 1;
+    messageCount[msg.from.id].count = 0;
+    messageCount[msg.from.id].level += 1;
 
     if (messageCount[msg.from.id].level == 1) {
       bot.sendMessage(msg.chat.id, "Слишком много сообщений, предупреждение", {reply_to_message_id: msg.message_id});
