@@ -93,6 +93,10 @@ bot.on("message", (msg) => {
   //trigger(msg);
 });
 
+bot.onText(/\/mute/, (msg) => {
+  muteUser(msg);
+});
+
 bot.onText(/\/news/, msg => {
   news(msg);
 });
@@ -1047,3 +1051,25 @@ const rescrictUsers = (msg) => {
   };
  }
 }
+
+const muteUser = (msg) => {
+  if (msg.chat.id != "-1001807749316") {
+    return;
+  };
+  if (msg.from.username == "LiveIsAbsurd") {
+    const user = msg.reply_to_message.from.id;
+    const time = msg.text.replace('/mute', '').trim() ? msg.text.replace('/mute', '').trim() : 3600;
+    const untilDate = Math.floor(Date.now() / 1000) + Number(time);
+    bot.restrictChatMember(msg.chat.id, user, {
+      until_date: untilDate,
+      can_send_messages: false,
+      can_send_media_messages: false,
+      can_send_other_messages: false,
+      can_add_web_page_previews: false
+    }).then(() => {
+      bot.sendMessage(msg.chat.id, `Участник заглушён на ${time} секунд`, { reply_to_message_id: msg.message_id });
+    });
+  } else {
+    bot.sendMessage(msg.chat.id, 'Команда доступна только создателю', { reply_to_message_id: msg.message_id });
+  }
+};
