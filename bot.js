@@ -52,7 +52,11 @@ cron.schedule('0 7 * * *', () => {
   news();
 
   for (user in messageCount) {
-    messageCount[user].level = 0;
+    if (messageCount[user].level == 0) {
+      return;
+    } else {
+      messageCount[user].level -= 1;
+    }
   }
 })
 
@@ -96,6 +100,10 @@ bot.on("message", (msg) => {
     editState = true;
   }
   //trigger(msg);
+});
+
+bot.onText(/\/mute/, (msg) => {
+  muteUser(msg);
 });
 
 bot.onText(/\/news/, msg => {
@@ -1005,7 +1013,8 @@ const rescrictUsers = (msg) => {
   }
 
   if (messageCount[msg.from.id].count >= 5) {
-    messageCount[msg.from.id].level = 1;
+    messageCount[msg.from.id].count = 0;
+    messageCount[msg.from.id].level += 1;
 
     if (messageCount[msg.from.id].level == 1) {
       bot.sendMessage(msg.chat.id, "Слишком много сообщений, предупреждение", {reply_to_message_id: msg.message_id});
@@ -1051,3 +1060,25 @@ const rescrictUsers = (msg) => {
   };
  }
 }
+
+const muteUser = (msg) => {
+  if (msg.chat.id != "-1001807749316") {
+    return;
+  };
+  if (msg.from.username == "LiveIsAbsurd") {
+    const user = msg.reply_to_message.from.id;
+    const time = msg.text.replace('/mute', '').trim() ? msg.text.replace('/mute', '').trim() : 3600;
+    const untilDate = Math.floor(Date.now() / 1000) + Number(time);
+    bot.restrictChatMember(msg.chat.id, user, {
+      until_date: untilDate,
+      can_send_messages: false,
+      can_send_media_messages: false,
+      can_send_other_messages: false,
+      can_add_web_page_previews: false
+    }).then(() => {
+      bot.sendMessage(msg.chat.id, `Участник заглушён на ${time} секунд`, { reply_to_message_id: msg.message_id });
+    });
+  } else {
+    bot.sendMessage(msg.chat.id, 'Команда доступна только создателю', { reply_to_message_id: msg.message_id });
+  }
+};
