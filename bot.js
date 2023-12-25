@@ -39,6 +39,15 @@ let dayNews = [];
 let messageCount = {};
 news(null, true);
 
+const optss = {
+  reply_markup: {
+    inline_keyboard: [[{ text: `${chatState.totalMessage}`, callback_data: "chatState" }]]
+  },}
+
+bot.sendMessage("-1001807749316", `Сообщений с 27.07.2023`, optss).then((msg) => {
+  console.log(msg);
+});
+
 cron.schedule('0 7 * * *', () => {
   news();
 
