@@ -39,15 +39,6 @@ let dayNews = [];
 let messageCount = {};
 news(null, true);
 
-const optss = {
-  reply_markup: {
-    inline_keyboard: [[{ text: `${chatState.totalMessage}`, callback_data: "chatState" }]]
-  },}
-
-bot.sendMessage("-1001807749316", `Сообщений с 27.07.2023`, optss).then((msg) => {
-  console.log(msg);
-});
-
 cron.schedule('0 7 * * *', () => {
   news();
 
@@ -62,7 +53,7 @@ cron.schedule('0 7 * * *', () => {
 
 bot.editMessageText(`Сообщений с 27.07.2023`, {
   chat_id: "-1001807749316",
-  message_id: "59131",
+  message_id: "146136",
   reply_markup: {
     inline_keyboard: [[{ text: `${chatState.totalMessage}`, callback_data: "chatState" }]]
   }
@@ -590,7 +581,7 @@ setInterval(() => {
 
     bot.editMessageText(`Сообщений с 27.07.2023`, {
       chat_id: "-1001807749316",
-      message_id: "59131",
+      message_id: "146136",
       reply_markup: {
         inline_keyboard: [[{ text: `${chatState.totalMessage}`, callback_data: "chatState" }]]
       }
@@ -601,7 +592,7 @@ setInterval(() => {
 process.on("SIGINT", async () => {
   await bot.editMessageText(`Бот временно отключён`, {
     chat_id: "-1001807749316",
-    message_id: "59131"
+    message_id: "146136"
   });
 
   fs.writeFile("../chatStats.json", JSON.stringify(chatState, null, 2), "UTF-8", (err) => {
