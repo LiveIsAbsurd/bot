@@ -84,10 +84,13 @@ bot.onText(/\/xo/, msg => {
 
 //крестики-нолики________________________________________________________
 
-bot.on("message", (msg) => {
+bot.on("message", (msg, match) => {
   if (msg.chat.id == "-1001807749316") {
     setChatState(msg, chatState);
-    rescrictUsers(msg);
+    if (match.type === 'text' || match.type === 'sticker') {
+      console.log('тест');
+      rescrictUsers(msg);
+    }
     editState = true;
   }
   //trigger(msg);
