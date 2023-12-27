@@ -214,6 +214,7 @@ bot.on("callback_query", (query) => {
         bot.deleteMessage(query.message.chat.id, query.message.message_id);
         bot.answerCallbackQuery(query.id, {
           text: "Спасибо! Ты можешь писать сообщения!",
+          show_alert: true,
         });
       })
     } else {
