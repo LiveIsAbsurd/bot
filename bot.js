@@ -218,7 +218,8 @@ bot.on("callback_query", (query) => {
       })
     } else {
       bot.answerCallbackQuery(query.id, {
-        text: "...",
+        text: "Ты серьёзно? 0_0",
+        show_alert: true,
       });
     }
   } 
