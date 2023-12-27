@@ -441,13 +441,15 @@ bot.on("new_chat_members", (msg) => {
     };
 
     bot.sendMessage(chatId, hiText(userName), opts);
-    bot.restrictChatMember(chatId, userId, options).then(() => {
-      bot.sendMessage(chatId, "Извини, мне нужно проверить что ты не бот, чтобы писать сообщения нажми на кнопочку с сердечком. Если не получается, напиши @liveisabsurd", {
-        reply_markup: {
-          inline_keyboard: [[{ text: "🐮", callback_data: "unlock" }, { text: "❤️", callback_data: `unlock${userId}` }, { text: "🍎", callback_data: "unlock" }]],
-        },
-      });
-    })
+    if (userId === msg.from.id) {
+      bot.restrictChatMember(chatId, userId, options).then(() => {
+        bot.sendMessage(chatId, "Извини, мне нужно проверить что ты не бот, чтобы писать сообщения нажми на кнопочку с сердечком. Если не получается, напиши @liveisabsurd", {
+          reply_markup: {
+            inline_keyboard: [[{ text: "🐮", callback_data: "unlock" }, { text: "❤️", callback_data: `unlock${userId}` }, { text: "🍎", callback_data: "unlock" }]],
+          },
+        });
+      })
+    }
   }
 });
 
