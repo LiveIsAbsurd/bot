@@ -87,6 +87,7 @@ bot.onText(/\/xo/, msg => {
 bot.on("message", (msg, match) => {
   if (msg.chat.id == "-1001807749316") {
     setChatState(msg, chatState);
+    NewYear(msg);
     if (match.type === 'text' || match.type === 'sticker') {
       rescrictUsers(msg);
     }
@@ -1079,3 +1080,16 @@ const muteUser = (msg) => {
     bot.sendMessage(msg.chat.id, 'Команда доступна только создателю', { reply_to_message_id: msg.message_id });
   }
 };
+
+const nyTrigger = ['новым годом', 'наступающем', 'нг', 'рождеством', 'наступившим', 'нового года', 'новом году', 'рождества', 'с праздником']
+
+const NewYear = (msg) => {
+  const chatID = msg.chat.id;
+  const messID = msg.message_id;
+  const text = msg.text.toLowerCase();
+  const trigBoolen = nyTrigger.some(el => text.includes(el))
+  
+  if (trigBoolen) {
+    axios.get(`https://api.telegram.org/bot${token}/setmessagereaction?chat_id=${chatID}&message_id=${messID}&reaction=[{"type":"emoji", "emoji":"🎄"}]`)
+  }
+}
