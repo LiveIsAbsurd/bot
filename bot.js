@@ -51,7 +51,10 @@ cron.schedule('0 7 * * *', () => {
   }
 })
 
-bot.editMessageText(`Сообщений с 27.07.2023`, {
+bot.editMessageText(`
+Сообщений с 27.07.2023
+${setChatState.totalMessage}
+`, {
   chat_id: "-1001807749316",
   message_id: "146136",
   reply_markup: {
@@ -588,7 +591,10 @@ setInterval(() => {
       console.log("Запись");
     });
 
-    bot.editMessageText(`Сообщений с 27.07.2023`, {
+    bot.editMessageText(`
+Сообщений с 27.07.2023
+${setChatState.totalMessage}
+`, {
       chat_id: "-1001807749316",
       message_id: "146136",
       reply_markup: {
