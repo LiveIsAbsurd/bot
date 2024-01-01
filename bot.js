@@ -53,7 +53,8 @@ cron.schedule('0 7 * * *', () => {
 
 bot.editMessageText(`
 Сообщений с 27.07.2023
-${setChatState.totalMessage}
+
+${chatState.totalMessage}
 `, {
   chat_id: "-1001807749316",
   message_id: "146136",
@@ -593,7 +594,8 @@ setInterval(() => {
 
     bot.editMessageText(`
 Сообщений с 27.07.2023
-${setChatState.totalMessage}
+
+${chatState.totalMessage}
 `, {
       chat_id: "-1001807749316",
       message_id: "146136",
