@@ -34,6 +34,7 @@ function hiText(username) {
 const bot = new TelegramBot(token, { polling: { interval: 1000 } });
 
 let chatState = JSON.parse(fs.readFileSync("../chatStats.json", "UTF-8"),null, 2);
+let realDateGlobal = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
 let editState = false;
 let dayNews = [];
 let messageCount = {};
@@ -54,7 +55,7 @@ cron.schedule('0 7 * * *', () => {
 bot.editMessageText(`
 Сообщений с 27.07.2023
 
-${chatState.totalMessage}
++${chatState[realDateGlobal].totalMessage}
 `, {
   chat_id: "-1001807749316",
   message_id: "146136",
@@ -595,7 +596,7 @@ setInterval(() => {
     bot.editMessageText(`
 Сообщений с 27.07.2023
 
-${chatState.totalMessage}
++${chatState[realDateGlobal].totalMessage}
 `, {
       chat_id: "-1001807749316",
       message_id: "146136",

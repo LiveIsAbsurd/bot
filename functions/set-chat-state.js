@@ -15,6 +15,7 @@ function setChatState(msg, state) {
     let realDate = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
   
     state.totalMessage += 1;
+
   
     if (!state.userMessage[userId]) {
       state.userMessage[userId] = {
