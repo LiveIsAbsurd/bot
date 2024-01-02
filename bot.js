@@ -56,7 +56,7 @@ cron.schedule('0 7 * * *', () => {
 bot.editMessageText(`
 Сообщений с 27.07.2023
 
-+${chatState.messageOnDate[realDateGlobal].totalMessage} за сутки
++${chatState.messageOnDate[realDateGlobal] ?chatState.messageOnDate[realDateGlobal]?.totalMessage : 0} за сутки
 `, {
   chat_id: "-1001807749316",
   message_id: "146136",
@@ -585,6 +585,7 @@ bot.onText(/\/setDescription (.+)/, (msg, match) => {
 });
 
 setInterval(() => {
+  realDateGlobal = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
   if (editState) {
     fs.writeFile("../chatStats.json", JSON.stringify(chatState, null, 2), "UTF-8", (err) => {
       if (err) {
@@ -597,7 +598,7 @@ setInterval(() => {
     bot.editMessageText(`
 Сообщений с 27.07.2023
 
-+${chatState.messageOnDate[realDateGlobal].totalMessage} за сутки
++${chatState.messageOnDate[realDateGlobal] ?chatState.messageOnDate[realDateGlobal]?.totalMessage : 0} за сутки
 `, {
       chat_id: "-1001807749316",
       message_id: "146136",
