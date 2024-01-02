@@ -585,6 +585,7 @@ bot.onText(/\/setDescription (.+)/, (msg, match) => {
 });
 
 setInterval(() => {
+  date = new Date();
   realDateGlobal = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
   if (editState) {
     fs.writeFile("../chatStats.json", JSON.stringify(chatState, null, 2), "UTF-8", (err) => {
