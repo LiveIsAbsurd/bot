@@ -93,9 +93,6 @@ bot.onText(/\/xo/, msg => {
 bot.on("message", (msg, match) => {
   if (msg.chat.id == "-1001807749316") {
     setChatState(msg, chatState);
-    if (match.type === 'text') {
-      NewYear(msg);
-    }
     if (match.type === 'text' || match.type === 'sticker') {
       rescrictUsers(msg);
     }
@@ -1095,15 +1092,15 @@ const muteUser = (msg) => {
   }
 };
 
-const nyTrigger = ['новым годом', 'наступающем', 'рождеством', 'наступившим', 'нового года', 'новом году', 'рождества', 'с праздником', 'новый год']
+// const nyTrigger = ['новым годом', 'наступающем', 'рождеством', 'наступившим', 'нового года', 'новом году', 'рождества', 'с праздником', 'новый год']
 
-const NewYear = (msg) => {
-  const chatID = msg.chat.id;
-  const messID = msg.message_id;
-  const text = msg.text.toLowerCase();
-  const trigBoolen = nyTrigger.some(el => text.includes(el))
+// const NewYear = (msg) => {
+//   const chatID = msg.chat.id;
+//   const messID = msg.message_id;
+//   const text = msg.text.toLowerCase();
+//   const trigBoolen = nyTrigger.some(el => text.includes(el))
   
-  if (trigBoolen) {
-    axios.get(`https://api.telegram.org/bot${token}/setmessagereaction?chat_id=${chatID}&message_id=${messID}&reaction=[{"type":"emoji", "emoji":"🎄"}]`)
-  }
-}
+//   if (trigBoolen) {
+//     axios.get(`https://api.telegram.org/bot${token}/setmessagereaction?chat_id=${chatID}&message_id=${messID}&reaction=[{"type":"emoji", "emoji":"🎄"}]`)
+//   }
+// }
