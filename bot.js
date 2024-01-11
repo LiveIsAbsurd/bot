@@ -39,6 +39,8 @@ let realDateGlobal = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDat
 let editState = false;
 let dayNews = [];
 let messageCount = {};
+let authorityTriggers = ['+', 'жиза', 'база', '👍']; //new
+let usersSendAuthority = {}; //new
 news(null, true);
 
 cron.schedule('0 7 * * *', () => {
@@ -96,6 +98,9 @@ bot.on("message", (msg, match) => {
     if (match.type === 'text' || match.type === 'sticker') {
       rescrictUsers(msg);
     }
+    if (match.type === 'text') {
+      authorityTriggers.some(el => msg.text.toLowerCase() === el) ? setAuthority(msg, chatState) : null;
+    } //new
     editState = true;
   }
   //trigger(msg);
@@ -374,6 +379,28 @@ bot.on("callback_query", (query) => {
 Топ:`, "chatState", chatState)
     }));
   }
+
+  if (query.data == "next-authority") {
+    if (currentPage[query.message.message_id]) {
+      currentPage[query.message.message_id] += 1;
+      getAuthority(chatState, (message) => {
+        displayList(null, query, message, 5, 'Топ авторитета участников:', 'authority');
+      });
+    } else {
+      bot.deleteMessage(query.message.chat.id, query.message.message_id);
+    }
+  } //new
+
+  if (query.data == "prev-authority") {
+    if (currentPage[query.message.message_id]) {
+      currentPage[query.message.message_id] -= 1;
+      getAuthority(chatState, (message) => {
+        displayList(null, query, message, 5, 'Топ авторитета участников:', 'authority');
+      });
+    } else {
+      bot.deleteMessage(query.message.chat.id, query.message.message_id);
+    }
+  }//new
 });
 
 bot.onText(/\/kick/, (msg) => {
@@ -660,6 +687,24 @@ function displayList(msg, query, array, usersPerPage, header, cbDop, state = und
       return text;
     }).join('\n');
   }
+
+  if (cbDop == 'authority') {
+    message = page.map((el, i) => {
+      let reward;
+      let stateNum = start + i + 1;
+
+      if (stateNum == 1) {
+        reward = "🥇"
+      } else if (stateNum == 2) {
+        reward = "🥈"
+      } else if (stateNum == 3) {
+        reward = "🥉"
+      }
+
+      let text = `${reward ? "" : `${stateNum}.`}${reward ? reward : ""} ${el.userName ? el.userName : el.userFirstName} ${el.authority}`;
+      return text;
+    }).join('\n');
+  } //new
 
   let qq;
   if (!msg && query.data == "chatState") {
@@ -1090,6 +1135,60 @@ const muteUser = (msg) => {
   } else {
     bot.sendMessage(msg.chat.id, 'Команда доступна только создателю', { reply_to_message_id: msg.message_id });
   }
+};
+
+// ----------------------Авторитет
+
+bot.onText(/\/getAuthority/, (msg) => {
+  getAuthority(chatState, (message) => {
+    displayList(msg, null, message, 5, 'Топ авторитета участников:', 'authority');
+  });
+});
+
+const setAuthority = (msg, state) => {
+  const noReplay = !msg.reply_to_message;
+  const isBot = msg.reply_to_message?.from.is_bot;
+  const authMyself = msg.from.id === msg.reply_to_message?.from.id;
+
+  let alreadySend = false;
+
+  if (noReplay || isBot || authMyself) {
+    return;
+  }
+
+  if (!state.userMessage[msg.reply_to_message.from.id]) {
+    return;
+  }
+  //console.log(msg);
+
+  if (!usersSendAuthority[msg.from.id]) {
+    usersSendAuthority[msg.from.id] = [msg.reply_to_message.message_id];
+  } else {
+    usersSendAuthority[msg.from.id].includes(msg.reply_to_message.message_id)
+      ? alreadySend = true
+      : usersSendAuthority[msg.from.id].push(msg.reply_to_message.message_id);
+  }
+
+  if (alreadySend) {
+    bot.sendMessage(msg.chat.id, 'Ты уже плюсовал это сообщение', {reply_to_message_id: msg.message_id});
+    return;
+  }
+
+  !state.userMessage[msg.reply_to_message.from.id].authority 
+    ? state.userMessage[msg.reply_to_message.from.id].authority = 1
+    : state.userMessage[msg.reply_to_message.from.id].authority += 1
+
+  bot.sendMessage(msg.chat.id, 'Авторитет участника увеличен на 1', {reply_to_message_id: msg.message_id});
+};
+
+const getAuthority = (state, cb) => {
+  let userStats = Object.values(state.userMessage);
+  
+  userStats.sort((a, b) => {
+    return b.authority - a.authority;
+  });
+  
+  cb(userStats);
 };
 
 // const nyTrigger = ['новым годом', 'наступающем', 'рождеством', 'наступившим', 'нового года', 'новом году', 'рождества', 'с праздником', 'новый год']
