@@ -1184,17 +1184,15 @@ const setAuthority = (msg, state) => {
 const getAuthority = (state, cb) => {
   let userStats = Object.values(state.userMessage);
 
-  userStats.filter(el => {
-    if (el.authority) {
-      return el;
-    }
+  let filterUserStats = userStats.filter(el => {
+    return Boolean(el.authority);
   });
   
-  userStats.sort((a, b) => {
+  filterUserStats.sort((a, b) => {
     return b.authority - a.authority;
   });
   
-  cb(userStats);
+  cb(filterUserStats);
 };
 
 // const nyTrigger = ['новым годом', 'наступающем', 'рождеством', 'наступившим', 'нового года', 'новом году', 'рождества', 'с праздником', 'новый год']
