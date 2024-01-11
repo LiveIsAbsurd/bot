@@ -1183,6 +1183,12 @@ const setAuthority = (msg, state) => {
 
 const getAuthority = (state, cb) => {
   let userStats = Object.values(state.userMessage);
+
+  userStats.filter(el => {
+    if (el.authority) {
+      return el;
+    }
+  });
   
   userStats.sort((a, b) => {
     return b.authority - a.authority;
