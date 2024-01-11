@@ -701,7 +701,7 @@ function displayList(msg, query, array, usersPerPage, header, cbDop, state = und
         reward = "🥉"
       }
 
-      let text = `${reward ? "" : `${stateNum}.`}${reward ? reward : ""} ${el.userName ? el.userName : el.userFirstName} ${el.authority}`;
+      let text = `${reward ? "" : `${stateNum}.`}${reward ? reward : ""} ${el.userName ? el.userName : el.userFirstName} - ${el.authority}`;
       return text;
     }).join('\n');
   } //new
