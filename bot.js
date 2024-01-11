@@ -1139,7 +1139,7 @@ const muteUser = (msg) => {
 
 // ----------------------Авторитет
 
-bot.onText(/\/getAuthority/, (msg) => {
+bot.onText(/\/authority/, (msg) => {
   getAuthority(chatState, (message) => {
     displayList(msg, null, message, 5, 'Топ авторитета участников:', 'authority');
   });
