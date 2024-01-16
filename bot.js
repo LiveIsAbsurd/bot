@@ -1215,9 +1215,9 @@ const dailyHi = () => {
         return b[1].count - a[1].count;
       });
 
-      // !chatState.userMessage[sortUsers[0][0]].authority
-      //   ? chatState.userMessage[sortUsers[0][0]].authority = 1
-      //   : chatState.userMessage[sortUsers[0][0]].authority += 1
+      !chatState.userMessage[sortUsers[0][0]].authority
+        ? chatState.userMessage[sortUsers[0][0]].authority = 1
+        : chatState.userMessage[sortUsers[0][0]].authority += 1
       
       const message = `
 Всем доброго утра и хорошего настроения!
