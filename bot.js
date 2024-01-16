@@ -42,6 +42,7 @@ let dayNews = [];
 let messageCount = {};
 let authorityTriggers = ['+', 'жиза', 'база', '👍']; //new
 let usersSendAuthority = {}; //new
+dailyHi();
 
 cron.schedule('0 7 * * *', () => {
   dailyHi();
@@ -1215,9 +1216,9 @@ const dailyHi = () => {
         return b[1].count - a[1].count;
       });
 
-      !chatState.userMessage[sortUsers[0][0]].authority
-        ? chatState.userMessage[sortUsers[0][0]].authority = 1
-        : chatState.userMessage[sortUsers[0][0]].authority += 1
+      // !chatState.userMessage[sortUsers[0][0]].authority
+      //   ? chatState.userMessage[sortUsers[0][0]].authority = 1
+      //   : chatState.userMessage[sortUsers[0][0]].authority += 1
       
       const message = `
 Всем доброго утра и хорошего настроения!
