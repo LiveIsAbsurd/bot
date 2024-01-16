@@ -1217,6 +1217,10 @@ const dailyHi = (msg) => {
       const sortUsers = users.sort((a, b) => {
         return b[1].count - a[1].count;
       });
+
+      // !state.userMessage[sortUsers[0][0]].authority
+      //   ? state.userMessage[sortUsers[0][0]].authority = 1
+      //   : state.userMessage[sortUsers[0][0]].authority += 1
       
       const message = `
 Всем доброго утра и хорошего настроения!
@@ -1246,6 +1250,8 @@ const yestUsers = () => {
   const sortUsers = users.sort((a, b) => {
     return b[1].count - a[1].count;
   });
+
+  console.log(state.userMessage[sortUsers[0][0]]);
 
   console.log(sortUsers[0][0]);
 };
