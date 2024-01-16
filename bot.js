@@ -1242,9 +1242,9 @@ const yestUsers = () => {
   const yestDate = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate() - 1}`;
   const usersState = { ...chatState.messageOnDate[yestDate].userMessage }
   const users = Object.keys(usersState).map(key => [key, usersState[key]]);
-  // const sortUsers = users.sort((a, b) => {
-  //   return b.count - a.count;
-  // });
+  const sortUsers = users.sort((a, b) => {
+    return b[1].count - a[1].count;
+  });
 
-  console.log(users);
+  console.log(sortUsers);
 };
