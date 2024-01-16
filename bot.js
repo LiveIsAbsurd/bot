@@ -1173,7 +1173,7 @@ const setAuthority = (msg, state) => {
     ? state.userMessage[msg.reply_to_message.from.id].authority = 1
     : state.userMessage[msg.reply_to_message.from.id].authority += 1
 
-  bot.sendMessage(msg.chat.id, 'Авторитет участника увеличен на 1', {reply_to_message_id: msg.message_id});
+  bot.sendMessage(msg.chat.id, `Авторитет ${state.userMessage[msg.reply_to_message.from.id].userFirstName} - ${state.userMessage[msg.reply_to_message.from.id].authority} (+1) `, {reply_to_message_id: msg.message_id});
 };
 
 const getAuthority = (state, cb) => {
