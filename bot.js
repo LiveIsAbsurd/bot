@@ -1210,11 +1210,22 @@ bot.onText(/\/weather/, msg => {
 const dailyHi = (msg) => {
   axios.get(`https://api.openweathermap.org/data/2.5/weather?lat=56.343703&lon=30.515671&appid=${weatherToken}&units=metric&lang=ru`)
     .then(response => {
-      let message = `
+      const date = new Date();
+      const yestDate = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate() - 1}`;
+      const users = Object.values(chatState.messageOnDate[yestDate].userMessage);
+      const sortUsers = users.sort((a, b) => {
+        return b.count - a.count;
+      });
+      
+      const message = `
 Всем доброго утра и хорошего настроения!
   
 По моим скромным данным в Великих луках сейчас ${response.data.weather[0].description}.
-Температура воздуха ${response.data.main.temp}°C (по ощущениям ${response.data.main.feels_like}°C)`
+Температура воздуха ${response.data.main.temp}°C (по ощущениям ${response.data.main.feels_like}°C)
+
+Самым активным учасником вчера был ${sortUsers[0].userFirstName},
+его авторитет увеличен на 1.`;
+      
       bot.sendMessage(msg.chat.id, message);
   })
   .catch(error => {
@@ -1234,5 +1245,5 @@ const yestUsers = () => {
     return b.count - a.count;
   });
 
-  console.log(sortUsers[0]);
+  console.log(sortUsers);
 };
