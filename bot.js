@@ -1223,7 +1223,7 @@ const dailyHi = () => {
 Всем доброго утра и хорошего настроения!
   
 По моим скромным данным в Великих луках сейчас ${response.data.weather[0].description}.
-Температура воздуха ${response.data.main.temp}°C (по ощущениям ${response.data.main.feels_like}°C)
+Температура воздуха ${Math.round(response.data.main.temp)}°C (по ощущениям ${Math.round(response.data.main.feels_like)}°C)
 
 Самым активным учасником вчера был ${sortUsers[0][1].userFirstName}
 (${sortUsers[0][1].count} сообщений),
