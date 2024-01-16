@@ -42,7 +42,6 @@ let dayNews = [];
 let messageCount = {};
 let authorityTriggers = ['+', 'жиза', 'база', '👍']; //new
 let usersSendAuthority = {}; //new
-dailyHi();
 
 cron.schedule('0 7 * * *', () => {
   dailyHi();
@@ -1235,6 +1234,8 @@ const dailyHi = () => {
       console.error(error);
   });
 };
+
+dailyHi();
 
 // bot.onText(/\/test/, msg => {
 //   yestUsers();
