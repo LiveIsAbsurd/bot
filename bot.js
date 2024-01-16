@@ -1212,9 +1212,10 @@ const dailyHi = (msg) => {
     .then(response => {
       const date = new Date();
       const yestDate = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate() - 1}`;
-      const users = Object.values(chatState.messageOnDate[yestDate].userMessage);
+      const usersState = { ...chatState.messageOnDate[yestDate].userMessage }
+      const users = Object.keys(usersState).map(key => [key, usersState[key]]);
       const sortUsers = users.sort((a, b) => {
-        return b.count - a.count;
+        return b[1].count - a[1].count;
       });
       
       const message = `
@@ -1223,7 +1224,7 @@ const dailyHi = (msg) => {
 По моим скромным данным в Великих луках сейчас ${response.data.weather[0].description}.
 Температура воздуха ${response.data.main.temp}°C (по ощущениям ${response.data.main.feels_like}°C)
 
-Самым активным учасником вчера был ${sortUsers[0].userFirstName},
+Самым активным учасником вчера был ${sortUsers[0][1].userFirstName},
 его авторитет увеличен на 1.`;
       
       bot.sendMessage(msg.chat.id, message);
@@ -1246,5 +1247,5 @@ const yestUsers = () => {
     return b[1].count - a[1].count;
   });
 
-  console.log(sortUsers);
+  console.log(sortUsers[0][1]);
 };
