@@ -1,4 +1,5 @@
 const token = require("../token.js");
+const weatherToken = require("../weatherToken.js");
 
 const TelegramBot = require("node-telegram-bot-api");
 const axios = require("axios");
@@ -41,10 +42,8 @@ let dayNews = [];
 let messageCount = {};
 let authorityTriggers = ['+', 'жиза', 'база', '👍']; //new
 let usersSendAuthority = {}; //new
-news(null, true);
 
 cron.schedule('0 7 * * *', () => {
-  news();
 
   for (user in messageCount) {
     if (messageCount[user].level == 0) {
@@ -108,10 +107,6 @@ bot.on("message", (msg, match) => {
 
 bot.onText(/\/mute/, (msg) => {
   muteUser(msg);
-});
-
-bot.onText(/\/news/, msg => {
-  news(msg);
 });
 
 bot.onText(/\/help/, msg => {
@@ -950,47 +945,47 @@ ${place}`,
 }
 //крестики-нолики________________________________________________________
 
-function news(msg = null, reload = false) {
-  if (reload) {
-    axios.get('https://newsapi.org/v2/top-headlines?category=science&country=ru&pageSize=5&apiKey=08fb80b4c9104defafe8e7b1d1aa9f4f')
-      .then(data => { 
-        dayNews = data.data.articles;
-      })
-    return;
-  }
+// function news(msg = null, reload = false) {
+//   if (reload) {
+//     axios.get('https://newsapi.org/v2/top-headlines?category=science&country=ru&pageSize=5&apiKey=08fb80b4c9104defafe8e7b1d1aa9f4f')
+//       .then(data => { 
+//         dayNews = data.data.articles;
+//       })
+//     return;
+//   }
 
-  if (!msg) {
-    axios.get('https://newsapi.org/v2/top-headlines?category=science&country=ru&pageSize=5&apiKey=08fb80b4c9104defafe8e7b1d1aa9f4f')
-      .then(data => {
-        dayNews = data.data.articles;
-        let text = data.data.articles.map((el, i) => {
-          return `${i + 1}. ${el.title} /news_${i + 1} \n`
-        }).join("\n");
-        bot.sendMessage("-1001807749316", `
-    Всем доброго утра и хорошего настроения!
+//   if (!msg) {
+//     axios.get('https://newsapi.org/v2/top-headlines?category=science&country=ru&pageSize=5&apiKey=08fb80b4c9104defafe8e7b1d1aa9f4f')
+//       .then(data => {
+//         dayNews = data.data.articles;
+//         let text = data.data.articles.map((el, i) => {
+//           return `${i + 1}. ${el.title} /news_${i + 1} \n`
+//         }).join("\n");
+//         bot.sendMessage("-1001807749316", `
+//     Всем доброго утра и хорошего настроения!
 
-Главные новости на сегодня:
+// Главные новости на сегодня:
       
-${text}`);
-      })
-  } else {
-    let id = parseFloat(msg.text.replace("/news_", "").replace("@meme_house_bot", "")) - 1;
+// ${text}`);
+//       })
+//   } else {
+//     let id = parseFloat(msg.text.replace("/news_", "").replace("@meme_house_bot", "")) - 1;
 
-    if (!isNaN(id)) {
+//     if (!isNaN(id)) {
       
-      bot.sendMessage(msg.chat.id, dayNews[id].url);
+//       bot.sendMessage(msg.chat.id, dayNews[id].url);
       
-    } else {
+//     } else {
 
-    let text = dayNews.map((el, i) => {
-      return `${i + 1}. ${el.title} /news_${i + 1} \n`
-    }).join("\n");
+//     let text = dayNews.map((el, i) => {
+//       return `${i + 1}. ${el.title} /news_${i + 1} \n`
+//     }).join("\n");
 
-    bot.sendMessage(msg.chat.id, `${text}`);
+//     bot.sendMessage(msg.chat.id, `${text}`);
     
-    }
-  }
-}
+//     }
+//   }
+// }
 //котики---------------------------
 
 bot.onText(/\/cat/, async (msg) => {
@@ -1207,3 +1202,23 @@ const getAuthority = (state, cb) => {
 //     axios.get(`https://api.telegram.org/bot${token}/setmessagereaction?chat_id=${chatID}&message_id=${messID}&reaction=[{"type":"emoji", "emoji":"🎄"}]`)
 //   }
 // }
+
+bot.onText(/\/weather/, msg => {
+  dailyHi(msg);
+});
+
+const dailyHi = (msg) => {
+  axios.get(`https://api.openweathermap.org/data/2.5/weather?lat=56.343703&lon=30.515671&appid=${weatherToken}&units=metric&lang=ru`)
+  .then(response => {
+    console.log(response.data);
+    let message = `
+Всем доброго утра и хорошего настроения!
+  
+По моим скромным данным в Великих луках сейчас ${response.data.weather[0].description}.
+Температура воздуха ${response.data.main.temp}°C (по ощущениям ${response.data.main.feels_like}°C)`
+    bot.sendMessage(msg.chat.id, message);
+  })
+  .catch(error => {
+  console.error(error);
+  });
+};
