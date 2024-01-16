@@ -1247,5 +1247,5 @@ const yestUsers = () => {
     return b[1].count - a[1].count;
   });
 
-  console.log(sortUsers[0][1]);
+  console.log(sortUsers[0][0]);
 };
