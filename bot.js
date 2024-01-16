@@ -1236,8 +1236,6 @@ const dailyHi = () => {
   });
 };
 
-dailyHi();
-
 // bot.onText(/\/test/, msg => {
 //   yestUsers();
 // });
