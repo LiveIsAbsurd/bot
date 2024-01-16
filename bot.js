@@ -44,6 +44,7 @@ let authorityTriggers = ['+', 'жиза', 'база', '👍']; //new
 let usersSendAuthority = {}; //new
 
 cron.schedule('0 7 * * *', () => {
+  dailyHi();
 
   for (user in messageCount) {
     if (messageCount[user].level == 0) {
@@ -1203,11 +1204,7 @@ const getAuthority = (state, cb) => {
 //   }
 // }
 
-bot.onText(/\/weather/, msg => {
-  dailyHi(msg);
-});
-
-const dailyHi = (msg) => {
+const dailyHi = () => {
   axios.get(`https://api.openweathermap.org/data/2.5/weather?lat=56.343703&lon=30.515671&appid=${weatherToken}&units=metric&lang=ru`)
     .then(response => {
       const date = new Date();
@@ -1218,9 +1215,9 @@ const dailyHi = (msg) => {
         return b[1].count - a[1].count;
       });
 
-      // !state.userMessage[sortUsers[0][0]].authority
-      //   ? state.userMessage[sortUsers[0][0]].authority = 1
-      //   : state.userMessage[sortUsers[0][0]].authority += 1
+      !chatState.userMessage[sortUsers[0][0]].authority
+        ? chatState.userMessage[sortUsers[0][0]].authority = 1
+        : chatState.userMessage[sortUsers[0][0]].authority += 1
       
       const message = `
 Всем доброго утра и хорошего настроения!
@@ -1231,27 +1228,27 @@ const dailyHi = (msg) => {
 Самым активным учасником вчера был ${sortUsers[0][1].userFirstName},
 его авторитет увеличен на 1.`;
       
-      bot.sendMessage(msg.chat.id, message);
+      bot.sendMessage("-1001807749316", message);
   })
   .catch(error => {
-  console.error(error);
+      console.error(error);
   });
 };
 
-bot.onText(/\/test/, msg => {
-  yestUsers();
-});
+// bot.onText(/\/test/, msg => {
+//   yestUsers();
+// });
 
-const yestUsers = () => {
-  const date = new Date();
-  const yestDate = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate() - 1}`;
-  const usersState = { ...chatState.messageOnDate[yestDate].userMessage }
-  const users = Object.keys(usersState).map(key => [key, usersState[key]]);
-  const sortUsers = users.sort((a, b) => {
-    return b[1].count - a[1].count;
-  });
+// const yestUsers = () => {
+//   const date = new Date();
+//   const yestDate = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate() - 1}`;
+//   const usersState = { ...chatState.messageOnDate[yestDate].userMessage }
+//   const users = Object.keys(usersState).map(key => [key, usersState[key]]);
+//   const sortUsers = users.sort((a, b) => {
+//     return b[1].count - a[1].count;
+//   });
 
-  console.log(chatState.userMessage[sortUsers[0][0]]);
+//   console.log(chatState.userMessage[sortUsers[0][0]]);
 
-  console.log(sortUsers[0][0]);
-};
+//   console.log(sortUsers[0][0]);
+// };
