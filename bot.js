@@ -1209,16 +1209,26 @@ bot.onText(/\/weather/, msg => {
 
 const dailyHi = (msg) => {
   axios.get(`https://api.openweathermap.org/data/2.5/weather?lat=56.343703&lon=30.515671&appid=${weatherToken}&units=metric&lang=ru`)
-  .then(response => {
-    console.log(response.data);
-    let message = `
+    .then(response => {
+      let message = `
 Всем доброго утра и хорошего настроения!
   
 По моим скромным данным в Великих луках сейчас ${response.data.weather[0].description}.
 Температура воздуха ${response.data.main.temp}°C (по ощущениям ${response.data.main.feels_like}°C)`
-    bot.sendMessage(msg.chat.id, message);
+      bot.sendMessage(msg.chat.id, message);
   })
   .catch(error => {
   console.error(error);
   });
+};
+
+bot.onText(/\/test/, msg => {
+  yestUsers();
+});
+
+const yestUsers = () => {
+  let date = new Date();
+  let yestDate = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate() - 1}`;
+  let users = { ...chatState.messageOnDate[yestDate] };
+  console.log(users);
 };
