@@ -1240,10 +1240,11 @@ bot.onText(/\/test/, msg => {
 const yestUsers = () => {
   const date = new Date();
   const yestDate = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate() - 1}`;
-  const users = Object.keys(obj).map(key => [key, obj[key]]);
-  // const sortUsers = users.sort((a, b) => {
-  //   return b.count - a.count;
-  // });
+  const usersState = { ...chatState.messageOnDate[yestDate].userMessage }
+  const users = Object.keys(usersState).map(key => [key, usersState[key]]);
+  const sortUsers = users.sort((a, b) => {
+    return b.count - a.count;
+  });
 
-  console.log(users);
+  console.log(sortUsers);
 };
