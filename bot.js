@@ -382,7 +382,7 @@ bot.on("callback_query", (query) => {
     if (currentPage[query.message.message_id]) {
       currentPage[query.message.message_id] += 1;
       getAuthority(chatState, (message) => {
-        displayList(null, query, message, 5, 'Топ авторитета участников:', 'authority');
+        displayList(null, query, message, 5, 'Топ меморитетов чата:', 'authority');
       });
     } else {
       bot.deleteMessage(query.message.chat.id, query.message.message_id);
@@ -393,7 +393,7 @@ bot.on("callback_query", (query) => {
     if (currentPage[query.message.message_id]) {
       currentPage[query.message.message_id] -= 1;
       getAuthority(chatState, (message) => {
-        displayList(null, query, message, 5, 'Топ авторитета участников:', 'authority');
+        displayList(null, query, message, 5, 'Топ меморитетов чата:', 'authority');
       });
     } else {
       bot.deleteMessage(query.message.chat.id, query.message.message_id);
