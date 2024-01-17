@@ -6,6 +6,7 @@ const axios = require("axios");
 const fs = require("fs");
 const { json } = require("body-parser");
 const cron = require('node-cron');
+const { ChartJSNodeCanvas } = require('chartjs-node-canvas');
 
 const cuefaGame = require("./functions/cuefa-game.js");
 const getUserCuefaStats = require("./functions/get-user-cuefa-stats.js");
@@ -1254,6 +1255,36 @@ const dailyHi = () => {
       console.error(error);
   });
 };
+
+bot.onText(/\/state/, async (msg) => {
+  const dates = Object.keys(chatState.messageOnDate);
+  dates.splice(0, dates.length - 7);
+  const values = dates.map((date) => {
+    return chatState.messageOnDate[date].totalMessage
+  });
+
+  const configuration = {
+    type: 'line',
+    data: {
+        labels: dates,
+        datasets: [{
+            label: 'Количество сообщений за последние 7 дней',
+            data: values,
+            fill: false,
+            borderColor: 'rgb(75, 192, 192)',
+            tension: 0.1
+        }]
+    }
+  };
+
+  const width = 600;
+  const height = 400;
+
+  const chartJsCanvas = new ChartJSNodeCanvas({width, height});
+
+  const image = await chartJsCanvas.renderToBuffer(configuration);
+  bot.sendPhoto(msg.chat.id, image);
+})
 
 // bot.onText(/\/test/, msg => {
 //   yestUsers();
