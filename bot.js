@@ -1258,7 +1258,7 @@ const dailyHi = () => {
 
 bot.onText(/\/state/, async (msg) => {
   const dates = Object.keys(chatState.messageOnDate);
-  dates.splice(0, dates.length - 7);
+  dates.splice(0, dates.length - 30);
   const values = dates.map((date) => {
     return chatState.messageOnDate[date].totalMessage
   });
