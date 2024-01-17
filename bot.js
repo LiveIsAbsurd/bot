@@ -1268,7 +1268,7 @@ bot.onText(/\/state/, async (msg) => {
     data: {
         labels: dates,
         datasets: [{
-            label: 'Количество сообщений за последние 7 дней',
+            label: 'Количество сообщений за последние 30 дней',
             data: values,
             fill: false,
             borderColor: 'rgb(75, 192, 192)',
