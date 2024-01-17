@@ -39,7 +39,6 @@ let chatState = JSON.parse(fs.readFileSync("../chatStats.json", "UTF-8"),null, 2
 let date = new Date();
 let realDateGlobal = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
 let editState = false;
-let dayNews = [];
 let messageCount = {};
 let authorityTriggers = ['+', 'жиза', 'база', '👍', 'база.', 'жиза.']; //new
 let usersSendAuthority = {}; //new
@@ -1240,7 +1239,7 @@ const dailyHi = () => {
 По моим скромным данным в Великих луках сейчас ${response.data.weather[0].description}.
 Температура воздуха ${Math.round(response.data.main.temp)}°C (по ощущениям ${Math.round(response.data.main.feels_like)}°C)
 
-Самым активным учасником вчера был ${sortUsers[0][1].userFirstName}
+Самым активным участником вчера был ${sortUsers[0][1].userFirstName}
 (${sortUsers[0][1].count} сообщений),
 его меморитет увеличен на 1.`;
       
