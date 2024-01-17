@@ -1245,6 +1245,8 @@ const dailyHi = () => {
 По моим скромным данным в Великих луках сейчас ${response.data.weather[0].description}.
 Температура воздуха ${Math.round(response.data.main.temp)}°C (по ощущениям ${Math.round(response.data.main.feels_like)}°C)
 
+За вчерашний день было написано ${chatState.messageOnDate[yestDate].totalMessage} сообщений.
+
 Самым активным участником вчера был ${sortUsers[0][1].userFirstName}
 (${sortUsers[0][1].count} сообщений),
 его меморитет увеличен на 1.`;
