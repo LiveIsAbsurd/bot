@@ -1277,8 +1277,8 @@ bot.onText(/\/state/, async (msg) => {
     }
   };
 
-  const width = 600;
-  const height = 400;
+  const width = 1000;
+  const height = 600;
 
   const chartJsCanvas = new ChartJSNodeCanvas({width, height});
 
