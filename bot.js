@@ -1189,7 +1189,7 @@ const setAuthority = (msg, state) => {
     : state.userMessage[msg.reply_to_message.from.id].authority += 1
 
   const chatID = msg.chat.id;
-  const messID = msg.message_id;
+  const messID = msg.reply_to_message.message_id;
   axios.get(`https://api.telegram.org/bot${token}/setmessagereaction?chat_id=${chatID}&message_id=${messID}&reaction=[{"type":"emoji", "emoji":"👍"}]`)
 
   bot.sendMessage(msg.chat.id, `Меморитет ${state.userMessage[msg.reply_to_message.from.id].userFirstName} ${state.userMessage[msg.reply_to_message.from.id].authority} (+1) `, {reply_to_message_id: msg.message_id});
