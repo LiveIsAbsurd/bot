@@ -1277,9 +1277,9 @@ bot.onText(/\/state/, async (msg) => {
         datasets: [{
             label: `Количество сообщений за ${!!period ? period + ' суток' : 'всё время'}`,
             data: values,
-            fill: false,
+            fill: true,
             borderColor: 'rgb(75, 192, 192)',
-            tension: 0.1
+            tension: 0.3
         }]
     }
   };
