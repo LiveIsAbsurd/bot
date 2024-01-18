@@ -1265,7 +1265,7 @@ bot.onText(/\/state/, async (msg) => {
     period = 0;
   }
   const dates = Object.keys(chatState.messageOnDate);
-  period ? dates.splice(0, dates.length - period) : null;
+  !!period ? dates.splice(0, dates.length - period) : null;
   const values = dates.map((date) => {
     return chatState.messageOnDate[date].totalMessage
   });
@@ -1275,7 +1275,7 @@ bot.onText(/\/state/, async (msg) => {
     data: {
         labels: dates,
         datasets: [{
-            label: `Количество сообщений за ${period ? period + 'дней' : 'всё время'}`,
+            label: `Количество сообщений за ${!!period ? period + 'дней' : 'всё время'}`,
             data: values,
             fill: false,
             borderColor: 'rgb(75, 192, 192)',
