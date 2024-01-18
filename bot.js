@@ -1278,7 +1278,7 @@ bot.onText(/\/state/, async (msg) => {
             label: `Количество сообщений за ${!!period ? period + ' суток' : 'всё время'}`,
             data: values,
             fill: true,
-            borderColor: '#54084c',
+            borderColor: '#96188a',
             tension: 0.3
         }]
     }
@@ -1309,7 +1309,7 @@ bot.onText(/\/userState/, async (msg) => {
             label: `Количество сообщений от ${chatState.userMessage[user].userFirstName} за ${!!period ? period + ' суток' : 'всё время'}`,
             data: values,
             fill: true,
-            borderColor: '#54084c',
+            borderColor: '#96188a',
             tension: 0.3
         }]
     }
