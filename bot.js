@@ -1261,7 +1261,7 @@ const chartJsCanvas = new ChartJSNodeCanvas({width: 1000, height: 600});
 
 bot.onText(/\/state/, async (msg) => {
   const dates = Object.keys(chatState.messageOnDate);
-  dates.splice(0, dates.length - 30);
+  // dates.splice(0, dates.length - 30);
   const values = dates.map((date) => {
     return chatState.messageOnDate[date].totalMessage
   });
@@ -1271,7 +1271,7 @@ bot.onText(/\/state/, async (msg) => {
     data: {
         labels: dates,
         datasets: [{
-            label: 'Количество сообщений за последние 30 дней',
+            label: 'Количество сообщений за всё время',
             data: values,
             fill: false,
             borderColor: 'rgb(75, 192, 192)',
