@@ -1260,8 +1260,12 @@ const dailyHi = () => {
 const chartJsCanvas = new ChartJSNodeCanvas({width: 1000, height: 600});
 
 bot.onText(/\/state/, async (msg) => {
+  const period = msg.text.replace('/send ', '');
+  if (typeof period != 'number') {
+    return;
+  }
   const dates = Object.keys(chatState.messageOnDate);
-  // dates.splice(0, dates.length - 30);
+  period ? dates.splice(0, dates.length - period) : null;
   const values = dates.map((date) => {
     return chatState.messageOnDate[date].totalMessage
   });
@@ -1271,7 +1275,7 @@ bot.onText(/\/state/, async (msg) => {
     data: {
         labels: dates,
         datasets: [{
-            label: 'Количество сообщений за всё время',
+            label: `Количество сообщений за ${period ? period + 'дней' : 'всё время'}`,
             data: values,
             fill: false,
             borderColor: 'rgb(75, 192, 192)',
