@@ -1291,7 +1291,7 @@ bot.onText(/\/state/, async (msg) => {
 bot.onText(/\/userState/, async (msg) => {
   const user = msg.reply_to_message ? msg.reply_to_message.from.id : msg.from.id;
 
-  let period = Number(msg.text.replace('/state ', ''));
+  let period = Number(msg.text.replace('/userState ', ''));
   if (typeof period != 'number' || isNaN(period)) {
     period = 0;
   }
