@@ -1288,7 +1288,7 @@ bot.onText(/\/state/, async (msg) => {
   bot.sendPhoto(msg.chat.id, image);
 })
 
-bot.onText(/\/userState/, async (msg) => {
+bot.onText(/\/userstate/, async (msg) => {
   const user = msg.reply_to_message ? msg.reply_to_message.from.id : msg.from.id;
 
   let period = Number(msg.text.replace('/userState ', ''));
