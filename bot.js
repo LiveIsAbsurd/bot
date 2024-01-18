@@ -1257,6 +1257,7 @@ const dailyHi = () => {
       console.error(error);
   });
 };
+const chartJsCanvas = new ChartJSNodeCanvas({width: 1000, height: 600});
 
 bot.onText(/\/state/, async (msg) => {
   const dates = Object.keys(chatState.messageOnDate);
@@ -1278,11 +1279,6 @@ bot.onText(/\/state/, async (msg) => {
         }]
     }
   };
-
-  const width = 1000;
-  const height = 600;
-
-  const chartJsCanvas = new ChartJSNodeCanvas({width, height});
 
   const image = await chartJsCanvas.renderToBuffer(configuration);
   bot.sendPhoto(msg.chat.id, image);
