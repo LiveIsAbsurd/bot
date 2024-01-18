@@ -1275,7 +1275,7 @@ bot.onText(/\/state/, async (msg) => {
     data: {
         labels: dates,
         datasets: [{
-            label: `Количество сообщений за ${!!period ? period + 'дней' : 'всё время'}`,
+            label: `Количество сообщений за ${!!period ? period + ' суток' : 'всё время'}`,
             data: values,
             fill: false,
             borderColor: 'rgb(75, 192, 192)',
