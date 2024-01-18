@@ -1260,9 +1260,9 @@ const dailyHi = () => {
 const chartJsCanvas = new ChartJSNodeCanvas({width: 1000, height: 600});
 
 bot.onText(/\/state/, async (msg) => {
-  const period = msg.text.replace('/send ', '');
-  if (typeof period != 'number') {
-    return;
+  let period = Number(msg.text.replace('/send ', ''));
+  if (typeof period != 'number' || isNaN(period)) {
+    period = 0;
   }
   const dates = Object.keys(chatState.messageOnDate);
   period ? dates.splice(0, dates.length - period) : null;
