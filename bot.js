@@ -1278,7 +1278,7 @@ bot.onText(/\/state/, async (msg) => {
             label: `Количество сообщений за ${!!period ? period + ' суток' : 'всё время'}`,
             data: values,
             fill: true,
-            borderColor: 'rgb(75, 192, 192)',
+            borderColor: '#54084c',
             tension: 0.3
         }]
     }
@@ -1287,6 +1287,37 @@ bot.onText(/\/state/, async (msg) => {
   const image = await chartJsCanvas.renderToBuffer(configuration);
   bot.sendPhoto(msg.chat.id, image);
 })
+
+bot.onText(/\/stateUser/, async (msg) => {
+  const user = msg.reply_to_message ? msg.reply_to_message.from.id : msg.from.id;
+
+  let period = Number(msg.text.replace('/state ', ''));
+  if (typeof period != 'number' || isNaN(period)) {
+    period = 0;
+  }
+  const dates = Object.keys(chatState.messageOnDate);
+  !!period ? dates.splice(0, dates.length - period) : null;
+  const values = dates.map((date) => {
+    return chatState.messageOnDate[date].userMessage[user] ? chatState.messageOnDate[date].userMessage[user].count : 0;
+  });
+
+  const configuration = {
+    type: 'line',
+    data: {
+        labels: dates,
+        datasets: [{
+            label: `Количество сообщений от ${chatState.userMessage[user].userFirstName} за ${!!period ? period + ' суток' : 'всё время'}`,
+            data: values,
+            fill: true,
+            borderColor: '#54084c',
+            tension: 0.3
+        }]
+    }
+  };
+
+  const image = await chartJsCanvas.renderToBuffer(configuration);
+  bot.sendPhoto(msg.chat.id, image);
+});
 
 // bot.onText(/\/test/, msg => {
 //   yestUsers();
