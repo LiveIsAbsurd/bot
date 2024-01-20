@@ -1247,7 +1247,8 @@ const dailyHi = () => {
 
 За вчерашний день было написано ${chatState.messageOnDate[yestDate].totalMessage} сообщений.
 
-Самым активным участником вчера был ${sortUsers[0][1].userFirstName}
+Самым активным участником вчера был 
+${sortUsers[0][1].userFirstName ? sortUsers[0][1].userFirstName : sortUsers[0][1].userName}
 (${sortUsers[0][1].count} сообщений),
 его меморитет увеличен на 1.`;
       
