@@ -717,8 +717,8 @@ function displayList(msg, query, array, usersPerPage, header, cbDop, state = und
   let options = {
       reply_markup: {
           inline_keyboard: [buttons],
-          parse_mode: 'Markdown'
-      }
+      },
+      parse_mode: 'Markdown'
   };
 
   if (msg || query.data === "chatState") {
