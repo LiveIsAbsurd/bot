@@ -98,10 +98,14 @@ bot.on("message", (msg, match) => {
     setChatState(msg, chatState);
     if (match.type === 'text' || match.type === 'sticker') {
       rescrictUsers(msg);
+      msg.sticker?.emoji == '👍' ? setAuthority(msg, chatState) : null;
     }
     if (match.type === 'text') {
       authorityTriggers.some(el => msg.text.toLowerCase() === el) ? setAuthority(msg, chatState) : null;
     } //new
+    // if (match.type === 'sticker') {
+    //   authorityTriggers.some(el => msg.sticker.emoji === el) ? setAuthority(msg, chatState) : null;
+    // }
     editState = true;
   }
   //trigger(msg);
