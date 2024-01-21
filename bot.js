@@ -41,7 +41,7 @@ let date = new Date();
 let realDateGlobal = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
 let editState = false;
 let messageCount = {};
-let authorityTriggers = ['+', 'жиза', 'база', '👍', 'база.', 'жиза.']; //new
+let authorityTriggers = ['+', 'жиза', 'база', '👍', 'база.', 'жиза.', '5+']; //new
 let usersSendAuthority = {}; //new
 
 cron.schedule('0 7 * * *', () => {
