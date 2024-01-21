@@ -718,7 +718,8 @@ function displayList(msg, query, array, usersPerPage, header, cbDop, state = und
       reply_markup: {
           inline_keyboard: [buttons],
       },
-      parse_mode: 'Markdown'
+      parse_mode: 'Markdown',
+      disable_web_page_preview: true,
   };
 
   if (msg || query.data === "chatState") {
