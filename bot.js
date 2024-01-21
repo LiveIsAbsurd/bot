@@ -1349,10 +1349,8 @@ bot.onText(/\/info/, async (msg) => {
   };
 
   const image = await chartJsCanvas.renderToBuffer(configuration);
-  const secondMessage = dates.some(el => {
-    if (chatState.messageOnDate[el].userMessage[user]) {
-      return el;
-    }
+  const secondMessage = dates.find(el => {
+    return chatState.messageOnDate[el].userMessage[user] ? true : false;
   })
 
   const caption = `
