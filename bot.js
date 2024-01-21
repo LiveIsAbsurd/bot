@@ -682,7 +682,7 @@ function displayList(msg, query, array, usersPerPage, header, cbDop, state = und
 
       let percent = el.count/totalCount*100;
 
-      let text = `${reward ? "" : `${stateNum}.`}${reward ? reward : ""} ${el.userName ? el.userName : el.userFirstName} - ${el.count}/${percent.toFixed(1)}%`;
+      let text = `${reward ? "" : `${stateNum}.`}${reward ? reward : ""} ${el.userName ? `[${el.userName}](https://t.me/${el.userName})` : el.userFirstName} - ${el.count}/${percent.toFixed(1)}%`;
       return text;
     }).join('\n');
   }
@@ -714,9 +714,10 @@ function displayList(msg, query, array, usersPerPage, header, cbDop, state = und
 
   let buttons = createPaginationButtons(array, qq, usersPerPage, cbDop);
 
-  let keys = {
+  let options = {
       reply_markup: {
           inline_keyboard: [buttons],
+          parse_mode: 'Markdown'
       }
   };
 
@@ -726,7 +727,7 @@ function displayList(msg, query, array, usersPerPage, header, cbDop, state = und
 ${header}
 
 ${message}
-`, keys)
+`, options)
       .then(msg => {
           currentPage[msg.message_id] = 1;
       })
@@ -739,7 +740,7 @@ ${message}
 `, {
           chat_id: query.message.chat.id,
           message_id: query.message.message_id,
-          ...keys,
+          ...options,
       })
   }
 }
