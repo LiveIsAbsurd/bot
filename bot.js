@@ -1358,7 +1358,7 @@ bot.onText(/\/info/, async (msg) => {
 
 Первое появление ${secondMessage} `;
 
-bor.sendPhoto(msg.chat.id, image, {caption});
+bot.sendPhoto(msg.chat.id, image, {caption});
 });
 
 // bot.onText(/\/test/, msg => {
