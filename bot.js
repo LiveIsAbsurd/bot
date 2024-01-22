@@ -1352,7 +1352,7 @@ bot.onText(/\/info/, async (msg) => {
             label: `Количество сообщений от ${chatState.userMessage[user].userFirstName} за всё время`,
             data: values,
             fill: true,
-            borderColor: '#96188a',
+            backgroundColor: '#96188a',
             tension: 0.3
         }]
     }
