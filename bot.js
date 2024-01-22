@@ -1345,7 +1345,7 @@ bot.onText(/\/info/, async (msg) => {
   const averangeCount = values.reduce((acc, value) => acc + value, 0) / values.length;
 
   const configuration = {
-    type: 'line',
+    type: 'bar',
     data: {
         labels: dates,
         datasets: [{
