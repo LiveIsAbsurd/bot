@@ -1341,7 +1341,7 @@ bot.onText(/\/info/, async (msg) => {
     return chatState.messageOnDate[date].userMessage[user] ? chatState.messageOnDate[date].userMessage[user].count : 0;
   });
 
-  const averangeCount = values.reduce((acc, value) => {acc + value}) / values.length;
+  const averangeCount = values.reduce((acc, value) => {acc + value}, 0) / values.length;
 
   const configuration = {
     type: 'line',
