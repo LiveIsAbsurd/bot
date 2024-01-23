@@ -1336,7 +1336,7 @@ bot.onText(/\/info/, async (msg) => {
   })
   const indexOfSecondMessage = dates.indexOf(secondMessage);
   console.log('Index ' + indexOfSecondMessage);
-  dates.splice(indexOfSecondMessage, dates.length);
+  dates.splice(0, indexOfSecondMessage);
 
   const values = dates.map((date) => {
     return chatState.messageOnDate[date].userMessage[user] ? chatState.messageOnDate[date].userMessage[user].count : 0;
