@@ -1364,7 +1364,7 @@ bot.onText(/\/info/, async (msg) => {
 Участник ${chatState.userMessage[user].userFirstName}.
 
 Первое появление ${secondMessage}
-В среднем ${averangeCount} сообщений в сутки `;
+В среднем ${averangeCount.toFixed(2)} сообщений в сутки `;
 
 bot.sendPhoto(msg.chat.id, image, {caption});
 });
