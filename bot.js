@@ -1326,46 +1326,51 @@ bot.onText(/\/userstate/, async (msg) => {
   bot.sendPhoto(msg.chat.id, image);
 });
 
-// bot.onText(/\/info/, async (msg) => {
-//   const user = msg.reply_to_message ? msg.reply_to_message.from.id : msg.from.id;
+bot.onText(/\/info/, async (msg) => {
+  const user = msg.reply_to_message ? msg.reply_to_message.from.id : msg.from.id;
 
-//   const dates = Object.keys(chatState.messageOnDate);
-//   const values = dates.map((date) => {
-//     return chatState.messageOnDate[date].userMessage[user] ? chatState.messageOnDate[date].userMessage[user].count : 0;
-//   });
+  const dates = Object.keys(chatState.messageOnDate);
 
-//   const configuration = {
-//     type: 'line',
-//     data: {
-//         labels: dates,
-//         datasets: [{
-//             label: `Количество сообщений от ${chatState.userMessage[user].userFirstName} за всё время`,
-//             data: values,
-//             fill: true,
-//             borderColor: '#96188a',
-//             tension: 0.3
-//         }]
-//     }
-//   };
+  const secondMessage = dates.find(el => {
+    return chatState.messageOnDate[el].userMessage[user] ? true : false;
+  })
+  const indexOfSecondMessage = dates.indexOf(secondMessage);
+  dates.splice(indexOfSecondMessage, dates.length);
 
-//   const image = await chartJsCanvas.renderToBuffer(configuration);
-//   const secondMessage = dates.find(el => {
-//     return chatState.messageOnDate[el].userMessage[user] ? true : false;
-//   })
-//   const indexOfSecondMessage = dates.indexOf(secondMessage);
-//   const averangeCount = values.splice(indexOfSecondMessage, dates.length).freduce
+  const values = dates.map((date) => {
+    return chatState.messageOnDate[date].userMessage[user] ? chatState.messageOnDate[date].userMessage[user].count : 0;
+  });
 
-//   const caption = `
-// Участник ${chatState.userMessage[user].userFirstName}.
+  const averangeCount = values.reduce((acc, value) => {acc + value}) / values.length;
 
-// Первое появление ${secondMessage} `;
+  const configuration = {
+    type: 'line',
+    data: {
+        labels: dates,
+        datasets: [{
+            label: `Количество сообщений от ${chatState.userMessage[user].userFirstName} за всё время`,
+            data: values,
+            fill: true,
+            borderColor: '#96188a',
+            tension: 0.3
+        }]
+    }
+  };
 
-// bot.sendPhoto(msg.chat.id, image, {caption});
-// });
+  const image = await chartJsCanvas.renderToBuffer(configuration);
 
-// bot.onText(/\/test/, msg => {
-//   yestUsers();
-// });
+  const caption = `
+Участник ${chatState.userMessage[user].userFirstName}.
+
+Первое появление ${secondMessage}
+В среднем ${averangeCount} сообщений в сутки `;
+
+bot.sendPhoto(msg.chat.id, image, {caption});
+});
+
+bot.onText(/\/test/, msg => {
+  yestUsers();
+});
 
 // const yestUsers = () => {
 //   const date = new Date();
