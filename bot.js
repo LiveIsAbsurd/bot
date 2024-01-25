@@ -1367,7 +1367,7 @@ bot.onText(/\/info/, async (msg) => {
                   : 'пусто';
 
   const caption = `
-Участник ${chatState.userMessage[user].userName ? `[${chatState.userMessage[user].userName}](https://t.me/${chatState.userMessage[user].userName.userName})` : chatState.userMessage[user].userFirstName}.
+Участник ${chatState.userMessage[user].userName ? `[${chatState.userMessage[user].userName}](https://t.me/${chatState.userMessage[user].userName})` : chatState.userMessage[user].userFirstName}.
 
 Первое появление ${secondMessage}
 В среднем ${averangeCount.toFixed(0)} сообщений в сутки
