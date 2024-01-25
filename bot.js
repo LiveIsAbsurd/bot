@@ -1370,7 +1370,7 @@ bot.onText(/\/info/, async (msg) => {
 Участник ${chatState.userMessage[user].userFirstName}.
 
 Первое появление ${secondMessage}
-В среднем ${averangeCount.toFixed(2)} сообщений в сутки
+В среднем ${averangeCount.toFixed(0)} сообщений в сутки
 Меморитет: ${chatState.userMessage[user].authority}
 
 Награды:
