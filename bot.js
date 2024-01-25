@@ -1367,7 +1367,7 @@ bot.onText(/\/info/, async (msg) => {
                   : 'пусто';
 
   const caption = `
-Участник ${chatState.userMessage[user].userFirstName}.
+Участник ${chatState.userMessage[user].userName ? `[${chatState.userMessage[user].userName}](https://t.me/${chatState.userMessage[user].userName.userName})` : chatState.userMessage[user].userFirstName}.
 
 Первое появление ${secondMessage}
 В среднем ${averangeCount.toFixed(0)} сообщений в сутки
@@ -1376,7 +1376,7 @@ bot.onText(/\/info/, async (msg) => {
 Награды:
 ${rewards}`;
 
-  bot.sendPhoto(msg.chat.id, image, {caption});
+  bot.sendPhoto(msg.chat.id, image, {caption, parse_mode: 'Markdown'});
 });
 
 bot.onText(/\/reward/, msg => {
