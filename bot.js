@@ -1279,15 +1279,14 @@ bot.onText(/\/state/, async (msg) => {
   });
 
   const configuration = {
-    type: 'line',
+    type: 'bar',
     data: {
         labels: dates,
         datasets: [{
             label: `Количество сообщений за ${!!period ? period + ' суток' : 'всё время'}`,
             data: values,
             fill: true,
-            borderColor: '#96188a',
-            tension: 0.3
+            backgroundColor: '#96188a',
         }]
     }
   };
@@ -1349,15 +1348,14 @@ bot.onText(/\/info/, async (msg) => {
   const averangeCount = values.reduce((acc, value) => acc + value, 0) / values.length;
 
   const configuration = {
-    type: 'line',
+    type: 'bar',
     data: {
         labels: dates,
         datasets: [{
             label: `Количество сообщений от ${chatState.userMessage[user].userFirstName} за всё время`,
             data: values,
             fill: true,
-            borderColor: '#96188a',
-            tension: 0.3
+            backgroundColor: '#96188a',
         }]
     }
   };
