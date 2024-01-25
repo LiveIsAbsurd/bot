@@ -16,6 +16,7 @@ const setChatState = require("./functions/set-chat-state.js");
 const createPaginationButtons = require("./functions/create-pagination-button.js");
 let currentPage = {};
 const getChatState = require("./functions/get-chat-state.js");
+const timeDuration = require("./functions/time-duration.js")
 
 function hiText(username) {
   let text = `
@@ -1295,38 +1296,42 @@ bot.onText(/\/state/, async (msg) => {
   bot.sendPhoto(msg.chat.id, image);
 })
 
-bot.onText(/\/userstate/, async (msg) => {
-  const user = msg.reply_to_message ? msg.reply_to_message.from.id : msg.from.id;
+// bot.onText(/\/userstate/, async (msg) => {
+//   const user = msg.reply_to_message ? msg.reply_to_message.from.id : msg.from.id;
 
-  let period = Number(msg.text.replace('/userState ', ''));
-  if (typeof period != 'number' || isNaN(period)) {
-    period = 0;
-  }
-  const dates = Object.keys(chatState.messageOnDate);
-  !!period ? dates.splice(0, dates.length - period) : null;
-  const values = dates.map((date) => {
-    return chatState.messageOnDate[date].userMessage[user] ? chatState.messageOnDate[date].userMessage[user].count : 0;
-  });
+//   let period = Number(msg.text.replace('/userState ', ''));
+//   if (typeof period != 'number' || isNaN(period)) {
+//     period = 0;
+//   }
+//   const dates = Object.keys(chatState.messageOnDate);
+//   !!period ? dates.splice(0, dates.length - period) : null;
+//   const values = dates.map((date) => {
+//     return chatState.messageOnDate[date].userMessage[user] ? chatState.messageOnDate[date].userMessage[user].count : 0;
+//   });
 
-  const configuration = {
-    type: 'line',
-    data: {
-        labels: dates,
-        datasets: [{
-            label: `Количество сообщений от ${chatState.userMessage[user].userFirstName} за ${!!period ? period + ' суток' : 'всё время'}`,
-            data: values,
-            fill: true,
-            borderColor: '#96188a',
-            tension: 0.3
-        }]
-    }
-  };
+//   const configuration = {
+//     type: 'line',
+//     data: {
+//         labels: dates,
+//         datasets: [{
+//             label: `Количество сообщений от ${chatState.userMessage[user].userFirstName} за ${!!period ? period + ' суток' : 'всё время'}`,
+//             data: values,
+//             fill: true,
+//             borderColor: '#96188a',
+//             tension: 0.3
+//         }]
+//     }
+//   };
 
-  const image = await chartJsCanvas.renderToBuffer(configuration);
-  bot.sendPhoto(msg.chat.id, image);
-});
+//   const image = await chartJsCanvas.renderToBuffer(configuration);
+//   bot.sendPhoto(msg.chat.id, image);
+// });
 
 bot.onText(/\/info/, async (msg) => {
+  if (msg.reply_to_message.from.is_bot) {
+    return;
+  }
+
   const user = msg.reply_to_message ? msg.reply_to_message.from.id : msg.from.id;
 
   const dates = Object.keys(chatState.messageOnDate);
@@ -1335,7 +1340,6 @@ bot.onText(/\/info/, async (msg) => {
     return chatState.messageOnDate[el].userMessage[user] ? true : false;
   })
   const indexOfSecondMessage = dates.indexOf(secondMessage);
-  console.log('Index ' + indexOfSecondMessage);
   dates.splice(0, indexOfSecondMessage);
 
   const values = dates.map((date) => {
@@ -1360,17 +1364,39 @@ bot.onText(/\/info/, async (msg) => {
 
   const image = await chartJsCanvas.renderToBuffer(configuration);
 
+  const rewards = chatState.userMessage[user].rewards
+                  ? chatState.userMessage[user].rewards.map((reward) => `🏆 ${reward.name}, ${timeDuration(reward.date)}`).join('\n')
+                  : 'пусто';
+
   const caption = `
 Участник ${chatState.userMessage[user].userFirstName}.
 
 Первое появление ${secondMessage}
-В среднем ${averangeCount.toFixed(2)} сообщений в сутки `;
+В среднем ${averangeCount.toFixed(2)} сообщений в сутки
+Меморитет: ${chatState.userMessage[user].authority}
 
-bot.sendPhoto(msg.chat.id, image, {caption});
+Награды:
+${rewards}`;
+
+  bot.sendPhoto(msg.chat.id, image, {caption});
 });
 
-bot.onText(/\/test/, msg => {
-  yestUsers();
+bot.onText(/\/reward/, msg => {
+  if (msg.from.id != '261749882') {
+    return;
+  }
+
+  const user = msg.reply_to_message.from.id;
+  const rewardName = msg.text.replace('/reward ', '');
+  const rewardDate = new Date();
+
+  if (!chatState.userMessage[user].rewards) {
+    chatState.userMessage[user].rewards = [{name: rewardName, date: rewardDate}];
+  } else {
+    chatState.userMessage[user].rewards.push({name: rewardName, date: rewardDate});
+  };
+
+  bot.sendMessage(msg.chat.id, `${msg.reply_to_message.from.first_name} получил награду ${rewardName}`);
 });
 
 // const yestUsers = () => {
