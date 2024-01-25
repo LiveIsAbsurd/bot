@@ -1327,7 +1327,7 @@ bot.onText(/\/state/, async (msg) => {
 // });
 
 bot.onText(/\/info/, async (msg) => {
-  if (msg.reply_to_message.from.is_bot) {
+  if (msg.reply_to_message?.from.is_bot) {
     return;
   }
 
