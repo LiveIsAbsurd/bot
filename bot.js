@@ -568,7 +568,7 @@ bot.onText(/\/setAdDescription (.+)/, (msg, match) => {
 bot.onText(/\/about (.+)/, (msg, match) => {
   const text = match[1];
 
-  let username = msg.from.username;
+  let username = msg.from.first_name;
   let userId = msg.from.id;
       
   fs.readFile("../adminDescriptions.json", "UTF-8", (err, data) => {
