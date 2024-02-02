@@ -567,49 +567,31 @@ bot.onText(/\/setAdDescription (.+)/, (msg, match) => {
 
 bot.onText(/\/setDescription (.+)/, (msg, match) => {
   const text = match[1];
-  let adminList = [];
 
-  axios
-    .get(
-      `https://api.telegram.org/bot${token}/getChatAdministrators?chat_id=-1001807749316`
-    )
-    .then((response) => {
-      response.data.result.forEach((admin) => {
-        const username = admin.user.username;
-        adminList.push(username.toLowerCase());
-      });
+  let username = msg.from.username;
+  let userId = msg.from.id;
+      
+  fs.readFile("../adminDescriptions.json", "UTF-8", (err, data) => {
+    let adminDesc = JSON.parse(data);
+    adminDesc[userId] = text;
 
-      let username = msg.from.username;
-      let userId = msg.from.id;
-      let isAdmin = Number(adminList.indexOf(username.toLowerCase()));
-
-      if (isAdmin >= 0) {
-        fs.readFile("../adminDescriptions.json", "UTF-8", (err, data) => {
-          let adminDesc = JSON.parse(data);
-          adminDesc[userId] = text;
-
-          fs.writeFile(
-            "../adminDescriptions.json",
-            JSON.stringify(adminDesc),
-            "UTF-8",
-            (err) => {
-              console.log(err);
-            }
-          );
-          bot.sendMessage(
-            msg.chat.id,
-            `${username}, твоё описание изменено на '${text}'`
-          );
-          bot.sendMessage(
-            261749882,
-            `${username} изменил описание на '${text}'`
-          );
-        });
-      } else {
-        bot.sendMessage(msg.chat.id, `Ты не являешся админом чата`);
-        bot.sendMessage(261749882, `${username} попытался сменить описание`);
+    fs.writeFile(
+      "../adminDescriptions.json",
+      JSON.stringify(adminDesc),
+      "UTF-8",
+      (err) => {
+        console.log(err);
       }
-    });
+    );
+    bot.sendMessage(
+      msg.chat.id,
+      `${username}, твоё описание изменено на '${text}'`
+    );
+    bot.sendMessage(
+      261749882,
+      `${username} изменил описание на '${text}'`
+    );
+  });
 });
 
 setInterval(() => {
