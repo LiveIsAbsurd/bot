@@ -1238,26 +1238,23 @@ const dailyHi = () => {
       const realHiDate = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate() - 1}`;
 
       const dates = Object.keys(chatState.messageOnDate);
-      const yestDate = realHiDate == dates[dates.length - 1] ? dates[dates.length - 2] : dates[dates.length - 1];
+      const yestDate = realHiDate == dates[dates.length - 2] ? dates[dates.length - 3] : dates[dates.length - 2];
       const usersState = { ...chatState.messageOnDate[yestDate].userMessage }
       const users = Object.keys(usersState).map(key => [key, usersState[key]]);
       const sortUsers = users.sort((a, b) => {
         return b[1].count - a[1].count;
       });
 
-      !chatState.userMessage[sortUsers[0][0]].authority
-        ? chatState.userMessage[sortUsers[0][0]].authority = 1
-        : chatState.userMessage[sortUsers[0][0]].authority += 1
+      // !chatState.userMessage[sortUsers[0][0]].authority
+      //   ? chatState.userMessage[sortUsers[0][0]].authority = 1
+      //   : chatState.userMessage[sortUsers[0][0]].authority += 1
       
       const message = `
-Всем доброго утра и хорошего настроения!
-  
-По моим скромным данным в Великих луках сейчас ${response.data.weather[0].description}.
-Температура воздуха ${Math.round(response.data.main.temp)}°C (по ощущениям ${Math.round(response.data.main.feels_like)}°C)
+Меморитет за 01.02.2024
 
-За вчерашний день было написано ${chatState.messageOnDate[yestDate].totalMessage} сообщений.
+За 01.02.2024 день было написано ${chatState.messageOnDate[yestDate].totalMessage} сообщений.
 
-Самым активным участником вчера был 
+Самым активным участником 01.02.2024 был 
 ${sortUsers[0][1].userName ? `@${sortUsers[0][1].userName}` : sortUsers[0][1].userFirstName}
 (${sortUsers[0][1].count} сообщений),
 его меморитет увеличен на 1.`;
@@ -1268,6 +1265,8 @@ ${sortUsers[0][1].userName ? `@${sortUsers[0][1].userName}` : sortUsers[0][1].us
       console.error(error);
   });
 };
+
+dailyHi();
 
 const chartJsCanvas = new ChartJSNodeCanvas({width: 1000, height: 600});
 
