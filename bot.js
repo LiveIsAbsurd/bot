@@ -1348,14 +1348,13 @@ bot.onText(/\/info/, async (msg) => {
 
   const image = await chartJsCanvas.renderToBuffer(configuration);
 
-  let desc = `Пока ещё нет
-Чтобы изменить введи /about 'твоё описание'`;
+  let desc = `*Пока ещё нет
+Чтобы изменить введи
+/about 'твоё описание'*`;
 
-  fs.readFile("../adminDescriptions.json", "UTF-8", (err, data) => {
-    let allDesc = JSON.parse(data);
+  const allDesc = JSON.parse(fs.readFileSync("../adminDescriptions.json", "UTF-8"));
+  allDesc[user] ? desc = allDesc[user] : null;
 
-    allDesc[user] ? desc = allDesc[user] : null;
-  });
 
   const rewards = chatState.userMessage[user].rewards
                   ? chatState.userMessage[user].rewards.map((reward) => `🏆 ${reward.name}, ${timeDuration(reward.date)}`).join('\n')
@@ -1369,7 +1368,7 @@ bot.onText(/\/info/, async (msg) => {
 Меморитет: ${chatState.userMessage[user].authority ? chatState.userMessage[user].authority : 0}
 
 О себе:
-${desc}
+*${desc}*
 
 Награды:
 ${rewards}`;
