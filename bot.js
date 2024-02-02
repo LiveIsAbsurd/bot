@@ -565,7 +565,7 @@ bot.onText(/\/setAdDescription (.+)/, (msg, match) => {
   }
 });
 
-bot.onText(/\/setDescription (.+)/, (msg, match) => {
+bot.onText(/\/about (.+)/, (msg, match) => {
   const text = match[1];
 
   let username = msg.from.username;
@@ -1348,6 +1348,15 @@ bot.onText(/\/info/, async (msg) => {
 
   const image = await chartJsCanvas.renderToBuffer(configuration);
 
+  let desc = `Пока ещё нет
+Чтобы изменить введи /about 'твоё описание'`;
+
+  fs.readFile("../adminDescriptions.json", "UTF-8", (err, data) => {
+    let allDesc = JSON.parse(data);
+
+    allDesc[user] ? desc = allDesc[user] : null;
+  });
+
   const rewards = chatState.userMessage[user].rewards
                   ? chatState.userMessage[user].rewards.map((reward) => `🏆 ${reward.name}, ${timeDuration(reward.date)}`).join('\n')
                   : 'пусто';
@@ -1358,6 +1367,9 @@ bot.onText(/\/info/, async (msg) => {
 Первое появление ${secondMessage}
 В среднем ${averangeCount.toFixed(0)} сообщений в сутки
 Меморитет: ${chatState.userMessage[user].authority ? chatState.userMessage[user].authority : 0}
+
+О себе:
+${desc}
 
 Награды:
 ${rewards}`;
