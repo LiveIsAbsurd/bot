@@ -1348,9 +1348,9 @@ bot.onText(/\/info/, async (msg) => {
 
   const image = await chartJsCanvas.renderToBuffer(configuration);
 
-  let desc = `*Пока ещё нет
+  let desc = `_Пока ещё нет
 Чтобы изменить введи
-/about 'твоё описание'*`;
+/about 'твоё описание'_`;
 
   const allDesc = JSON.parse(fs.readFileSync("../adminDescriptions.json", "UTF-8"));
   allDesc[user] ? desc = allDesc[user] : null;
@@ -1368,7 +1368,7 @@ bot.onText(/\/info/, async (msg) => {
 Меморитет: ${chatState.userMessage[user].authority ? chatState.userMessage[user].authority : 0}
 
 О себе:
-*${desc}*
+_${desc}_
 
 Награды:
 ${rewards}`;
