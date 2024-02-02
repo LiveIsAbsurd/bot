@@ -1235,10 +1235,10 @@ const dailyHi = () => {
   axios.get(`https://api.openweathermap.org/data/2.5/weather?lat=56.343703&lon=30.515671&appid=${weatherToken}&units=metric&lang=ru`)
     .then(response => {
       const date = new Date();
-      const realHiDate = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate() - 1}`;
+      const realHiDate = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
 
       const dates = Object.keys(chatState.messageOnDate);
-      const yestDate = realHiDate == dates[dates.length - 2] ? dates[dates.length - 3] : dates[dates.length - 2];
+      const yestDate = realHiDate == dates[dates.length - 1] ? dates[dates.length - 2] : dates[dates.length - 1];
       const usersState = { ...chatState.messageOnDate[yestDate].userMessage }
       const users = Object.keys(usersState).map(key => [key, usersState[key]]);
       const sortUsers = users.sort((a, b) => {
@@ -1250,11 +1250,14 @@ const dailyHi = () => {
         : chatState.userMessage[sortUsers[0][0]].authority += 1
       
       const message = `
-Меморитет за 01.02.2024
+Всем доброго утра и хорошего настроения!
+  
+По моим скромным данным в Великих луках сейчас ${response.data.weather[0].description}.
+Температура воздуха ${Math.round(response.data.main.temp)}°C (по ощущениям ${Math.round(response.data.main.feels_like)}°C)
 
-За 01.02.2024 день было написано ${chatState.messageOnDate[yestDate].totalMessage} сообщений.
+За вчерашний день было написано ${chatState.messageOnDate[yestDate].totalMessage} сообщений.
 
-Самым активным участником 01.02.2024 был 
+Самым активным участником вчера был 
 ${sortUsers[0][1].userName ? `@${sortUsers[0][1].userName}` : sortUsers[0][1].userFirstName}
 (${sortUsers[0][1].count} сообщений),
 его меморитет увеличен на 1.`;
@@ -1265,8 +1268,6 @@ ${sortUsers[0][1].userName ? `@${sortUsers[0][1].userName}` : sortUsers[0][1].us
       console.error(error);
   });
 };
-
-dailyHi();
 
 const chartJsCanvas = new ChartJSNodeCanvas({width: 1000, height: 600});
 
