@@ -1367,7 +1367,7 @@ bot.onText(/\/info/, async (msg) => {
 В среднем ${averangeCount.toFixed(0)} сообщений в сутки
 Меморитет: ${chatState.userMessage[user].authority ? chatState.userMessage[user].authority : 0}
 
-О себе:
+📝О себе:
 
 _${desc}_
 
