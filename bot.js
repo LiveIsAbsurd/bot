@@ -1235,7 +1235,7 @@ const dailyHi = () => {
   axios.get(`https://api.openweathermap.org/data/2.5/weather?lat=56.343703&lon=30.515671&appid=${weatherToken}&units=metric&lang=ru`)
     .then(response => {
       const date = new Date();
-      const realHiDate = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+      const realHiDate = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate() - 1}`;
 
       const dates = Object.keys(chatState.messageOnDate);
       const yestDate = realHiDate == dates[dates.length - 1] ? dates[dates.length - 2] : dates[dates.length - 1];
@@ -1268,6 +1268,8 @@ ${sortUsers[0][1].userName ? `@${sortUsers[0][1].userName}` : sortUsers[0][1].us
       console.error(error);
   });
 };
+
+dailyHi();
 
 const chartJsCanvas = new ChartJSNodeCanvas({width: 1000, height: 600});
 
