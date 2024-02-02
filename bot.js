@@ -1368,7 +1368,6 @@ bot.onText(/\/info/, async (msg) => {
 Меморитет: ${chatState.userMessage[user].authority ? chatState.userMessage[user].authority : 0}
 
 📝О себе:
-
 _${desc}_
 
 Награды:
