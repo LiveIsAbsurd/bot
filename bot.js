@@ -1250,11 +1250,14 @@ const dailyHi = () => {
         : chatState.userMessage[sortUsers[0][0]].authority += 1
       
       const message = `
-Меморитет за прошлую ошибку
+Всем доброго утра и хорошего настроения!
+  
+По моим скромным данным в Великих луках сейчас ${response.data.weather[0].description}.
+Температура воздуха ${Math.round(response.data.main.temp)}°C (по ощущениям ${Math.round(response.data.main.feels_like)}°C)
 
-За позавчерашний день день было написано ${chatState.messageOnDate[yestDate].totalMessage} сообщений.
+За вчерашний день было написано ${chatState.messageOnDate[yestDate].totalMessage} сообщений.
 
-Самым активным участником позавчера был 
+Самым активным участником вчера был 
 ${sortUsers[0][1].userName ? `@${sortUsers[0][1].userName}` : sortUsers[0][1].userFirstName}
 (${sortUsers[0][1].count} сообщений),
 его меморитет увеличен на 1.`;
@@ -1265,8 +1268,6 @@ ${sortUsers[0][1].userName ? `@${sortUsers[0][1].userName}` : sortUsers[0][1].us
       console.error(error);
   });
 };
-
-dailyHi();
 
 const chartJsCanvas = new ChartJSNodeCanvas({width: 1000, height: 600});
 
