@@ -1348,7 +1348,7 @@ bot.onText(/\/info/, async (msg) => {
 
   const image = await chartJsCanvas.renderToBuffer(configuration);
 
-  let desc = `_Пусто_'`;
+  let desc = `_Пусто_`;
 
   const allDesc = JSON.parse(fs.readFileSync("../adminDescriptions.json", "UTF-8"));
   allDesc[user] ? desc = allDesc[user] : null;
