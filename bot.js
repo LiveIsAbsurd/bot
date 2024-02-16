@@ -482,7 +482,7 @@ bot.on("new_chat_members", (msg) => {
     };
 
     bot.sendMessage(chatId, hiText(userName), opts);
-    if (false) {
+    if (userId === msg.from.id) {
       bot.restrictChatMember(chatId, userId, options).then(() => {
         bot.sendMessage(chatId, "Извини, мне нужно проверить что ты не бот, чтобы писать сообщения нажми на кнопочку с сердечком. Если не получается, напиши @liveisabsurd", {
           reply_markup: {
