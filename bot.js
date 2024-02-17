@@ -1246,12 +1246,14 @@ ${sortUsers[0][1].userName ? `@${sortUsers[0][1].userName}` : sortUsers[0][1].us
 (${sortUsers[0][1].count} сообщений),
 его меморитет увеличен на 1.`;
       
-      bot.sendMessage("-1001807749316", message);
+      bot.sendMessage("-1001807749316", message, {reply_markup: {inline_keyboard: [[{  text: "Поддержать чат", url: "https://boosty.to/meme_house"  }]]}});
   })
   .catch(error => {
       console.error(error);
   });
 };
+
+//https://boosty.to/meme_house
 
 const chartJsCanvas = new ChartJSNodeCanvas({width: 1000, height: 600});
 
