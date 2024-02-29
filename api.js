@@ -8,10 +8,10 @@ const fs = require("fs");
 
 const options = {
     key: fs.readFileSync(
-      "../../etc/letsencrypt/live/v2009105.hosted-by-vdsina.ru/privkey.pem"
+      "../../etc/letsencrypt/live/v3789.hosted-by-vdsina.com/privkey.pem"
     ),
     cert: fs.readFileSync(
-      "../../etc/letsencrypt/live/v2009105.hosted-by-vdsina.ru/fullchain.pem"
+      "../../etc/letsencrypt/live/v3789.hosted-by-vdsina.com/fullchain.pem"
     ),
   };
   
