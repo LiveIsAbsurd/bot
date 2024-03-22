@@ -382,6 +382,7 @@ bot.on("callback_query", (query) => {
   }
 
   if (query.data == "chatState") {
+    console.log(query.from);
     getChatState(chatState, (message => {
       displayList(null, query, message, 5, `
 Статистика с 27.07.23
