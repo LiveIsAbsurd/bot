@@ -68,7 +68,7 @@ bot.editMessageText(`
 +${chatState.messageOnDate[realDateGlobal] ?chatState.messageOnDate[realDateGlobal]?.totalMessage : 0} за сутки
 `, {
   chat_id: "-1001807749316",
-  message_id: "146136",
+  message_id: "229580",
   reply_markup: {
     inline_keyboard: [[{ text: `${chatState.totalMessage}`, callback_data: "chatState" }]]
   }
@@ -618,7 +618,7 @@ setInterval(() => {
 +${chatState.messageOnDate[realDateGlobal] ?chatState.messageOnDate[realDateGlobal]?.totalMessage : 0} за сутки
 `, {
       chat_id: "-1001807749316",
-      message_id: "146136",
+      message_id: "229580",
       reply_markup: {
         inline_keyboard: [[{ text: `${chatState.totalMessage}`, callback_data: "chatState" }]]
       }
@@ -629,7 +629,7 @@ setInterval(() => {
 process.on("SIGINT", async () => {
   await bot.editMessageText(`Бот временно отключён`, {
     chat_id: "-1001807749316",
-    message_id: "146136"
+    message_id: "229580"
   });
 
   fs.writeFile("../chatStats.json", JSON.stringify(chatState, null, 2), "UTF-8", (err) => {
