@@ -44,6 +44,7 @@ let chatState = JSON.parse(fs.readFileSync("../chatStats.json", "UTF-8"),null, 2
 let date = new Date();
 let realDateGlobal = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
 let editState = false;
+let stateBool = true;
 let messageCount = {};
 let authorityTriggers = ['+', 'жиза', 'база', '👍', 'база.', 'жиза.', '5+']; //new
 let usersSendAuthority = {}; //new
@@ -383,12 +384,20 @@ bot.on("callback_query", (query) => {
 
   if (query.data == "chatState") {
     console.log(query.from);
+    if (!stateBool) {
+      bot.answerCallbackQuery(query.id, {
+        text: "Таймаут",
+      });
+      return;
+    };
+    
     getChatState(chatState, (message => {
       displayList(null, query, message, 5, `
 Статистика с 27.07.23
 Всего сообщений: ${chatState.totalMessage}
 Топ:`, "chatState", chatState)
     }));
+    stateBool = false;
   }
 
   if (query.data == "next-authority") {
@@ -413,6 +422,12 @@ bot.on("callback_query", (query) => {
     }
   }//new
 });
+
+setInterval(() => {
+  if (!stateBool) {
+    stateBool = true;
+  }
+}, 60000);
 
 bot.onText(/\/kick/, (msg) => {
   const chatId = msg.chat.id;
