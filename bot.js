@@ -395,6 +395,9 @@ bot.on("callback_query", (query) => {
 Статистика с 27.07.23
 Всего сообщений: ${chatState.totalMessage}
 Топ:`, "chatState", chatState)
+      setTimeout(() => {
+        stateBool = true;
+      }, 60000);
     }));
     stateBool = false;
   }
@@ -421,12 +424,6 @@ bot.on("callback_query", (query) => {
     }
   }//new
 });
-
-setInterval(() => {
-  if (!stateBool) {
-    stateBool = true;
-  }
-}, 60000);
 
 bot.onText(/\/kick/, (msg) => {
   const chatId = msg.chat.id;
