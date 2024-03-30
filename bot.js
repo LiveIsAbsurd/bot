@@ -102,7 +102,6 @@ bot.onText(/\/xo/, msg => {
 //крестики-нолики________________________________________________________
 
 bot.on("message", (msg, match) => {
-  fuck(msg);
   if (msg.chat.id == "-1001807749316") {
     setChatState(msg, chatState);
     if (match.type === 'text' || match.type === 'sticker') {
@@ -110,6 +109,7 @@ bot.on("message", (msg, match) => {
       msg.sticker?.emoji == '👍' ? setAuthority(msg, chatState) : null;
     }
     if (match.type === 'text') {
+      fuck(msg);
       authorityTriggers.some(el => msg.text.toLowerCase() === el) ? setAuthority(msg, chatState) : null;
     } //new
     // if (match.type === 'sticker') {
