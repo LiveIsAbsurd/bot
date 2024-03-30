@@ -1407,7 +1407,7 @@ bot.onText(/\/reward/, msg => {
   bot.sendMessage(msg.chat.id, `${msg.reply_to_message.from.first_name} получил награду ${rewardName}`);
 });
 
-const fuckTrigger = ['умри', 'сука', 'сдохни', 'умрёшь', 'иди нахуй', 'умрёшь', 'умрешь', 'сгниешь', 'сгниёшь', 'нахуй иди']
+const fuckTrigger = ['умри', 'сука', 'сдохни', 'иди нахуй', 'умрёшь', 'умрешь', 'сгниешь', 'сгниёшь', 'нахуй иди', 'долбаеб']
 
 const fuck = (msg) => {
 
