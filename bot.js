@@ -45,6 +45,7 @@ let date = new Date();
 let realDateGlobal = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
 let editState = false;
 let stateBool = true;
+let fuckBool = true;
 let messageCount = {};
 let authorityTriggers = ['+', 'жиза', 'база', '👍', 'база.', 'жиза.', '5+']; //new
 let usersSendAuthority = {}; //new
@@ -101,6 +102,7 @@ bot.onText(/\/xo/, msg => {
 //крестики-нолики________________________________________________________
 
 bot.on("message", (msg, match) => {
+  fuck(msg);
   if (msg.chat.id == "-1001807749316") {
     setChatState(msg, chatState);
     if (match.type === 'text' || match.type === 'sticker') {
@@ -468,12 +470,7 @@ bot.onText(/\/kick/, (msg) => {
           bot.sendMessage(chatId, "Ты кто такой, чтобы такое делать?", {reply_to_message_id: msg.message_id});
         }
       });
-  } else {
-    bot.sendMessage(
-      261749882,
-      `@${msg.from.username} использовал /kick в другом чате'`
-    );
-  }
+  };
 });
 
 bot.on("new_chat_members", (msg) => {
@@ -498,15 +495,15 @@ bot.on("new_chat_members", (msg) => {
     };
 
     bot.sendMessage(chatId, hiText(userName), opts);
-    if (false) {
-      bot.restrictChatMember(chatId, userId, options).then(() => {
-        bot.sendMessage(chatId, "Извини, мне нужно проверить что ты не бот, чтобы писать сообщения нажми на кнопочку с сердечком. Если не получается, напиши @liveisabsurd", {
-          reply_markup: {
-            inline_keyboard: [[{ text: "🐮", callback_data: "unlock" }, { text: "❤️", callback_data: `unlock${userId}` }, { text: "🍎", callback_data: "unlock" }]],
-          },
-        });
-      })
-    }
+    // if (false) {
+    //   bot.restrictChatMember(chatId, userId, options).then(() => {
+    //     bot.sendMessage(chatId, "Извини, мне нужно проверить что ты не бот, чтобы писать сообщения нажми на кнопочку с сердечком. Если не получается, напиши @liveisabsurd", {
+    //       reply_markup: {
+    //         inline_keyboard: [[{ text: "🐮", callback_data: "unlock" }, { text: "❤️", callback_data: `unlock${userId}` }, { text: "🍎", callback_data: "unlock" }]],
+    //       },
+    //     });
+    //   })
+    // }
   }
 });
 
@@ -1409,6 +1406,44 @@ bot.onText(/\/reward/, msg => {
 
   bot.sendMessage(msg.chat.id, `${msg.reply_to_message.from.first_name} получил награду ${rewardName}`);
 });
+
+const fuckTrigger = ['умри', 'сука', 'сдохни', 'умрёшь', 'иди нахуй', 'умрёшь', 'умрешь', 'сгниешь', 'сгниёшь', 'нахуй иди']
+
+const fuck = (msg) => {
+
+  if (!fuckBool) {
+    return;
+  }
+
+  const chatID = msg.chat.id;
+  const messID = msg.message_id;
+  const text = msg.text.toLowerCase();
+  const trigBoolen = fuckTrigger.some(el => text.includes(el))
+  
+  if (trigBoolen) {
+    const random = Math.floor(Math.random() * 1000000000000);
+    axios.get(`https://evilinsult.com/generate_insult.php?lang=ru&type=json&_=${random}`)
+    .then(response => {
+      bot.sendMessage(chatID, response.data.insult, {reply_to_message_id: messID});
+    })
+
+    fuckBool = false;
+
+    setTimeout(() => {
+      fuckBool = true;
+    }, 3600000);
+  }
+}
+
+// bot.onText(/\/fuck/, msg => {
+//   if (msg.chat.id == "-1001807749316") {
+//     const random = Math.floor(Math.random() * 1000000000000);
+//     axios.get(`https://evilinsult.com/generate_insult.php?lang=ru&type=json&_=${random}`)
+//     .then(response => {
+//       bot.sendMessage(msg.chat.id, response.data.insult, {reply_to_message_id: msg.message_id});
+//     })
+//   }
+// })
 
 // const yestUsers = () => {
 //   const date = new Date();
