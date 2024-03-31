@@ -1407,7 +1407,7 @@ bot.onText(/\/reward/, msg => {
   bot.sendMessage(msg.chat.id, `${msg.reply_to_message.from.first_name} получил награду ${rewardName}`);
 });
 
-const fuckTrigger = ['умри', 'сука', 'сдохни', 'иди нахуй', 'умрёшь', 'умрешь', 'сгниешь', 'сгниёшь', 'нахуй иди', 'долбаеб']
+const fuckTrigger = ['умри', 'сука', 'сдохни', 'иди нахуй', 'умрёшь', 'умрешь', 'сгниешь', 'сгниёшь', 'нахуй иди', 'долбаеб', 'шлюха', 'уебок', 'уёбок']
 
 const fuck = (msg) => {
 
@@ -1431,7 +1431,7 @@ const fuck = (msg) => {
 
     setTimeout(() => {
       fuckBool = true;
-    }, 3600000);
+    }, 600000);
   }
 }
 
