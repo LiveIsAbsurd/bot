@@ -106,7 +106,7 @@ bot.on("message", (msg, match) => {
   if (msg.chat.id == "-1001807749316") {
     setChatState(msg, chatState);
     if (match.type === 'text' || match.type === 'sticker') {
-      rescrictUsers(msg);
+      //rescrictUsers(msg);
       msg.sticker?.emoji == '👍' ? setAuthority(msg, chatState) : null;
     }
     if (match.type === 'text') {
