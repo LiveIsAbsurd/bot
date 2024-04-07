@@ -1426,9 +1426,9 @@ const fuck = (msg) => {
     axios.get(`https://evilinsult.com/generate_insult.php?lang=ru&type=json&_=${random}`)
     .then(async (response) => {
 
-      let response = await axios.get('https://api.thecatapi.com/v1/images/search');
-      
-      downloadImage(response.data[0].url)
+      let responsePhoto = await axios.get('https://api.thecatapi.com/v1/images/search');
+
+      downloadImage(responsePhoto.data[0].url)
       .then((image) => {
         bot.sendPhoto(msg.chat.id, image, {caption: response.data.insult, reply_to_message_id: messID});
       })
