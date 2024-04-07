@@ -1424,8 +1424,14 @@ const fuck = (msg) => {
   if (trigBoolen) {
     const random = Math.floor(Math.random() * 1000000000000);
     axios.get(`https://evilinsult.com/generate_insult.php?lang=ru&type=json&_=${random}`)
-    .then(response => {
-      bot.sendMessage(chatID, response.data.insult, {reply_to_message_id: messID});
+    .then(async (response) => {
+
+      let response = await axios.get('https://api.thecatapi.com/v1/images/search');
+      
+      downloadImage(response.data[0].url)
+      .then((image) => {
+        bot.sendPhoto(msg.chat.id, image, {caption: response.data.insult, reply_to_message_id: messID});
+      })
     })
 
     fuckBool = false;
