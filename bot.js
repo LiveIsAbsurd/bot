@@ -507,7 +507,7 @@ bot.on("new_chat_members", (msg) => {
       },
     };
 
-    if (userList.includes(String(userId))) {
+    if (userList.includes(String(userId)) && chatState.userMessage[userId].count > 1) {
       let messCount = chatState.userMessage[userId].count;
       bot.sendMessage(chatId, oldHiText(userName, messCount));
     } else {
