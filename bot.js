@@ -495,6 +495,7 @@ bot.on("new_chat_members", (msg) => {
 
   if (chatId == "-1001807749316") {
     let userList = Object.keys(chatState.userMessage);
+    console.log(userList);
     
     const opts = {
       reply_markup: {
