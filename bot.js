@@ -495,7 +495,7 @@ bot.on("new_chat_members", (msg) => {
 
   if (chatId == "-1001807749316") {
     let userList = Object.keys(chatState.userMessage);
-    console.log(userList);
+    console.log(userList.includes(String(userId)));
     
     const opts = {
       reply_markup: {
@@ -507,7 +507,7 @@ bot.on("new_chat_members", (msg) => {
       },
     };
 
-    if (userList.includes(userId)) {
+    if (userList.includes(String(userId))) {
       let messCount = chatState.userMessage[userId].count;
       bot.sendMessage(chatId, oldHiText(userName, messCount));
     } else {
