@@ -16,10 +16,13 @@ const setChatState = require("./functions/set-chat-state.js");
 const createPaginationButtons = require("./functions/create-pagination-button.js");
 let currentPage = {};
 const getChatState = require("./functions/get-chat-state.js");
+const timeDuration = require("./functions/time-duration.js")
 
 function hiText(username) {
   let text = `
   Добро пожаловать, ${username}! ⚡️
+
+Если не можешь писать - нажи на сердечко в сообщение ниже! 
 
 Данный чат является королевством мемов, метаиронии, абсурда и т.д. по списку...
 Я, главный бот данного чата!
@@ -28,7 +31,9 @@ function hiText(username) {
 либо порвать топ меморитетов чата /top 😏, но тут уже нужно постараться!
 
 По команде /help узнаешь все мои команды.
-Если есть вопросы, тегни моего создателя @liveisabsurd или другого админа!
+Если есть вопросы, тегни моего создателя
+@meme_house_admin или главного дизайнера
+@yorigami!
 
 Помни, что всё написанное в данном чате является шуткой, как и оскорбления, которые не несут цели кого-либо задеть или оскорбить :)`;
   return text;
@@ -49,6 +54,8 @@ let chatState = JSON.parse(fs.readFileSync("../chatStats.json", "UTF-8"),null, 2
 let date = new Date();
 let realDateGlobal = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
 let editState = false;
+let stateBool = true;
+let fuckBool = true;
 let messageCount = {};
 let authorityTriggers = ['+', 'жиза', 'база', '👍', 'база.', 'жиза.', '5+']; //new
 let usersSendAuthority = {}; //new
@@ -65,13 +72,15 @@ cron.schedule('0 7 * * *', () => {
   }
 })
 
+// bot.sendMessage(-1001807749316, 'Лялляляляляля').then(msg => console.log(msg))
+
 bot.editMessageText(`
 Сообщений с 27.07.2023
 
 +${chatState.messageOnDate[realDateGlobal] ?chatState.messageOnDate[realDateGlobal]?.totalMessage : 0} за сутки
 `, {
   chat_id: "-1001807749316",
-  message_id: "146136",
+  message_id: "229580",
   reply_markup: {
     inline_keyboard: [[{ text: `${chatState.totalMessage}`, callback_data: "chatState" }]]
   }
@@ -106,10 +115,11 @@ bot.on("message", (msg, match) => {
   if (msg.chat.id == "-1001807749316") {
     setChatState(msg, chatState);
     if (match.type === 'text' || match.type === 'sticker') {
-      rescrictUsers(msg);
+      //rescrictUsers(msg);
       msg.sticker?.emoji == '👍' ? setAuthority(msg, chatState) : null;
     }
     if (match.type === 'text') {
+      fuck(msg);
       authorityTriggers.some(el => msg.text.toLowerCase() === el) ? setAuthority(msg, chatState) : null;
     } //new
     // if (match.type === 'sticker') {
@@ -140,7 +150,8 @@ bot.onText(/\/help/, msg => {
 /xo - крестики-нолики
 /memo - что такое меморитет?
 
-Вопросы? Позови @liveisabsurd :)
+Вопросы? Позови
+@meme_house_admin :)
     `);
 });
 
@@ -384,12 +395,23 @@ bot.on("callback_query", (query) => {
   }
 
   if (query.data == "chatState") {
+    if (!stateBool) {
+      bot.answerCallbackQuery(query.id, {
+        text: "Таймаут",
+      });
+      return;
+    };
+
     getChatState(chatState, (message => {
       displayList(null, query, message, 5, `
 Статистика с 27.07.23
 Всего сообщений: ${chatState.totalMessage}
 Топ:`, "chatState", chatState)
+      setTimeout(() => {
+        stateBool = true;
+      }, 60000);
     }));
+    stateBool = false;
   }
 
   if (query.data == "next-authority") {
@@ -458,12 +480,7 @@ bot.onText(/\/kick/, (msg) => {
           bot.sendMessage(chatId, "Ты кто такой, чтобы такое делать?", {reply_to_message_id: msg.message_id});
         }
       });
-  } else {
-    bot.sendMessage(
-      261749882,
-      `@${msg.from.username} использовал /kick в другом чате'`
-    );
-  }
+  };
 });
 
 bot.on("new_chat_members", (msg) => {
@@ -581,51 +598,33 @@ bot.onText(/\/setAdDescription (.+)/, (msg, match) => {
   }
 });
 
-bot.onText(/\/setDescription (.+)/, (msg, match) => {
+bot.onText(/\/about (.+)/, (msg, match) => {
   const text = match[1];
-  let adminList = [];
 
-  axios
-    .get(
-      `https://api.telegram.org/bot${token}/getChatAdministrators?chat_id=-1001807749316`
-    )
-    .then((response) => {
-      response.data.result.forEach((admin) => {
-        const username = admin.user.username;
-        adminList.push(username.toLowerCase());
-      });
+  let username = msg.from.first_name;
+  let userId = msg.from.id;
+      
+  fs.readFile("../adminDescriptions.json", "UTF-8", (err, data) => {
+    let adminDesc = JSON.parse(data);
+    adminDesc[userId] = text;
 
-      let username = msg.from.username;
-      let userId = msg.from.id;
-      let isAdmin = Number(adminList.indexOf(username.toLowerCase()));
-
-      if (isAdmin >= 0) {
-        fs.readFile("../adminDescriptions.json", "UTF-8", (err, data) => {
-          let adminDesc = JSON.parse(data);
-          adminDesc[userId] = text;
-
-          fs.writeFile(
-            "../adminDescriptions.json",
-            JSON.stringify(adminDesc),
-            "UTF-8",
-            (err) => {
-              console.log(err);
-            }
-          );
-          bot.sendMessage(
-            msg.chat.id,
-            `${username}, твоё описание изменено на '${text}'`
-          );
-          bot.sendMessage(
-            261749882,
-            `${username} изменил описание на '${text}'`
-          );
-        });
-      } else {
-        bot.sendMessage(msg.chat.id, `Ты не являешся админом чата`);
-        bot.sendMessage(261749882, `${username} попытался сменить описание`);
+    fs.writeFile(
+      "../adminDescriptions.json",
+      JSON.stringify(adminDesc),
+      "UTF-8",
+      (err) => {
+        console.log(err);
       }
-    });
+    );
+    bot.sendMessage(
+      msg.chat.id,
+      `${username}, твоё описание изменено на '${text}'`
+    );
+    bot.sendMessage(
+      261749882,
+      `${username} изменил описание на '${text}'`
+    );
+  });
 });
 
 setInterval(() => {
@@ -646,7 +645,7 @@ setInterval(() => {
 +${chatState.messageOnDate[realDateGlobal] ?chatState.messageOnDate[realDateGlobal]?.totalMessage : 0} за сутки
 `, {
       chat_id: "-1001807749316",
-      message_id: "146136",
+      message_id: "229580",
       reply_markup: {
         inline_keyboard: [[{ text: `${chatState.totalMessage}`, callback_data: "chatState" }]]
       }
@@ -657,7 +656,7 @@ setInterval(() => {
 process.on("SIGINT", async () => {
   await bot.editMessageText(`Бот временно отключён`, {
     chat_id: "-1001807749316",
-    message_id: "146136"
+    message_id: "229580"
   });
 
   fs.writeFile("../chatStats.json", JSON.stringify(chatState, null, 2), "UTF-8", (err) => {
@@ -1251,7 +1250,10 @@ const dailyHi = () => {
   axios.get(`https://api.openweathermap.org/data/2.5/weather?lat=56.343703&lon=30.515671&appid=${weatherToken}&units=metric&lang=ru`)
     .then(response => {
       const date = new Date();
-      const yestDate = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate() - 1}`;
+      const realHiDate = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+
+      const dates = Object.keys(chatState.messageOnDate);
+      const yestDate = realHiDate == dates[dates.length - 1] ? dates[dates.length - 2] : dates[dates.length - 1];
       const usersState = { ...chatState.messageOnDate[yestDate].userMessage }
       const users = Object.keys(usersState).map(key => [key, usersState[key]]);
       const sortUsers = users.sort((a, b) => {
@@ -1275,12 +1277,13 @@ ${sortUsers[0][1].userName ? `@${sortUsers[0][1].userName}` : sortUsers[0][1].us
 (${sortUsers[0][1].count} сообщений),
 его меморитет увеличен на 1.`;
       
-      bot.sendMessage("-1001807749316", message);
+      bot.sendMessage("-1001807749316", message, {reply_markup: {inline_keyboard: [[{  text: "Поддержать чат", url: "https://boosty.to/meme_house"  }]]}});
   })
   .catch(error => {
       console.error(error);
   });
 };
+
 const chartJsCanvas = new ChartJSNodeCanvas({width: 1000, height: 600});
 
 bot.onText(/\/state/, async (msg) => {
@@ -1311,37 +1314,42 @@ bot.onText(/\/state/, async (msg) => {
   bot.sendPhoto(msg.chat.id, image);
 })
 
-bot.onText(/\/userstate/, async (msg) => {
-  const user = msg.reply_to_message ? msg.reply_to_message.from.id : msg.from.id;
+// bot.onText(/\/userstate/, async (msg) => {
+//   const user = msg.reply_to_message ? msg.reply_to_message.from.id : msg.from.id;
 
-  let period = Number(msg.text.replace('/userState ', ''));
-  if (typeof period != 'number' || isNaN(period)) {
-    period = 0;
-  }
-  const dates = Object.keys(chatState.messageOnDate);
-  !!period ? dates.splice(0, dates.length - period) : null;
-  const values = dates.map((date) => {
-    return chatState.messageOnDate[date].userMessage[user] ? chatState.messageOnDate[date].userMessage[user].count : 0;
-  });
+//   let period = Number(msg.text.replace('/userState ', ''));
+//   if (typeof period != 'number' || isNaN(period)) {
+//     period = 0;
+//   }
+//   const dates = Object.keys(chatState.messageOnDate);
+//   !!period ? dates.splice(0, dates.length - period) : null;
+//   const values = dates.map((date) => {
+//     return chatState.messageOnDate[date].userMessage[user] ? chatState.messageOnDate[date].userMessage[user].count : 0;
+//   });
 
-  const configuration = {
-    type: 'bar',
-    data: {
-        labels: dates,
-        datasets: [{
-            label: `Количество сообщений от ${chatState.userMessage[user].userFirstName} за ${!!period ? period + ' суток' : 'всё время'}`,
-            data: values,
-            fill: true,
-            backgroundColor: '#96188a',
-        }]
-    }
-  };
+//   const configuration = {
+//     type: 'line',
+//     data: {
+//         labels: dates,
+//         datasets: [{
+//             label: `Количество сообщений от ${chatState.userMessage[user].userFirstName} за ${!!period ? period + ' суток' : 'всё время'}`,
+//             data: values,
+//             fill: true,
+//             borderColor: '#96188a',
+//             tension: 0.3
+//         }]
+//     }
+//   };
 
-  const image = await chartJsCanvas.renderToBuffer(configuration);
-  bot.sendPhoto(msg.chat.id, image);
-});
+//   const image = await chartJsCanvas.renderToBuffer(configuration);
+//   bot.sendPhoto(msg.chat.id, image);
+// });
 
 bot.onText(/\/info/, async (msg) => {
+  if (msg.reply_to_message?.from.is_bot) {
+    return;
+  }
+
   const user = msg.reply_to_message ? msg.reply_to_message.from.id : msg.from.id;
 
   const dates = Object.keys(chatState.messageOnDate);
@@ -1373,18 +1381,93 @@ bot.onText(/\/info/, async (msg) => {
 
   const image = await chartJsCanvas.renderToBuffer(configuration);
 
+  let desc = `_Пусто_`;
+
+  const allDesc = JSON.parse(fs.readFileSync("../adminDescriptions.json", "UTF-8"));
+  allDesc[user] ? desc = allDesc[user] : null;
+
+
+  const rewards = chatState.userMessage[user].rewards
+                  ? chatState.userMessage[user].rewards.map((reward) => `🏆 ${reward.name}, ${timeDuration(reward.date)}`).join('\n')
+                  : 'пусто';
+
   const caption = `
-Участник ${chatState.userMessage[user].userFirstName}.
+Участник ${chatState.userMessage[user].userName ? `[${chatState.userMessage[user].userFirstName}](https://t.me/${chatState.userMessage[user].userName})` : chatState.userMessage[user].userFirstName}.
 
 Первое появление ${secondMessage}
-В среднем ${averangeCount.toFixed(2)} сообщений в сутки `;
+В среднем ${averangeCount.toFixed(0)} сообщений в сутки
+Меморитет: ${chatState.userMessage[user].authority ? chatState.userMessage[user].authority : 0}
 
-bot.sendPhoto(msg.chat.id, image, {caption});
+📝О себе:
+_${desc}_
+
+Награды:
+${rewards}`;
+
+  bot.sendPhoto(msg.chat.id, image, {caption, parse_mode: 'Markdown'});
 });
 
-bot.onText(/\/test/, msg => {
-  yestUsers();
+bot.onText(/\/reward/, msg => {
+  if (msg.from.id != '261749882') {
+    return;
+  }
+
+  const user = msg.reply_to_message.from.id;
+  const rewardName = msg.text.replace('/reward ', '');
+  const rewardDate = new Date();
+
+  if (!chatState.userMessage[user].rewards) {
+    chatState.userMessage[user].rewards = [{name: rewardName, date: rewardDate}];
+  } else {
+    chatState.userMessage[user].rewards.push({name: rewardName, date: rewardDate});
+  };
+
+  bot.sendMessage(msg.chat.id, `${msg.reply_to_message.from.first_name} получил награду ${rewardName}`);
 });
+
+const fuckTrigger = ['умри', 'сука', 'сдохни', 'иди нахуй', 'умрёшь', 'умрешь', 'сгниешь', 'сгниёшь', 'нахуй иди', 'долбаеб', 'шлюха', 'уебок', 'уёбок', 'еблан', 'блядота', 'пидор', 'пидорас', 'пошел нахуй', 'пошёл нахуй'];
+
+const fuck = (msg) => {
+
+  if (!fuckBool) {
+    return;
+  }
+
+  const chatID = msg.chat.id;
+  const messID = msg.message_id;
+  const text = msg.text.toLowerCase();
+  const trigBoolen = fuckTrigger.some(el => text.includes(el))
+  
+  if (trigBoolen) {
+    const random = Math.floor(Math.random() * 1000000000000);
+    axios.get(`https://evilinsult.com/generate_insult.php?lang=ru&type=json&_=${random}`)
+    .then(async (response) => {
+
+      let responsePhoto = await axios.get('https://api.thecatapi.com/v1/images/search');
+
+      downloadImage(responsePhoto.data[0].url)
+      .then((image) => {
+        bot.sendPhoto(msg.chat.id, image, {caption: response.data.insult, reply_to_message_id: messID});
+      })
+    })
+
+    fuckBool = false;
+
+    setTimeout(() => {
+      fuckBool = true;
+    }, 600000);
+  }
+}
+
+// bot.onText(/\/fuck/, msg => {
+//   if (msg.chat.id == "-1001807749316") {
+//     const random = Math.floor(Math.random() * 1000000000000);
+//     axios.get(`https://evilinsult.com/generate_insult.php?lang=ru&type=json&_=${random}`)
+//     .then(response => {
+//       bot.sendMessage(msg.chat.id, response.data.insult, {reply_to_message_id: msg.message_id});
+//     })
+//   }
+// })
 
 // const yestUsers = () => {
 //   const date = new Date();
