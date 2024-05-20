@@ -34,6 +34,15 @@ function hiText(username) {
   return text;
 }
 
+function oldHiText(username, countMessage) {
+  let text = `
+  Добро пожаловать снова ${username}.
+
+За всё время ты написал ${countMessage} сообщений!
+Отправь /info для подробной статистики, /help для помощи по командам.`;
+  return text;
+}
+
 const bot = new TelegramBot(token, { polling: { interval: 1000 } });
 
 let chatState = JSON.parse(fs.readFileSync("../chatStats.json", "UTF-8"),null, 2);
@@ -468,6 +477,8 @@ bot.on("new_chat_members", (msg) => {
   };
 
   if (chatId == "-1001807749316") {
+    let userList = Object.keys(chatState.userMessage);
+    
     const opts = {
       reply_markup: {
         inline_keyboard: [
@@ -478,16 +489,22 @@ bot.on("new_chat_members", (msg) => {
       },
     };
 
-    bot.sendMessage(chatId, hiText(userName), opts);
-    if (userId === msg.from.id) {
-      bot.restrictChatMember(chatId, userId, options).then(() => {
-        bot.sendMessage(chatId, "Извини, мне нужно проверить что ты не бот, чтобы писать сообщения нажми на кнопочку с сердечком. Если не получается, напиши @liveisabsurd", {
-          reply_markup: {
-            inline_keyboard: [[{ text: "🐮", callback_data: "unlock" }, { text: "❤️", callback_data: `unlock${userId}` }, { text: "🍎", callback_data: "unlock" }]],
-          },
-        });
-      })
+    if (userList.includes(userId)) {
+      let messCount = chatState.userMessage[userId].count;
+      bot.sendMessage(chatId, oldHiText(userName, messCount));
+    } else {
+      bot.sendMessage(chatId, hiText(userName), opts);
     }
+    
+    // if (userId === msg.from.id) {
+    //   bot.restrictChatMember(chatId, userId, options).then(() => {
+    //     bot.sendMessage(chatId, "Извини, мне нужно проверить что ты не бот, чтобы писать сообщения нажми на кнопочку с сердечком. Если не получается, напиши @liveisabsurd", {
+    //       reply_markup: {
+    //         inline_keyboard: [[{ text: "🐮", callback_data: "unlock" }, { text: "❤️", callback_data: `unlock${userId}` }, { text: "🍎", callback_data: "unlock" }]],
+    //       },
+    //     });
+    //   })
+    // }
   }
 });
 
@@ -1333,7 +1350,6 @@ bot.onText(/\/info/, async (msg) => {
     return chatState.messageOnDate[el].userMessage[user] ? true : false;
   })
   const indexOfSecondMessage = dates.indexOf(secondMessage);
-  console.log('Index ' + indexOfSecondMessage);
   dates.splice(0, indexOfSecondMessage);
 
   const values = dates.map((date) => {
