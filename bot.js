@@ -39,6 +39,15 @@ function hiText(username) {
   return text;
 }
 
+function oldHiText(username, countMessage) {
+  let text = `
+  Добро пожаловать снова ${username}.
+
+За всё время ты написал ${countMessage} сообщений!
+Отправь /info для подробной статистики, /help для помощи по командам.`;
+  return text;
+}
+
 const bot = new TelegramBot(token, { polling: { interval: 1000 } });
 
 let chatState = JSON.parse(fs.readFileSync("../chatStats.json", "UTF-8"),null, 2);
@@ -485,6 +494,9 @@ bot.on("new_chat_members", (msg) => {
   };
 
   if (chatId == "-1001807749316") {
+    let userList = Object.keys(chatState.userMessage);
+    console.log(userList.includes(String(userId)));
+    
     const opts = {
       reply_markup: {
         inline_keyboard: [
@@ -495,8 +507,14 @@ bot.on("new_chat_members", (msg) => {
       },
     };
 
-    bot.sendMessage(chatId, hiText(userName), opts);
-    // if (false) {
+    if (userList.includes(String(userId)) && chatState.userMessage[userId].count > 1) {
+      let messCount = chatState.userMessage[userId].count;
+      bot.sendMessage(chatId, oldHiText(userName, messCount));
+    } else {
+      bot.sendMessage(chatId, hiText(userName), opts);
+    }
+    
+    // if (userId === msg.from.id) {
     //   bot.restrictChatMember(chatId, userId, options).then(() => {
     //     bot.sendMessage(chatId, "Извини, мне нужно проверить что ты не бот, чтобы писать сообщения нажми на кнопочку с сердечком. Если не получается, напиши @liveisabsurd", {
     //       reply_markup: {
