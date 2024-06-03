@@ -1123,7 +1123,7 @@ const muteUser = (msg) => {
   if (msg.chat.id != "-1001807749316") {
     return;
   };
-  if (msg.from.username == "LiveIsAbsurd") {
+  if (msg.from.id == "261749882" || msg.from.id == "300711096" || msg.from.id == "783903346") {
     const user = msg.reply_to_message.from.id;
     const time = msg.text.replace('/mute', '').trim() ? msg.text.replace('/mute', '').trim() : 3600;
     const untilDate = Math.floor(Date.now() / 1000) + Number(time);
@@ -1391,7 +1391,7 @@ ${rewards}`;
 });
 
 bot.onText(/\/reward/, msg => {
-  if (msg.from.id != '261749882') {
+  if (msg.from.id != '261749882' || msg.from.id != "300711096") {
     return;
   }
 
