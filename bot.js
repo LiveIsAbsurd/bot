@@ -1409,7 +1409,7 @@ ${rewards}`;
 });
 
 bot.onText(/\/reward/, msg => {
-  if (msg.from.id != '261749882' || msg.from.id != "300711096") {
+  if (msg.from.id != '261749882') {
     return;
   }
 
