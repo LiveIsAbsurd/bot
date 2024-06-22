@@ -744,6 +744,7 @@ function displayList(msg, query, array, usersPerPage, header, cbDop, state = und
   };
 
   if (msg || query.data === "chatState") {
+    console.log("тест");
       bot.sendMessage(msg ? msg.chat.id : query.message.chat.id, 
 `
 ${header}
@@ -752,7 +753,6 @@ ${message}
 `, options)
       .then(msg => {
           currentPage[msg.message_id] = 1;
-          console.log("тест");
       })
   } else if (query) {
       bot.editMessageText(
