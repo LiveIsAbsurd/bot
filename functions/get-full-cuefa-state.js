@@ -12,21 +12,9 @@ function getFullCuefaState(cb) {
       fullState.sort((a, b) => {
         return b.win - a.win;
       });
+
+      console.log(fullState);
   
-//       let text = "";
-//       let i = 1;
-  
-//       fullState.forEach(el => {
-//         text += `${i}. ${el.name} - ${el.total} | ${el.win} | ${el.lose} | ${isNaN(((el.win / (el.win + el.lose)) * 100).toFixed(2)) ? 0 : ((el.win / (el.win + el.lose)) * 100).toFixed(2)}% \n`
-//         i++;
-//       })
-  
-//       bot.sendMessage(msg.chat.id,
-//         `Статистика "камень, ножницы, бумага":
-            
-// # | Игры | Победы | Поражения | ВР(без ничьих)
-  
-// ${text}`);
       cb(fullState);
       
      });
