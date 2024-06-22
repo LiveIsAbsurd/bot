@@ -744,7 +744,9 @@ function displayList(msg, query, array, usersPerPage, header, cbDop, state = und
   };
 
   if (msg || query.data === "chatState") {
-    console.log("тест");
+    console.log(header);
+    console.log(message);
+    console.log(msg);
       bot.sendMessage(msg ? msg.chat.id : query.message.chat.id, 
 `
 ${header}
