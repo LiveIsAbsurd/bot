@@ -742,22 +742,6 @@ function displayList(msg, query, array, usersPerPage, header, cbDop, state = und
       parse_mode: 'Markdown',
       disable_web_page_preview: true,
   };
-//тест
-//   if (cbDop == 'cuefa') {
-//     bot.sendMessage(msg.chat.id, 
-// `
-// ${header}
-    
-// ${message}
-// `, 
-// {reply_markup: {
-//       inline_keyboard: [buttons],
-//   }}).then(msg => {
-//     currentPage[msg.message_id] = 1;
-// });
-//     return;
-//   }
-//тест
 
   if (msg || query.data === "chatState") {
       bot.sendMessage(msg ? msg.chat.id : query.message.chat.id, 
