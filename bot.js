@@ -744,14 +744,16 @@ function displayList(msg, query, array, usersPerPage, header, cbDop, state = und
   };
 
   if (cbDop == 'cuefa') {
-    bot.sendMessage(msg.chat.id, message);
+    bot.sendMessage(msg.chat.id, 
+  `
+    ${header}
+    
+    ${message}
+    `, options);
     return;
   }
 
   if (msg || query.data === "chatState") {
-    console.log(header);
-    console.log(message);
-    console.log(msg);
       bot.sendMessage(msg ? msg.chat.id : query.message.chat.id, 
 `
 ${header}
