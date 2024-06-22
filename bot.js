@@ -684,7 +684,7 @@ function displayList(msg, query, array, usersPerPage, header, cbDop, state = und
   let message;
 
   if (cbDop == "cuefa") {
-    message = page.map((el, index) => `${start + index + 1}. ${el.name} - ${el.total} | ${el.win} | ${el.lose} | ${isNaN(((el.win / (el.win + el.lose)) * 100).toFixed(2)) ? 0 : ((el.win / (el.win + el.lose)) * 100).toFixed(2)}%`).join('\n');
+    message = page.map((el, index) => `${start + index + 1}. ${el.name ? `[${el.name}](https://t.me/${el.name})` : el.name} - ${el.total} | ${el.win} | ${el.lose} | ${isNaN(((el.win / (el.win + el.lose)) * 100).toFixed(2)) ? 0 : ((el.win / (el.win + el.lose)) * 100).toFixed(2)}%`).join('\n');
   }
 
   if (cbDop == "chatState") {
@@ -742,18 +742,22 @@ function displayList(msg, query, array, usersPerPage, header, cbDop, state = und
       parse_mode: 'Markdown',
       disable_web_page_preview: true,
   };
-
-  if (cbDop == 'cuefa') {
-    bot.sendMessage(msg.chat.id, 
-  `
-    ${header}
+//тест
+//   if (cbDop == 'cuefa') {
+//     bot.sendMessage(msg.chat.id, 
+// `
+// ${header}
     
-    ${message}
-    `, {reply_markup: {
-      inline_keyboard: [buttons],
-  }});
-    return;
-  }
+// ${message}
+// `, 
+// {reply_markup: {
+//       inline_keyboard: [buttons],
+//   }}).then(msg => {
+//     currentPage[msg.message_id] = 1;
+// });
+//     return;
+//   }
+//тест
 
   if (msg || query.data === "chatState") {
       bot.sendMessage(msg ? msg.chat.id : query.message.chat.id, 
