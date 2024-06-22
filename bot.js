@@ -749,7 +749,7 @@ function displayList(msg, query, array, usersPerPage, header, cbDop, state = und
     ${header}
     
     ${message}
-    `, options);
+    `);
     return;
   }
 
