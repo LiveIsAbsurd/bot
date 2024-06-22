@@ -685,7 +685,6 @@ function displayList(msg, query, array, usersPerPage, header, cbDop, state = und
 
   if (cbDop == "cuefa") {
     message = page.map((el, index) => `${start + index + 1}. ${el.name} - ${el.total} | ${el.win} | ${el.lose} | ${isNaN(((el.win / (el.win + el.lose)) * 100).toFixed(2)) ? 0 : ((el.win / (el.win + el.lose)) * 100).toFixed(2)}%`).join('\n');
-    console.log(message);
   }
 
   if (cbDop == "chatState") {
@@ -735,6 +734,7 @@ function displayList(msg, query, array, usersPerPage, header, cbDop, state = und
   }
 
   let buttons = createPaginationButtons(array, qq, usersPerPage, cbDop);
+  console.log(buttons);
 
   let options = {
       reply_markup: {
