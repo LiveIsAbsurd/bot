@@ -749,7 +749,9 @@ function displayList(msg, query, array, usersPerPage, header, cbDop, state = und
     ${header}
     
     ${message}
-    `);
+    `, {reply_markup: {
+      inline_keyboard: [buttons],
+  }});
     return;
   }
 
