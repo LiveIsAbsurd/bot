@@ -744,7 +744,7 @@ function displayList(msg, query, array, usersPerPage, header, cbDop, state = und
   };
 
   if (cbDop == 'cuefa') {
-    bot.sendMessage(msg.chat.id, 'ну затести меня');
+    bot.sendMessage(msg.chat.id, message);
     return;
   }
 
