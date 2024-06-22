@@ -734,7 +734,6 @@ function displayList(msg, query, array, usersPerPage, header, cbDop, state = und
   }
 
   let buttons = createPaginationButtons(array, qq, usersPerPage, cbDop);
-  console.log(buttons);
 
   let options = {
       reply_markup: {
@@ -753,6 +752,7 @@ ${message}
 `, options)
       .then(msg => {
           currentPage[msg.message_id] = 1;
+          console.log("тест");
       })
   } else if (query) {
       bot.editMessageText(
