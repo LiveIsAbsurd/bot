@@ -743,6 +743,11 @@ function displayList(msg, query, array, usersPerPage, header, cbDop, state = und
       disable_web_page_preview: true,
   };
 
+  if (cbDop == 'cuefa') {
+    bot.sendMessage(msg.chat.id, 'ну затести меня');
+    return;
+  }
+
   if (msg || query.data === "chatState") {
     console.log(header);
     console.log(message);
