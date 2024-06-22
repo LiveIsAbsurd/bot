@@ -12,8 +12,6 @@ function getFullCuefaState(cb) {
       fullState.sort((a, b) => {
         return b.win - a.win;
       });
-
-      console.log(fullState);
   
       cb(fullState);
       
