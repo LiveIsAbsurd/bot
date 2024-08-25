@@ -59,6 +59,7 @@ let fuckBool = true;
 let messageCount = {};
 let authorityTriggers = ['+', 'жиза', 'база', '👍', 'база.', 'жиза.', '5+']; //new
 let usersSendAuthority = {}; //new
+let adminList = [];
 
 cron.schedule('0 7 * * *', () => {
   dailyHi();
@@ -85,6 +86,24 @@ bot.editMessageText(`
     inline_keyboard: [[{ text: `${chatState.totalMessage}`, callback_data: "chatState" }]]
   }
 });
+
+const getChatAdmins = () => {
+  axios
+      .get(
+        `https://api.telegram.org/bot${token}/getChatAdministrators?chat_id=-1001807749316`
+      )
+      .then((response) => {
+        response.data.result.forEach((admin) => {
+          if (admin.can_restrict_members || admin.status == "creator") {
+            const username = admin.user.username;
+            adminList.push(username.toLowerCase());
+          }
+        });
+      });
+};
+
+getChatAdmins();
+console.log(adminList);
 
 //крестики-нолики________________________________________________________
 let xoPlace = {
@@ -442,46 +461,28 @@ bot.on("callback_query", (query) => {
 bot.onText(/\/kick/, (msg) => {
   const chatId = msg.chat.id;
   const userId = msg.reply_to_message.from.id;
-  let adminList = [];
 
   if (chatId == "-1001807749316") {
-    axios
-      .get(
-        `https://api.telegram.org/bot${token}/getChatAdministrators?chat_id=-1001807749316`
-      )
-      .then((response) => {
-        response.data.result.forEach((admin) => {
-          if (admin.can_restrict_members || admin.status == "creator") {
-            const username = admin.user.username;
-            adminList.push(username.toLowerCase());
-          }
-        });
-
-        let isAdmin = Number(
-          adminList.indexOf(msg.from.username.toLowerCase())
-        );
-
-        if (isAdmin >= 0) {
-          axios
-            .get(
-              `https://api.telegram.org/bot${token}/kickChatMember?chat_id=${chatId}&user_id=${userId}`
-            )
-            .then(() => {
-              bot.sendMessage(chatId, "Участник исключен из чата", {reply_to_message_id: msg.message_id});
-              bot.deleteMessage(msg.chat.id, msg.reply_to_message.message_id);
-            })
-            .catch((error) => {
-              console.log(error);
-              bot.sendMessage(
-                chatId,
-                "Произошла ошибка при исключении участника",
-                {reply_to_message_id: msg.message_id}
-              );
-            });
-        } else {
-          bot.sendMessage(chatId, "Ты кто такой, чтобы такое делать?", {reply_to_message_id: msg.message_id});
-        }
-      });
+      if (adminList.includes(msg.from.username)) {
+        axios
+          .get(
+            `https://api.telegram.org/bot${token}/kickChatMember?chat_id=${chatId}&user_id=${userId}`
+          )
+          .then(() => {
+            bot.sendMessage(chatId, "Участник исключен из чата", {reply_to_message_id: msg.message_id});
+            bot.deleteMessage(msg.chat.id, msg.reply_to_message.message_id);
+          })
+          .catch((error) => {
+            console.log(error);
+            bot.sendMessage(
+              chatId,
+              "Произошла ошибка при исключении участника",
+              {reply_to_message_id: msg.message_id}
+            );
+          });
+      } else {
+        bot.sendMessage(chatId, "Ты кто такой, чтобы такое делать?", {reply_to_message_id: msg.message_id});
+      }
   };
 });
 
@@ -1143,7 +1144,7 @@ const muteUser = (msg) => {
   if (msg.chat.id != "-1001807749316") {
     return;
   };
-  if (msg.from.id == "261749882" || msg.from.id == "300711096" || msg.from.id == "783903346") {
+  if (adminList.includes(msg.from.username)) {
     const user = msg.reply_to_message.from.id;
     const time = msg.text.replace('/mute', '').trim() ? msg.text.replace('/mute', '').trim() : 3600;
     const untilDate = Math.floor(Date.now() / 1000) + Number(time);
@@ -1157,7 +1158,7 @@ const muteUser = (msg) => {
       bot.sendMessage(msg.chat.id, `Участник заглушён на ${time} секунд`, { reply_to_message_id: msg.message_id });
     });
   } else {
-    bot.sendMessage(msg.chat.id, 'Команда доступна только создателю', { reply_to_message_id: msg.message_id });
+    bot.sendMessage(msg.chat.id, 'Команда доступна только админам', { reply_to_message_id: msg.message_id });
   }
 };
 
