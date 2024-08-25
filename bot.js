@@ -463,7 +463,7 @@ bot.onText(/\/kick/, (msg) => {
   const userId = msg.reply_to_message.from.id;
 
   if (chatId == "-1001807749316") {
-      if (adminList.includes(msg.from.username)) {
+      if (adminList.includes(msg.from.username.toLowerCase)) {
         axios
           .get(
             `https://api.telegram.org/bot${token}/kickChatMember?chat_id=${chatId}&user_id=${userId}`
@@ -1144,10 +1144,7 @@ const muteUser = (msg) => {
   if (msg.chat.id != "-1001807749316") {
     return;
   };
-  console.log(msg.from.username);
-  console.log(adminList);
-  console.log(adminList.includes(msg.from.username));
-  if (adminList.includes(msg.from.username)) {
+  if (adminList.includes(msg.from.username.toLowerCase)) {
     const user = msg.reply_to_message.from.id;
     const time = msg.text.replace('/mute', '').trim() ? msg.text.replace('/mute', '').trim() : 3600;
     const untilDate = Math.floor(Date.now() / 1000) + Number(time);
