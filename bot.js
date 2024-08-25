@@ -99,8 +99,8 @@ const getChatAdmins = () => {
             adminList.push(username.toLowerCase());
           }
         });
+        console.log(adminList);
       });
-      console.log(adminList);
 };
 
 getChatAdmins();
