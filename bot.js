@@ -1144,6 +1144,9 @@ const muteUser = (msg) => {
   if (msg.chat.id != "-1001807749316") {
     return;
   };
+  console.log(msg.from.username);
+  console.log(adminList);
+  console.log(adminList.includes(msg.from.username));
   if (adminList.includes(msg.from.username)) {
     const user = msg.reply_to_message.from.id;
     const time = msg.text.replace('/mute', '').trim() ? msg.text.replace('/mute', '').trim() : 3600;
@@ -1159,7 +1162,7 @@ const muteUser = (msg) => {
     });
   } else {
     bot.sendMessage(msg.chat.id, 'Команда доступна только админам', { reply_to_message_id: msg.message_id });
-  }
+  }//
 };
 
 // ----------------------Авторитет
