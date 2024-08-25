@@ -100,10 +100,10 @@ const getChatAdmins = () => {
           }
         });
       });
+      console.log(adminList);
 };
 
 getChatAdmins();
-console.log(adminList);
 
 //крестики-нолики________________________________________________________
 let xoPlace = {
