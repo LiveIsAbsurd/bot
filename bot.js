@@ -73,7 +73,7 @@ cron.schedule('0 7 * * *', () => {
   }
 })
 
-bot.sendMessage(-1001807749316, 'Кирилл ебанарот удалил все мои сообщения!!!').then(msg => console.log(msg))
+//bot.sendMessage(-1001807749316, 'Кирилл ебанарот удалил все мои сообщения!!!').then(msg => console.log(msg))
 
 bot.editMessageText(`
 Сообщений с 27.07.2023
@@ -81,7 +81,7 @@ bot.editMessageText(`
 +${chatState.messageOnDate[realDateGlobal] ?chatState.messageOnDate[realDateGlobal]?.totalMessage : 0} за сутки
 `, {
   chat_id: "-1001807749316",
-  message_id: "229580",
+  message_id: "352646",
   reply_markup: {
     inline_keyboard: [[{ text: `${chatState.totalMessage}`, callback_data: "chatState" }]]
   }
@@ -648,7 +648,7 @@ setInterval(() => {
 +${chatState.messageOnDate[realDateGlobal] ?chatState.messageOnDate[realDateGlobal]?.totalMessage : 0} за сутки
 `, {
       chat_id: "-1001807749316",
-      message_id: "229580",
+      message_id: "352646",
       reply_markup: {
         inline_keyboard: [[{ text: `${chatState.totalMessage}`, callback_data: "chatState" }]]
       }
@@ -659,7 +659,7 @@ setInterval(() => {
 process.on("SIGINT", async () => {
   await bot.editMessageText(`Бот временно отключён`, {
     chat_id: "-1001807749316",
-    message_id: "229580"
+    message_id: "352646"
   });
 
   fs.writeFile("../chatStats.json", JSON.stringify(chatState, null, 2), "UTF-8", (err) => {
