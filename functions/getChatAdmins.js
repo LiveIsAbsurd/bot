@@ -15,4 +15,4 @@ const getChatAdmins = (token, adminList) => {
         });
   };
 
-module.export = getChatAdmins;
+module.exports = getChatAdmins;
