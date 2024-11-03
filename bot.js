@@ -64,7 +64,7 @@ let adminList = [];
 let staticMessage = '392865';
 let currentPage = {};
 let xoPlaceId = {};
-const blockedUsers = ['2112222665', '5020803842'];
+const blockedUsers = ['2112222665'];
 //Соит Чай
 
 cron.schedule('0 7 * * *', () => {
