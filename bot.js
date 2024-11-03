@@ -251,7 +251,7 @@ bot.onText(/\/getKey/, (msg) => {
 });
 
 bot.on("callback_query", (query) => {
-  if (blockedUsers.includes(msg.from.id.toString())) {
+  if (blockedUsers.includes(query.from.id.toString())) {
     return;
   };
 
