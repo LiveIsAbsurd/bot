@@ -462,6 +462,10 @@ bot.on("callback_query", (query) => {
 });
 
 bot.onText(/\/kick/, (msg) => {
+  if (blockedUsers.includes(msg.from.id.toString())) {
+    return;
+  };
+
   const chatId = msg.chat.id;
   const userId = msg.reply_to_message.from.id;
 
