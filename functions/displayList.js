@@ -97,4 +97,4 @@ function displayList(msg, query, array, usersPerPage, header, cbDop, state = und
   }
 
 
-export default displayList;
+module.exports = displayList;
