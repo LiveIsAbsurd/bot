@@ -99,7 +99,7 @@ getChatAdmins(token, adminList);
 
 
 bot.onText(/\/xo/, msg => {
-  if (blockedUsers.includes(msg.from.id)) {
+  if (blockedUsers.includes(msg.from.id.toString())) {
     return;
   };
 
@@ -128,6 +128,10 @@ bot.on("message", (msg, match) => {
 });
 
 bot.onText(/\/mute/, (msg) => {
+  if (blockedUsers.includes(msg.from.id.toString())) {
+    return;
+  };
+
   muteUser(msg);
 });
 
@@ -155,7 +159,7 @@ bot.onText(/\/help/, msg => {
 });
 
 bot.onText(/\/chatstate/, msg => {
-  if (blockedUsers.includes(msg.from.id)) {
+  if (blockedUsers.includes(msg.from.id.toString())) {
     return;
   };
 
@@ -169,7 +173,7 @@ bot.onText(/\/chatstate/, msg => {
 });
 
 bot.onText(/\/cuefa/, (msg) => {
-  if (blockedUsers.includes(msg.from.id)) {
+  if (blockedUsers.includes(msg.from.id.toString())) {
     return;
   };
 
@@ -189,7 +193,7 @@ bot.onText(/\/cuefa/, (msg) => {
 });
 
 bot.onText(/\/getcuefastats/, msg => {
-  if (blockedUsers.includes(msg.from.id)) {
+  if (blockedUsers.includes(msg.from.id.toString())) {
     return;
   };
 
@@ -202,7 +206,7 @@ bot.onText(/\/getcuefastats/, msg => {
 });
 
 bot.onText(/\/getfullcuefastats/, msg => {
-  if (blockedUsers.includes(msg.from.id)) {
+  if (blockedUsers.includes(msg.from.id.toString())) {
     return;
   };
 
@@ -247,8 +251,7 @@ bot.onText(/\/getKey/, (msg) => {
 });
 
 bot.on("callback_query", (query) => {
-  if (blockedUsers.includes(query.from.id.toString())) {
-    
+  if (blockedUsers.includes(msg.from.id.toString())) {
     return;
   };
 
@@ -543,7 +546,7 @@ bot.on("left_chat_member", (msg) => {
 });
 
 bot.onText(/\/start/, (msg) => {
-  if (blockedUsers.includes(msg.from.id)) {
+  if (blockedUsers.includes(msg.from.id.toString())) {
     return;
   };
 
@@ -607,7 +610,7 @@ bot.onText(/\/setAdDescription (.+)/, (msg, match) => {
 });
 
 bot.onText(/\/about (.+)/, (msg, match) => {
-  if (blockedUsers.includes(msg.from.id)) {
+  if (blockedUsers.includes(msg.from.id.toString())) {
     return;
   };
 
@@ -730,7 +733,7 @@ bot.onText(/\/send (.+)/, (msg, match) => {
 //котики---------------------------
 
 bot.onText(/\/cat/, async (msg) => {
-  if (blockedUsers.includes(msg.from.id)) {
+  if (blockedUsers.includes(msg.from.id.toString())) {
     return;
   };
 
@@ -880,7 +883,7 @@ const muteUser = (msg) => {
 // ----------------------Авторитет
 
 bot.onText(/\/top/, (msg) => {
-  if (blockedUsers.includes(msg.from.id)) {
+  if (blockedUsers.includes(msg.from.id.toString())) {
     return;
   };
 
@@ -890,7 +893,7 @@ bot.onText(/\/top/, (msg) => {
 });
 
 bot.onText(/\/memo/, (msg) => {
-  if (blockedUsers.includes(msg.from.id)) {
+  if (blockedUsers.includes(msg.from.id.toString())) {
     return;
   };
 
@@ -1014,7 +1017,7 @@ ${sortUsers[0][1].userName ? `@${sortUsers[0][1].userName}` : sortUsers[0][1].us
 const chartJsCanvas = new ChartJSNodeCanvas({width: 1000, height: 600});
 
 bot.onText(/\/state/, async (msg) => {
-  if (blockedUsers.includes(msg.from.id)) {
+  if (blockedUsers.includes(msg.from.id.toString())) {
     return;
   };
 
@@ -1077,7 +1080,7 @@ bot.onText(/\/state/, async (msg) => {
 // });
 
 bot.onText(/\/info/, async (msg) => {
-  if (blockedUsers.includes(msg.from.id)) {
+  if (blockedUsers.includes(msg.from.id.toString())) {
     return;
   };
 
@@ -1147,7 +1150,7 @@ bot.onText(/\/reward/, msg => {
   //   return;
   // }
 
-  if (!adminList.includes(msg.from.id) || blockedUsers.includes(msg.from.id)) {
+  if (!adminList.includes(msg.from.id) || blockedUsers.includes(msg.from.id.toString())) {
     return;
   }
 
