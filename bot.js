@@ -250,7 +250,7 @@ bot.on("callback_query", (query) => {
   console.log(query.from.id)
   console.log(blockedUsers.includes(query.from.id))
 
-  if (blockedUsers.includes(query.from.id)) {
+  if (blockedUsers.includes(query.from.id.toString())) {
     
     return;
   };
