@@ -195,13 +195,13 @@ function xoGame(query, xoPlaceId, bot) {
     bot.editMessageText(
       `Крестики-нолики
   
-  ${xoPlaceId[id].player1.name}${xoPlaceId[id].player1.step ? xoPlaceId[id].player1.step : ""}
+${xoPlaceId[id].player1.name}${xoPlaceId[id].player1.step ? xoPlaceId[id].player1.step : ""}
   🆚
-  ${xoPlaceId[id].player2.name}${xoPlaceId[id].player2.step ? xoPlaceId[id].player2.step : ""}
+${xoPlaceId[id].player2.name}${xoPlaceId[id].player2.step ? xoPlaceId[id].player2.step : ""}
   
-  ${noWin ? "Ничья 🤝" : `Победитель - ${winner} 🏆`}
+${noWin ? "Ничья 🤝" : `Победитель - ${winner} 🏆`}
   
-  ${place}`,
+${place}`,
         {
           chat_id: query.message.chat.id,
           message_id: query.message.message_id,
