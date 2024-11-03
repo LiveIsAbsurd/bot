@@ -619,6 +619,7 @@ bot.onText(/\/about (.+)/, (msg, match) => {
   };
 
   const text = match[1];
+  console.log(text)
 
   if (text.length = 0) {
     bot.sendMessage(
