@@ -620,11 +620,11 @@ bot.onText(/\/about (.+)/, (msg, match) => {
 
   const text = match[1];
 
-  if (!text) {
+  if (text.length = 0) {
     bot.sendMessage(
       msg.chat.id,
       `${username}, напиши команду и описание в одну строку!
-      
+
 Например: 
 /about я милый маленьй невдуплёныш`
     );
