@@ -13,7 +13,7 @@ const getUserCuefaStats = require("./functions/get-user-cuefa-stats.js");
 const getFullCuefaState = require("./functions/get-full-cuefa-state.js");
 const hiCount = require("./functions/hi-count.js");
 const setChatState = require("./functions/set-chat-state.js");
-const createPaginationButtons = require("./functions/create-pagination-button.js");
+const displayList = require("./functions/displayList.js")
 let currentPage = {};
 const getChatState = require("./functions/get-chat-state.js");
 const timeDuration = require("./functions/time-duration.js")
@@ -182,7 +182,7 @@ bot.onText(/\/chatstate/, msg => {
     displayList(msg, null, message, 5, `
 Статистика с 27.07.23
 Всего сообщений: ${chatState.totalMessage}
-Топ:`, "chatState", chatState)
+Топ:`, "chatState", chatState, bot)
   }));
 });
 
@@ -214,7 +214,7 @@ bot.onText(/\/getcuefastats/, msg => {
 bot.onText(/\/getfullcuefastats/, msg => {
   bot.deleteMessage(msg.chat.id, msg.message_id);
     getFullCuefaState(message => {
-      displayList(msg, null, message, 5, "# | Игры | Победы | Поражения | ВР(без ничьих)", "cuefa");
+      displayList(msg, null, message, 5, "# | Игры | Победы | Поражения | ВР(без ничьих)", "cuefa", undefined, bot);
     });
 });
 
@@ -369,7 +369,7 @@ bot.on("callback_query", (query) => {
     if (currentPage[query.message.message_id]) {
       currentPage[query.message.message_id] -= 1;
       getFullCuefaState(message => {
-        displayList(null, query, message, 5, "# | Игры | Победы | Поражения | ВР(без ничьих)", "cuefa");
+        displayList(null, query, message, 5, "# | Игры | Победы | Поражения | ВР(без ничьих)", "cuefa", undefined, bot);
       })
     } else {
       bot.deleteMessage(query.message.chat.id, query.message.message_id);
@@ -380,7 +380,7 @@ bot.on("callback_query", (query) => {
     if (currentPage[query.message.message_id]) {
       currentPage[query.message.message_id] += 1;
       getFullCuefaState(message => {
-        displayList(null, query, message, 5, "# | Игры | Победы | Поражения | ВР(без ничьих)", "cuefa");
+        displayList(null, query, message, 5, "# | Игры | Победы | Поражения | ВР(без ничьих)", "cuefa", undefined, bot);
       })
     } else {
       bot.deleteMessage(query.message.chat.id, query.message.message_id);
@@ -394,7 +394,7 @@ bot.on("callback_query", (query) => {
       displayList(null, query, message, 5, `
 Статистика с 27.07.23
 Всего сообщений: ${chatState.totalMessage}
-Топ:`, "chatState", chatState)
+Топ:`, "chatState", chatState, bot)
     }));
     } else {
       bot.deleteMessage(query.message.chat.id, query.message.message_id);
@@ -408,7 +408,7 @@ bot.on("callback_query", (query) => {
       displayList(null, query, message, 5, `
 Статистика с 27.07.23
 Всего сообщений: ${chatState.totalMessage}
-Топ:`, "chatState", chatState)
+Топ:`, "chatState", chatState, bot)
     }));
     } else {
       bot.deleteMessage(query.message.chat.id, query.message.message_id);
@@ -427,7 +427,7 @@ bot.on("callback_query", (query) => {
       displayList(null, query, message, 5, `
 Статистика с 27.07.23
 Всего сообщений: ${chatState.totalMessage}
-Топ:`, "chatState", chatState)
+Топ:`, "chatState", chatState, bot)
       setTimeout(() => {
         stateBool = true;
       }, 60000);
@@ -439,7 +439,7 @@ bot.on("callback_query", (query) => {
     if (currentPage[query.message.message_id]) {
       currentPage[query.message.message_id] += 1;
       getAuthority(chatState, (message) => {
-        displayList(null, query, message, 5, 'Топ меморитетов чата:', 'authority');
+        displayList(null, query, message, 5, 'Топ меморитетов чата:', 'authority', undefined, bot);
       });
     } else {
       bot.deleteMessage(query.message.chat.id, query.message.message_id);
@@ -450,7 +450,7 @@ bot.on("callback_query", (query) => {
     if (currentPage[query.message.message_id]) {
       currentPage[query.message.message_id] -= 1;
       getAuthority(chatState, (message) => {
-        displayList(null, query, message, 5, 'Топ меморитетов чата:', 'authority');
+        displayList(null, query, message, 5, 'Топ меморитетов чата:', 'authority', undefined, bot);
       });
     } else {
       bot.deleteMessage(query.message.chat.id, query.message.message_id);
@@ -673,102 +673,6 @@ process.on("SIGINT", async () => {
 })
 
 //__________________________________
-
-function displayList(msg, query, array, usersPerPage, header, cbDop, state = undefined) {
-  
-  let start;
-  if (!msg && query.data == "chatState") {
-    start = 0;
-  } else {
-    start = query ? (currentPage[query.message.message_id] - 1) * usersPerPage : 0;
-  }
-  const end = start + usersPerPage;
-  const page = array.slice(start, end);
-  let message;
-
-  if (cbDop == "cuefa") {
-    message = page.map((el, index) => `${start + index + 1}. ${el.name ? `[${el.name}](https://t.me/${el.name})` : el.name} - ${el.total} | ${el.win} | ${el.lose} | ${isNaN(((el.win / (el.win + el.lose)) * 100).toFixed(2)) ? 0 : ((el.win / (el.win + el.lose)) * 100).toFixed(2)}%`).join('\n');
-  }
-
-  if (cbDop == "chatState") {
-    const totalCount = state.totalMessage;
-    message = page.map((el, index) => {
-      let reward;
-      let stateNum = start + index + 1;
-
-      if (stateNum == 1) {
-        reward = "🥇"
-      } else if (stateNum == 2) {
-        reward = "🥈"
-      } else if (stateNum == 3) {
-        reward = "🥉"
-      }
-
-      let percent = el.count/totalCount*100;
-
-      let text = `${reward ? "" : `${stateNum}.`}${reward ? reward : ""} ${el.userName ? `[${el.userName}](https://t.me/${el.userName})` : el.userFirstName} - ${el.count}/${percent.toFixed(1)}%`;
-      return text;
-    }).join('\n');
-  }
-
-  if (cbDop == 'authority') {
-    message = page.map((el, i) => {
-      let reward;
-      let stateNum = start + i + 1;
-
-      if (stateNum == 1) {
-        reward = "🥇"
-      } else if (stateNum == 2) {
-        reward = "🥈"
-      } else if (stateNum == 3) {
-        reward = "🥉"
-      }
-
-      let text = `${reward ? "" : `${stateNum}.`}${reward ? reward : ""} ${el.userName ? `[${el.userName}](https://t.me/${el.userName})` : el.userFirstName} - ${el.authority}`;
-      return text;
-    }).join('\n');
-  } //new
-
-  let qq;
-  if (!msg && query.data == "chatState") {
-    qq = 1
-  } else {
-    qq = query ? currentPage[query.message.message_id] : 1;
-  }
-
-  let buttons = createPaginationButtons(array, qq, usersPerPage, cbDop);
-
-  let options = {
-      reply_markup: {
-          inline_keyboard: [buttons],
-      },
-      parse_mode: 'Markdown',
-      disable_web_page_preview: true,
-  };
-
-  if (msg || query.data === "chatState") {
-      bot.sendMessage(msg ? msg.chat.id : query.message.chat.id, 
-`
-${header}
-
-${message}
-`, options)
-      .then(msg => {
-          currentPage[msg.message_id] = 1;
-      })
-  } else if (query) {
-      bot.editMessageText(
-`
-${header}
-
-${message}
-`, {
-          chat_id: query.message.chat.id,
-          message_id: query.message.message_id,
-          ...options,
-      })
-  }
-}
 
 //крестики-нолики________________________________________________________
 function xoGame(query) {
@@ -1166,7 +1070,7 @@ const muteUser = (msg) => {
 
 bot.onText(/\/top/, (msg) => {
   getAuthority(chatState, (message) => {
-    displayList(msg, null, message, 5, 'Топ меморитетов (/memo) чата:', 'authority');
+    displayList(msg, null, message, 5, 'Топ меморитетов (/memo) чата:', 'authority', undefined, bot);
   });
 });
 
