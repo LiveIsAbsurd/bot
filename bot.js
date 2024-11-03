@@ -1084,15 +1084,15 @@ bot.onText(/\/state/, async (msg) => {
 // });
 
 bot.onText(/\/info/, async (msg) => {
-  if (blockedUsers.includes(msg.from.id.toString())) {
+  const user = msg.reply_to_message ? msg.reply_to_message.from.id : msg.from.id;
+
+  if (blockedUsers.includes(msg.from.id.toString()) || blockedUsers.includes(user)) {
     return;
   };
 
   if (msg.reply_to_message?.from.is_bot) {
     return;
   }
-
-  const user = msg.reply_to_message ? msg.reply_to_message.from.id : msg.from.id;
 
   const dates = Object.keys(chatState.messageOnDate);
 
