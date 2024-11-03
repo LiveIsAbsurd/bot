@@ -60,6 +60,7 @@ let messageCount = {};
 let authorityTriggers = ['+', 'жиза', 'база', '👍', 'база.', 'жиза.', '5+']; //new
 let usersSendAuthority = {}; //new
 let adminList = [];
+let staticMessage = '';
 
 cron.schedule('0 7 * * *', () => {
   dailyHi();
@@ -73,7 +74,7 @@ cron.schedule('0 7 * * *', () => {
   }
 })
 
-//bot.sendMessage(-1001807749316, 'Кирилл ебанарот удалил все мои сообщения!!!').then(msg => console.log(msg))
+bot.sendMessage(-1001807749316, 'Кирилл ебанарот удалил все мои сообщения!!!').then(msg => console.log(msg))
 
 bot.editMessageText(`
 Сообщений с 27.07.2023
