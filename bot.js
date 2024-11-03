@@ -14,7 +14,6 @@ const getFullCuefaState = require("./functions/get-full-cuefa-state.js");
 const hiCount = require("./functions/hi-count.js");
 const setChatState = require("./functions/set-chat-state.js");
 const displayList = require("./functions/displayList.js")
-let currentPage = {};
 const getChatState = require("./functions/get-chat-state.js");
 const timeDuration = require("./functions/time-duration.js")
 
@@ -61,6 +60,7 @@ let authorityTriggers = ['+', 'жиза', 'база', '👍', 'база.', 'жи
 let usersSendAuthority = {}; //new
 let adminList = [];
 let staticMessage = '392865';
+let currentPage = {};
 
 cron.schedule('0 7 * * *', () => {
   dailyHi();
@@ -182,7 +182,7 @@ bot.onText(/\/chatstate/, msg => {
     displayList(msg, null, message, 5, `
 Статистика с 27.07.23
 Всего сообщений: ${chatState.totalMessage}
-Топ:`, "chatState", chatState, bot)
+Топ:`, "chatState", chatState, bot, currentPage)
   }));
 });
 
@@ -214,7 +214,7 @@ bot.onText(/\/getcuefastats/, msg => {
 bot.onText(/\/getfullcuefastats/, msg => {
   bot.deleteMessage(msg.chat.id, msg.message_id);
     getFullCuefaState(message => {
-      displayList(msg, null, message, 5, "# | Игры | Победы | Поражения | ВР(без ничьих)", "cuefa", undefined, bot);
+      displayList(msg, null, message, 5, "# | Игры | Победы | Поражения | ВР(без ничьих)", "cuefa", undefined, bot, currentPage);
     });
 });
 
@@ -369,7 +369,7 @@ bot.on("callback_query", (query) => {
     if (currentPage[query.message.message_id]) {
       currentPage[query.message.message_id] -= 1;
       getFullCuefaState(message => {
-        displayList(null, query, message, 5, "# | Игры | Победы | Поражения | ВР(без ничьих)", "cuefa", undefined, bot);
+        displayList(null, query, message, 5, "# | Игры | Победы | Поражения | ВР(без ничьих)", "cuefa", undefined, bot, currentPage);
       })
     } else {
       bot.deleteMessage(query.message.chat.id, query.message.message_id);
@@ -380,7 +380,7 @@ bot.on("callback_query", (query) => {
     if (currentPage[query.message.message_id]) {
       currentPage[query.message.message_id] += 1;
       getFullCuefaState(message => {
-        displayList(null, query, message, 5, "# | Игры | Победы | Поражения | ВР(без ничьих)", "cuefa", undefined, bot);
+        displayList(null, query, message, 5, "# | Игры | Победы | Поражения | ВР(без ничьих)", "cuefa", undefined, bot, currentPage);
       })
     } else {
       bot.deleteMessage(query.message.chat.id, query.message.message_id);
@@ -394,7 +394,7 @@ bot.on("callback_query", (query) => {
       displayList(null, query, message, 5, `
 Статистика с 27.07.23
 Всего сообщений: ${chatState.totalMessage}
-Топ:`, "chatState", chatState, bot)
+Топ:`, "chatState", chatState, bot, currentPage)
     }));
     } else {
       bot.deleteMessage(query.message.chat.id, query.message.message_id);
@@ -408,7 +408,7 @@ bot.on("callback_query", (query) => {
       displayList(null, query, message, 5, `
 Статистика с 27.07.23
 Всего сообщений: ${chatState.totalMessage}
-Топ:`, "chatState", chatState, bot)
+Топ:`, "chatState", chatState, bot, currentPage)
     }));
     } else {
       bot.deleteMessage(query.message.chat.id, query.message.message_id);
@@ -427,7 +427,7 @@ bot.on("callback_query", (query) => {
       displayList(null, query, message, 5, `
 Статистика с 27.07.23
 Всего сообщений: ${chatState.totalMessage}
-Топ:`, "chatState", chatState, bot)
+Топ:`, "chatState", chatState, bot, currentPage)
       setTimeout(() => {
         stateBool = true;
       }, 60000);
@@ -439,7 +439,7 @@ bot.on("callback_query", (query) => {
     if (currentPage[query.message.message_id]) {
       currentPage[query.message.message_id] += 1;
       getAuthority(chatState, (message) => {
-        displayList(null, query, message, 5, 'Топ меморитетов чата:', 'authority', undefined, bot);
+        displayList(null, query, message, 5, 'Топ меморитетов чата:', 'authority', undefined, bot, currentPage);
       });
     } else {
       bot.deleteMessage(query.message.chat.id, query.message.message_id);
@@ -450,7 +450,7 @@ bot.on("callback_query", (query) => {
     if (currentPage[query.message.message_id]) {
       currentPage[query.message.message_id] -= 1;
       getAuthority(chatState, (message) => {
-        displayList(null, query, message, 5, 'Топ меморитетов чата:', 'authority', undefined, bot);
+        displayList(null, query, message, 5, 'Топ меморитетов чата:', 'authority', undefined, bot, currentPage);
       });
     } else {
       bot.deleteMessage(query.message.chat.id, query.message.message_id);
@@ -1070,7 +1070,7 @@ const muteUser = (msg) => {
 
 bot.onText(/\/top/, (msg) => {
   getAuthority(chatState, (message) => {
-    displayList(msg, null, message, 5, 'Топ меморитетов (/memo) чата:', 'authority', undefined, bot);
+    displayList(msg, null, message, 5, 'Топ меморитетов (/memo) чата:', 'authority', undefined, bot, currentPage);
   });
 });
 

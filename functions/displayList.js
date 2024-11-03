@@ -1,6 +1,6 @@
 const createPaginationButtons = require("./create-pagination-button.js");
 
-function displayList(msg, query, array, usersPerPage, header, cbDop, state = undefined, bot) {
+function displayList(msg, query, array, usersPerPage, header, cbDop, state = undefined, bot, currentPage) {
   
     let start;
     if (!msg && query.data == "chatState") {
