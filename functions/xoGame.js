@@ -109,7 +109,7 @@ function xoGame(query, xoPlaceId, bot) {
     }
   
     if (xoPlaceId[id].stepCount == 9) {
-      xoGameStop(query, id, true);
+      xoGameStop(query, id, true, undefined, xoPlaceId, bot);
       return;
     }
   
