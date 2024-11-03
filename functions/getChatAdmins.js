@@ -1,4 +1,4 @@
-const getChatAdmins = (adminList) => {
+const getChatAdmins = (token, adminList) => {
     axios
         .get(
           `https://api.telegram.org/bot${token}/getChatAdministrators?chat_id=-1001807749316`

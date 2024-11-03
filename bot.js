@@ -91,7 +91,7 @@ bot.editMessageText(`
   }
 });
 
-getChatAdmins(adminList);
+getChatAdmins(token, adminList);
 
 //крестики-нолики________________________________________________________
 let xoPlace = {
