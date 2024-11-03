@@ -15,7 +15,8 @@ const hiCount = require("./functions/hi-count.js");
 const setChatState = require("./functions/set-chat-state.js");
 const displayList = require("./functions/displayList.js")
 const getChatState = require("./functions/get-chat-state.js");
-const timeDuration = require("./functions/time-duration.js")
+const timeDuration = require("./functions/time-duration.js");
+const getChatAdmins = require("./functions/getChatAdmins.js");
 
 function hiText(username) {
   let text = `
@@ -61,6 +62,8 @@ let usersSendAuthority = {}; //new
 let adminList = [];
 let staticMessage = '392865';
 let currentPage = {};
+const blockedUsers = ['2112222665', '5020803842', '5273397401'];
+//Соит Чай Ебл
 
 cron.schedule('0 7 * * *', () => {
   dailyHi();
@@ -88,22 +91,7 @@ bot.editMessageText(`
   }
 });
 
-const getChatAdmins = () => {
-  axios
-      .get(
-        `https://api.telegram.org/bot${token}/getChatAdministrators?chat_id=-1001807749316`
-      )
-      .then((response) => {
-        response.data.result.forEach((admin) => {
-          if (admin.can_restrict_members || admin.status == "creator") {
-            adminList.push(admin.user.id);
-          }
-        });
-        console.log(adminList);
-      });
-};
-
-getChatAdmins();
+getChatAdmins(adminList);
 
 //крестики-нолики________________________________________________________
 let xoPlace = {
@@ -125,6 +113,10 @@ let xoKeys = {
 }
 
 bot.onText(/\/xo/, msg => {
+  if (blockedUsers.includes(msg.from.id)) {
+    return;
+  };
+
   xoGameStart(msg);
 });
 
@@ -177,6 +169,10 @@ bot.onText(/\/help/, msg => {
 });
 
 bot.onText(/\/chatstate/, msg => {
+  if (blockedUsers.includes(msg.from.id)) {
+    return;
+  };
+
   bot.deleteMessage(msg.chat.id, msg.message_id);
   getChatState(chatState, (message => {
     displayList(msg, null, message, 5, `
@@ -187,6 +183,10 @@ bot.onText(/\/chatstate/, msg => {
 });
 
 bot.onText(/\/cuefa/, (msg) => {
+  if (blockedUsers.includes(msg.from.id)) {
+    return;
+  };
+
   if (msg.chat.id == "-1001807749316") {
     if (msg.from.username) {
       bot.deleteMessage(msg.chat.id, msg.message_id);
@@ -203,6 +203,10 @@ bot.onText(/\/cuefa/, (msg) => {
 });
 
 bot.onText(/\/getcuefastats/, msg => {
+  if (blockedUsers.includes(msg.from.id)) {
+    return;
+  };
+
   bot.deleteMessage(msg.chat.id, msg.message_id);
     if (msg.reply_to_message) {
       getUserCuefaStats(String(msg.reply_to_message.from.id), msg);
@@ -212,6 +216,10 @@ bot.onText(/\/getcuefastats/, msg => {
 });
 
 bot.onText(/\/getfullcuefastats/, msg => {
+  if (blockedUsers.includes(msg.from.id)) {
+    return;
+  };
+
   bot.deleteMessage(msg.chat.id, msg.message_id);
     getFullCuefaState(message => {
       displayList(msg, null, message, 5, "# | Игры | Победы | Поражения | ВР(без ничьих)", "cuefa", undefined, bot, currentPage);
@@ -221,6 +229,7 @@ bot.onText(/\/getfullcuefastats/, msg => {
 bot.on("inline_query", (query) => {
   //console.log(query);
   //console.log(query.query == "/start");
+
   if (query.query == "/start") {
     const result = [
       {
@@ -252,6 +261,11 @@ bot.onText(/\/getKey/, (msg) => {
 });
 
 bot.on("callback_query", (query) => {
+
+  if (blockedUsers.includes(query.from.id)) {
+    return;
+  };
+
   const messageId = query.message.message_id;
 
   if (query.data.includes('unlock')) {
@@ -543,6 +557,10 @@ bot.on("left_chat_member", (msg) => {
 });
 
 bot.onText(/\/start/, (msg) => {
+  if (blockedUsers.includes(msg.from.id)) {
+    return;
+  };
+
   const chatId = msg.chat.id;
 
   bot.sendMessage(
@@ -603,6 +621,10 @@ bot.onText(/\/setAdDescription (.+)/, (msg, match) => {
 });
 
 bot.onText(/\/about (.+)/, (msg, match) => {
+  if (blockedUsers.includes(msg.from.id)) {
+    return;
+  };
+
   const text = match[1];
 
   let username = msg.from.first_name;
@@ -923,6 +945,10 @@ ${place}`,
 //котики---------------------------
 
 bot.onText(/\/cat/, async (msg) => {
+  if (blockedUsers.includes(msg.from.id)) {
+    return;
+  };
+
   getCat(msg);
 })
 
@@ -1069,12 +1095,20 @@ const muteUser = (msg) => {
 // ----------------------Авторитет
 
 bot.onText(/\/top/, (msg) => {
+  if (blockedUsers.includes(msg.from.id)) {
+    return;
+  };
+
   getAuthority(chatState, (message) => {
     displayList(msg, null, message, 5, 'Топ меморитетов (/memo) чата:', 'authority', undefined, bot, currentPage);
   });
 });
 
 bot.onText(/\/memo/, (msg) => {
+  if (blockedUsers.includes(msg.from.id)) {
+    return;
+  };
+
   const message = `
 Меморитет - главная характеристика мемехаусера!
 
@@ -1195,6 +1229,10 @@ ${sortUsers[0][1].userName ? `@${sortUsers[0][1].userName}` : sortUsers[0][1].us
 const chartJsCanvas = new ChartJSNodeCanvas({width: 1000, height: 600});
 
 bot.onText(/\/state/, async (msg) => {
+  if (blockedUsers.includes(msg.from.id)) {
+    return;
+  };
+
   let period = Number(msg.text.replace('/state ', ''));
   if (typeof period != 'number' || isNaN(period)) {
     period = 0;
@@ -1254,6 +1292,10 @@ bot.onText(/\/state/, async (msg) => {
 // });
 
 bot.onText(/\/info/, async (msg) => {
+  if (blockedUsers.includes(msg.from.id)) {
+    return;
+  };
+
   if (msg.reply_to_message?.from.is_bot) {
     return;
   }
@@ -1316,7 +1358,11 @@ ${rewards}`;
 });
 
 bot.onText(/\/reward/, msg => {
-  if (msg.from.id != '261749882') {
+  // if (msg.from.id != '261749882') {
+  //   return;
+  // }
+
+  if (!adminList.includes(msg.from.id) || blockedUsers.includes(msg.from.id)) {
     return;
   }
 
