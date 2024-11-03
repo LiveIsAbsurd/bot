@@ -249,6 +249,8 @@ bot.onText(/\/getKey/, (msg) => {
 bot.on("callback_query", (query) => {
 
   if (blockedUsers.includes(query.from.id)) {
+    console.log(query.from.id)
+    console.log(blockedUsers.includes(query.from.id))
     return;
   };
 
