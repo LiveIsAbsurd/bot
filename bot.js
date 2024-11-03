@@ -64,7 +64,7 @@ let adminList = [];
 let staticMessage = '392865';
 let currentPage = {};
 let xoPlaceId = {};
-const blockedUsers = ['2112222665', '5020803842', '5273397401', '261749882'];
+const blockedUsers = ['2112222665', '5020803842', '5273397401'];
 //Соит Чай Ебл
 
 cron.schedule('0 7 * * *', () => {
@@ -247,9 +247,6 @@ bot.onText(/\/getKey/, (msg) => {
 });
 
 bot.on("callback_query", (query) => {
-  console.log(query.from.id)
-  console.log(blockedUsers.includes(query.from.id))
-
   if (blockedUsers.includes(query.from.id.toString())) {
     
     return;
