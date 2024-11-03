@@ -1,4 +1,20 @@
 //крестики-нолики________________________________________________________
+let xoPlace = {
+    0: "◻️", 1: "◻️", 2: "◻️",
+    3: "◻️", 4: "◻️", 5: "◻️",
+    6: "◻️", 7: "◻️", 8: "◻️",
+  };
+  
+  const winnComb = [[0, 3, 6], [1, 4, 7], [2, 5, 8], [0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 4, 8], [2, 4, 6]];
+  
+  let xoKeys = {
+    inline_keyboard: [
+      [{ text: `${xoPlace[0]}`, callback_data: "xo0" }, { text: `${xoPlace[1]}`, callback_data: "xo1" }, { text: `${xoPlace[2]}`, callback_data: "xo2" }],
+      [{ text: `${xoPlace[3]}`, callback_data: "xo3" }, { text: `${xoPlace[4]}`, callback_data: "xo4" }, { text: `${xoPlace[5]}`, callback_data: "xo5" }],
+      [{ text: `${xoPlace[6]}`, callback_data: "xo6" }, { text: `${xoPlace[7]}`, callback_data: "xo7" }, { text: `${xoPlace[8]}`, callback_data: "xo8" }]
+    ] 
+  }
+
 function xoGame(query, xoPlaceId, bot) {
     let id = query.message.message_id;
   
