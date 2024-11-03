@@ -75,9 +75,9 @@ function displayList(msg, query, array, usersPerPage, header, cbDop, state = und
     if (msg || query.data === "chatState") {
         bot.sendMessage(msg ? msg.chat.id : query.message.chat.id, 
   `
-  ${header}
+${header}
   
-  ${message}
+${message}
   `, options)
         .then(msg => {
             currentPage[msg.message_id] = 1;
@@ -85,9 +85,9 @@ function displayList(msg, query, array, usersPerPage, header, cbDop, state = und
     } else if (query) {
         bot.editMessageText(
   `
-  ${header}
+${header}
   
-  ${message}
+${message}
   `, {
             chat_id: query.message.chat.id,
             message_id: query.message.message_id,
