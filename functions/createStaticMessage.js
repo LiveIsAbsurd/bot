@@ -1,7 +1,7 @@
 const axios = require("axios");
 const fs = require("fs");
 
-const createStaticMessage = async (bot, token, msg, chatState, realDateGlobal) => {
+const createStaticMessage = async (bot, token, msg, chatState, realDateGlobal, staticMessage) => {
     const message = await bot.sendMessage(msg.chat.id, 
 `
 Сообщений с 27.07.2023
@@ -18,6 +18,7 @@ const createStaticMessage = async (bot, token, msg, chatState, realDateGlobal) =
     fs.writeFile("../info.json", JSON.stringify({staticMessageID: messageID}), "UTF-8", (err) => {
         console.log(err);
     });
+    staticMessage = messageID;
 }
 
 module.exports = createStaticMessage;
