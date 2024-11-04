@@ -7,8 +7,12 @@ const createStaticMessage = async (bot, token, msg, chatState, realDateGlobal) =
 Сообщений с 27.07.2023
 
 +${chatState.messageOnDate[realDateGlobal] ?chatState.messageOnDate[realDateGlobal]?.totalMessage : 0} за сутки
-`
-    );
+`, 
+{
+    reply_markup: {
+        inline_keyboard: [[{ text: `${chatState.totalMessage}`, callback_data: "chatState" }]]
+    }
+});
     const messageID = message.message_id;
     axios.get(`https://api.telegram.org/bot${token}/pinChatMessage?chat_id=${msg.chat.id}&message_id=${messageID}&disable_notification=${true}`);
     fs.writeFile("../info.json", JSON.stringify({staticMessageID: messageID}), "UTF-8", (err) => {
