@@ -1086,9 +1086,9 @@ bot.onText(/\/state/, async (msg) => {
 // });
 
 bot.onText(/\/info/, async (msg) => {
-  
+  const user = msg.reply_to_message ? msg.reply_to_message.from.id : msg.from.id;
 
-  if (blockedUsers.includes(msg.from.id.toString()) || blockedUsers.includes(user)) {
+  if (blockedUsers.includes(msg.from.id.toString()) || blockedUsers.includes(user.toString())) {
     return;
   };
 
