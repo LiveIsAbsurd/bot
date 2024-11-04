@@ -17,7 +17,8 @@ const displayList = require("./functions/displayList.js")
 const getChatState = require("./functions/get-chat-state.js");
 const timeDuration = require("./functions/time-duration.js");
 const getChatAdmins = require("./functions/getChatAdmins.js");
-const {xoGame, xoGameStart} = require("./functions/xoGame.js")
+const {xoGame, xoGameStart} = require("./functions/xoGame.js");
+const getInfo = require("./functions/getInfo.js");
 
 function hiText(username) {
   let text = `
@@ -866,6 +867,7 @@ const muteUser = (msg) => {
   if (msg.chat.id != "-1001807749316") {
     return;
   };
+
   if (adminList.includes(msg.from.id)) {
     const user = msg.reply_to_message.from.id;
     const time = msg.text.replace('/mute', '').trim() ? msg.text.replace('/mute', '').trim() : 3600;
@@ -1094,59 +1096,61 @@ bot.onText(/\/info/, async (msg) => {
     return;
   }
 
-  const dates = Object.keys(chatState.messageOnDate);
+  getInfo(chatState, bot, chartJsCanvas);
 
-  const secondMessage = dates.find(el => {
-    return chatState.messageOnDate[el].userMessage[user] ? true : false;
-  })
-  const indexOfSecondMessage = dates.indexOf(secondMessage);
-  dates.splice(0, indexOfSecondMessage);
+//   const dates = Object.keys(chatState.messageOnDate);
 
-  const values = dates.map((date) => {
-    return chatState.messageOnDate[date].userMessage[user] ? chatState.messageOnDate[date].userMessage[user].count : 0;
-  });
+//   const secondMessage = dates.find(el => {
+//     return chatState.messageOnDate[el].userMessage[user] ? true : false;
+//   })
+//   const indexOfSecondMessage = dates.indexOf(secondMessage);
+//   dates.splice(0, indexOfSecondMessage);
 
-  const averangeCount = values.reduce((acc, value) => acc + value, 0) / values.length;
+//   const values = dates.map((date) => {
+//     return chatState.messageOnDate[date].userMessage[user] ? chatState.messageOnDate[date].userMessage[user].count : 0;
+//   });
 
-  const configuration = {
-    type: 'bar',
-    data: {
-        labels: dates,
-        datasets: [{
-            label: `Количество сообщений от ${chatState.userMessage[user].userFirstName} за всё время`,
-            data: values,
-            fill: true,
-            backgroundColor: '#96188a',
-        }]
-    }
-  };
+//   const averangeCount = values.reduce((acc, value) => acc + value, 0) / values.length;
 
-  const image = await chartJsCanvas.renderToBuffer(configuration);
+//   const configuration = {
+//     type: 'bar',
+//     data: {
+//         labels: dates,
+//         datasets: [{
+//             label: `Количество сообщений от ${chatState.userMessage[user].userFirstName} за всё время`,
+//             data: values,
+//             fill: true,
+//             backgroundColor: '#96188a',
+//         }]
+//     }
+//   };
 
-  let desc = `_Пусто_`;
+//   const image = await chartJsCanvas.renderToBuffer(configuration);
 
-  const allDesc = JSON.parse(fs.readFileSync("../adminDescriptions.json", "UTF-8"));
-  allDesc[user] ? desc = allDesc[user] : null;
+//   let desc = `_Пусто_`;
+
+//   const allDesc = JSON.parse(fs.readFileSync("../adminDescriptions.json", "UTF-8"));
+//   allDesc[user] ? desc = allDesc[user] : null;
 
 
-  const rewards = chatState.userMessage[user].rewards
-                  ? chatState.userMessage[user].rewards.map((reward) => `🏆 ${reward.name}, ${timeDuration(reward.date)}`).join('\n')
-                  : 'пусто';
+//   const rewards = chatState.userMessage[user].rewards
+//                   ? chatState.userMessage[user].rewards.map((reward) => `🏆 ${reward.name}, ${timeDuration(reward.date)}`).join('\n')
+//                   : 'пусто';
 
-  const caption = `
-Участник ${chatState.userMessage[user].userName ? `[${chatState.userMessage[user].userFirstName}](https://t.me/${chatState.userMessage[user].userName})` : chatState.userMessage[user].userFirstName}.
+//   const caption = `
+// Участник ${chatState.userMessage[user].userName ? `[${chatState.userMessage[user].userFirstName}](https://t.me/${chatState.userMessage[user].userName})` : chatState.userMessage[user].userFirstName}.
 
-Первое появление ${secondMessage}
-В среднем ${averangeCount.toFixed(0)} сообщений в сутки
-Меморитет: ${chatState.userMessage[user].authority ? chatState.userMessage[user].authority : 0}
+// Первое появление ${secondMessage}
+// В среднем ${averangeCount.toFixed(0)} сообщений в сутки
+// Меморитет: ${chatState.userMessage[user].authority ? chatState.userMessage[user].authority : 0}
 
-📝О себе:
-_${desc}_
+// 📝О себе:
+// _${desc}_
 
-Награды:
-${rewards}`;
+// Награды:
+// ${rewards}`;
 
-  bot.sendPhoto(msg.chat.id, image, {caption, parse_mode: 'Markdown'});
+//   bot.sendPhoto(msg.chat.id, image, {caption, parse_mode: 'Markdown'});
 });
 
 bot.onText(/\/reward/, msg => {
