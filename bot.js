@@ -1086,7 +1086,7 @@ bot.onText(/\/state/, async (msg) => {
 // });
 
 bot.onText(/\/info/, async (msg) => {
-  const user = msg.reply_to_message ? msg.reply_to_message.from.id : msg.from.id;
+  
 
   if (blockedUsers.includes(msg.from.id.toString()) || blockedUsers.includes(user)) {
     return;
@@ -1096,7 +1096,7 @@ bot.onText(/\/info/, async (msg) => {
     return;
   }
 
-  getInfo(chatState, bot, chartJsCanvas);
+  getInfo(msg, chatState, bot, chartJsCanvas);
 
 //   const dates = Object.keys(chatState.messageOnDate);
 
