@@ -15,7 +15,6 @@ const hiCount = require("./functions/hi-count.js");
 const setChatState = require("./functions/set-chat-state.js");
 const displayList = require("./functions/displayList.js")
 const getChatState = require("./functions/get-chat-state.js");
-const timeDuration = require("./functions/time-duration.js");
 const getChatAdmins = require("./functions/getChatAdmins.js");
 const {xoGame, xoGameStart} = require("./functions/xoGame.js");
 const getInfo = require("./functions/getInfo.js");
