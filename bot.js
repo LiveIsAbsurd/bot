@@ -55,7 +55,6 @@ const bot = new TelegramBot(token, { polling: { interval: 1000 } });
 let chatState = JSON.parse(fs.readFileSync("../chatStats.json", "UTF-8"),null, 2);
 let info = JSON.parse(fs.readFileSync("../info.json", "UTF-8"));
 let staticMessage = info.staticMessageID;
-console.log(staticMessage)
 let date = new Date();
 let realDateGlobal = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
 let editState = false;
@@ -104,7 +103,6 @@ bot.onText(/\/createMessage/, async (msg) => {
   }
 
   staticMessage = await createStaticMessage(bot, token, msg, chatState, realDateGlobal);
-  console.log(staticMessage)
 });
 
 //крестики-нолики________________________________________________________
