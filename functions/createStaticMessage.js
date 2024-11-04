@@ -1,7 +1,7 @@
 const axios = require("axios");
 const fs = require("fs");
 
-const createStaticMessage = async (bot, token, msg, chatState, realDateGlobal, staticMessage) => {
+const createStaticMessage = async (bot, token, msg, chatState, realDateGlobal) => {
     const message = await bot.sendMessage(msg.chat.id, 
 `
 Сообщений с 27.07.2023
@@ -19,6 +19,8 @@ const createStaticMessage = async (bot, token, msg, chatState, realDateGlobal, s
         console.log(err);
     });
     staticMessage = messageID;
+    
+    return messageID;
 }
 
 module.exports = createStaticMessage;
