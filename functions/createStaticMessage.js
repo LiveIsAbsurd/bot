@@ -18,7 +18,6 @@ const createStaticMessage = async (bot, token, msg, chatState, realDateGlobal) =
     fs.writeFile("../info.json", JSON.stringify({staticMessageID: messageID}), "UTF-8", (err) => {
         console.log(err);
     });
-    console.log(message)
 }
 
 module.exports = createStaticMessage;
