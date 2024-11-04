@@ -103,7 +103,7 @@ bot.onText(/\/createMessage/, async (msg) => {
       return;
   }
 
-  staticMessage = createStaticMessage(bot, token, msg, chatState, realDateGlobal);
+  staticMessage = await createStaticMessage(bot, token, msg, chatState, realDateGlobal);
   console.log(staticMessage)
 });
 
