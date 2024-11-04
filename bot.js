@@ -53,6 +53,7 @@ function oldHiText(username, countMessage) {
 const bot = new TelegramBot(token, { polling: { interval: 1000 } });
 
 let chatState = JSON.parse(fs.readFileSync("../chatStats.json", "UTF-8"),null, 2);
+let staticMessage = JSON.parse(fs.readFileSync("../info.json", "UTF-8")).staticMessageID;
 let date = new Date();
 let realDateGlobal = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
 let editState = false;
@@ -62,7 +63,6 @@ let messageCount = {};
 let authorityTriggers = ['+', 'жиза', 'база', '👍', 'база.', 'жиза.', '5+']; //new
 let usersSendAuthority = {}; //new
 let adminList = [];
-let staticMessage = '392865';
 let currentPage = {};
 let xoPlaceId = {};
 const blockedUsers = ['2112222665'];
