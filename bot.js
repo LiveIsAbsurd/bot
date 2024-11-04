@@ -1096,7 +1096,7 @@ bot.onText(/\/info/, async (msg) => {
     return;
   }
 
-  getInfo(msg, chatState, bot, chartJsCanvas);
+  getInfo(msg, chatState, bot, chartJsCanvas, fs);
 
 //   const dates = Object.keys(chatState.messageOnDate);
 

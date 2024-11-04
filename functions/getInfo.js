@@ -1,4 +1,4 @@
-const getInfo = async (msg, chatState, bot, chartJsCanvas) => {
+const getInfo = async (msg, chatState, bot, chartJsCanvas, fs) => {
     const user = msg.reply_to_message ? msg.reply_to_message.from.id : msg.from.id;
     const dates = Object.keys(chatState.messageOnDate);
 
