@@ -101,7 +101,7 @@ bot.onText(/\/createMessage/, async (msg) => {
       return;
   }
 
-  createStaticMessage(bot, token, chatState, realDateGlobal);
+  createStaticMessage(bot, token, msg, chatState, realDateGlobal);
 });
 
 //крестики-нолики________________________________________________________
