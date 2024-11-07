@@ -54,6 +54,7 @@ const bot = new TelegramBot(token, { polling: { interval: 1000 } });
 
 let chatState = JSON.parse(fs.readFileSync("../chatStats.json", "UTF-8"),null, 2);
 let info = JSON.parse(fs.readFileSync("../info.json", "UTF-8"));
+let wordsCount = JSON.parse(fs.readFileSync('../wordsCount.json', "UTF-8"),null, 2);
 let staticMessage = info.staticMessageID;
 let date = new Date();
 let realDateGlobal = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
@@ -121,6 +122,7 @@ bot.onText(/\/xo/, msg => {
 bot.on("message", (msg, match) => {
   if (msg.chat.id == "-1001807749316") {
     setChatState(msg, chatState);
+    WordsCounter(msg, wordsCount);
     if (match.type === 'text' || match.type === 'sticker') {
       //rescrictUsers(msg);
       msg.sticker?.emoji == '👍' ? setAuthority(msg, chatState) : null;
@@ -668,6 +670,12 @@ setInterval(() => {
       console.log("Запись");
     });
 
+    fs.writeFile("../wordsCount.json", JSON.stringify(wordsCount, null, 2), "UTF-8", (err) => {
+      if (err) {
+        console.log(err);
+      }
+    });
+
     bot.editMessageText(`
 Сообщений с 27.07.2023
 
@@ -694,6 +702,12 @@ process.on("SIGINT", async () => {
     }
     console.log("Запись");
     process.exit(0);
+  });
+
+  fs.writeFile("../wordsCount.json", JSON.stringify(wordsCount, null, 2), "UTF-8", (err) => {
+    if (err) {
+      console.log(err);
+    }
   });
 })
 
