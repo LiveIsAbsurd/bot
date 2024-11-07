@@ -19,6 +19,7 @@ const getChatAdmins = require("./functions/getChatAdmins.js");
 const {xoGame, xoGameStart} = require("./functions/xoGame.js");
 const getInfo = require("./functions/getInfo.js");
 const createStaticMessage = require("./functions/createStaticMessage.js");
+const wordsCounter = require('./functions/wordsCounter.js');
 
 function hiText(username) {
   let text = `
@@ -122,7 +123,7 @@ bot.onText(/\/xo/, msg => {
 bot.on("message", (msg, match) => {
   if (msg.chat.id == "-1001807749316") {
     setChatState(msg, chatState);
-    WordsCounter(msg, wordsCount);
+    wordsCounter(msg, wordsCount);
     if (match.type === 'text' || match.type === 'sticker') {
       //rescrictUsers(msg);
       msg.sticker?.emoji == '👍' ? setAuthority(msg, chatState) : null;

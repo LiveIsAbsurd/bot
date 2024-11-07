@@ -1,4 +1,4 @@
-const WordsCounter = (msg, wordsCount) => {
+const wordsCounter = (msg, wordsCount) => {
     const userId = msg.from.id;
     const text = msg.text || msg.caption;
     if (!text) {
