@@ -22,3 +22,6 @@ const wordsCounter = (msg, wordsCount) => {
       wordsCount[userId][word] += 1;
     })
   }
+
+  module.exports = wordsCounter;
+  
