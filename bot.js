@@ -68,7 +68,7 @@ let usersSendAuthority = {}; //new
 let adminList = [];
 let currentPage = {};
 let xoPlaceId = {};
-const blockedUsers = ['2112222665'];
+const blockedUsers = [];
 //Соит Чай
 
 cron.schedule('0 7 * * *', () => {

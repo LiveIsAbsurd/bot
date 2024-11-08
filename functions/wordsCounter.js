@@ -1,5 +1,6 @@
 const wordBlackList = [
-  'start', 'help','chatstate','kick','cuefa','xo','getcuefastats','getfullcuefastats','cat','top','memo','state','info','about', 'пока', 'этот' ]
+  'start', 'help','chatstate','kick','cuefa','xo','getcuefastats','getfullcuefastats','cat','top','memo','state','info','about', 'пока', 'этот' 
+];
 
 const wordsCounter = (msg, wordsCount) => {
     const userId = msg.from.id;
