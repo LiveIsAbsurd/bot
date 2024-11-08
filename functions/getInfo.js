@@ -41,15 +41,19 @@ const getInfo = async (msg, chatState, wordsCount, bot, chartJsCanvas, fs) => {
                     ? chatState.userMessage[user].rewards.map((reward) => `🏆 ${reward.name}, ${timeDuration(reward.date)}`).join('\n')
                     : 'пусто';
 
-    const favoriteWords = Object.entries(wordsCount[user])
-    .sort((a, b) => {
-      return b[1] - a[1];
-    })
-    .slice(0, 3)
-    .map((el) => {
-      return el[0];
-    })
-    .join(', ');
+    let favoriteWords = "Пусто"
+
+    if (wordsCount[user]) {
+        favoriteWords = Object.entries(wordsCount[user])
+            .sort((a, b) => {
+            return b[1] - a[1];
+            })
+            .slice(0, 3)
+            .map((el) => {
+            return el[0];
+            })
+            .join(', ');
+    }
 
     const caption = `
 Участник ${chatState.userMessage[user].userName ? `[${chatState.userMessage[user].userFirstName}](https://t.me/${chatState.userMessage[user].userName})` : chatState.userMessage[user].userFirstName}.
