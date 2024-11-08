@@ -7,7 +7,7 @@ const wordsCounter = (msg, wordsCount) => {
     const words = text.replace(/[^\p{L}]/gu, ' ').split(' ')
     
     words.forEach((word) => {
-      if (word.trim().length <= 2) {
+      if (word.trim().length <= 3) {
         return;
       }
   
