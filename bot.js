@@ -1120,7 +1120,7 @@ bot.onText(/\/info/, async (msg) => {
     return;
   }
 
-  getInfo(msg, chatState, bot, chartJsCanvas, fs);
+  getInfo(msg, chatState, wordsCount, bot, chartJsCanvas, fs);
 });
 
 bot.onText(/\/reward/, msg => {
