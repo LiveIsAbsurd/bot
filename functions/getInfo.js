@@ -41,7 +41,7 @@ const getInfo = async (msg, chatState, wordsCount, bot, chartJsCanvas, fs) => {
                     ? chatState.userMessage[user].rewards.map((reward) => `🏆 ${reward.name}, ${timeDuration(reward.date)}`).join('\n')
                     : 'пусто';
 
-    let favoriteWords = "Пусто"
+    let favoriteWords = "Пусто..."
 
     if (wordsCount[user]) {
         favoriteWords = Object.entries(wordsCount[user])
