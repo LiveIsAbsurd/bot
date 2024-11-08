@@ -1,3 +1,5 @@
+const wordBlackList = ['start', 'help','chatstate','kick','cuefa','xo','getcuefastats','getfullcuefastats','cat','top','memo','state','info','about' ]
+
 const wordsCounter = (msg, wordsCount) => {
     const userId = msg.from.id;
     const text = msg.text || msg.caption;
@@ -7,7 +9,7 @@ const wordsCounter = (msg, wordsCount) => {
     const words = text.replace(/[^\p{L}]/gu, ' ').split(' ')
     
     words.forEach((word) => {
-      if (word.trim().length <= 3) {
+      if (word.trim().length <= 3 || wordBlackList.includes(word)) {
         return;
       }
   
