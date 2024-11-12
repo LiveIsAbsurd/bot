@@ -1,6 +1,6 @@
 const wordBlackList = [
   'start', 'help','chatstate','kick','cuefa','xo','getcuefastats','getfullcuefastats','cat','top','memo','state','info','about', 'пока', 'этот', 'меня', 'meme',
-  'house'
+  'house', 'было', 'если'
 ];
 
 const wordsCounter = (msg, wordsCount) => {
