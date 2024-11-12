@@ -42,6 +42,7 @@ const getInfo = async (msg, chatState, wordsCount, bot, chartJsCanvas, fs) => {
                     : 'пусто';
 
     let favoriteWords = "Пусто..."
+    let lexicon = wordsCount[user] ? Object.keys(wordsCount[user]).length : '0';
 
     if (wordsCount[user]) {
         favoriteWords = Object.entries(wordsCount[user])
@@ -64,6 +65,8 @@ const getInfo = async (msg, chatState, wordsCount, bot, chartJsCanvas, fs) => {
 
 📝О себе:
 _${desc}_
+
+Уникальных слов: ${lexicon} 
 
 Любимые слова: ${favoriteWords}
 
