@@ -141,9 +141,9 @@ bot.on("message", (msg, match) => {
 });
 
 bot.onText(/\/mute/, (msg) => {
-  // if (blockedUsers.includes(msg.from.id.toString())) {
-  //   return;
-  // };
+  if (blockedUsers.includes(msg.from.id.toString())) {
+    return;
+  };
 
   muteUser(msg);
 });
