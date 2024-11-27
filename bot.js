@@ -25,8 +25,6 @@ function hiText(username) {
   let text = `
   Добро пожаловать, ${username}! ⚡️
 
-Если не можешь писать - нажи на сердечко в сообщение ниже! 
-
 Данный чат является королевством мемов, метаиронии, абсурда и т.д. по списку...
 Я, главный бот данного чата!
 
@@ -35,8 +33,10 @@ function hiText(username) {
 
 По команде /help узнаешь все мои команды.
 Если есть вопросы, тегни моего создателя
-@meme_house_admin (@LiveIsAbsurd), главного дизайнера
-@yorigami или специалиста по вайбу (wibe) @Krasnaya_Kapusta!
+@LiveIsAbsurd, 
+главного дизайнера @yorigami, 
+художника @TeaBateman 
+или специалиста по вайбу (wibe) @Krasnaya_Kapusta!
 
 Помни, что всё написанное в данном чате является шуткой, как и оскорбления, которые не несут цели кого-либо задеть или оскорбить :)`;
   return text;
@@ -525,7 +525,7 @@ bot.on("new_chat_members", (msg) => {
         inline_keyboard: [
         [{ text: "Привет! \u{1F44b}", callback_data: "hi" }], 
         [{text: "Наш сайт", url: "https://liveisabsurd.github.io/Meme_House/"}],
-        [{text: "Правила и обязанности", url: "https://t.me/meme_house_chat/30544"}]
+        [{text: "Правила (обязательно к прочтению)", url: "https://telegra.ph/Osnovnye-pravila-CHATA-Meme-House-dom-meme-haus-dom-10-04"}]
       ],
       },
     };
