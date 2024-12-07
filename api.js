@@ -51,7 +51,6 @@ app.get("/sendAdminList", (req, res) => {
         .get(
         `https://api.telegram.org/bot${token}/getChatAdministrators?chat_id=-1001807749316`
         )
-        .then((response) => response.json())
         .then((response) => {
             res.setHeader("Access-Control-Allow-Origin", "*");
 
