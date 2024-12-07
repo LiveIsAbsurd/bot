@@ -55,6 +55,7 @@ app.get("/sendAdminList", (req, res) => {
             res.setHeader("Access-Control-Allow-Origin", "*");
 
             const newData = response.data; 
+            console.log(newData.result)
             newData.result = response.data.result.filter(admin => {
                 return admin.can_restrict_members;
             })
