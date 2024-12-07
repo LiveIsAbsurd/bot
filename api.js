@@ -51,11 +51,16 @@ app.get("/sendAdminList", (req, res) => {
         .get(
         `https://api.telegram.org/bot${token}/getChatAdministrators?chat_id=-1001807749316`
         )
+        .then((response) => response.json())
         .then((response) => {
-        res.setHeader("Access-Control-Allow-Origin", "*");
-        res.json(response.data.filter(admin => {
-            return admin.can_restrict_members;
-        }));
+            res.setHeader("Access-Control-Allow-Origin", "*");
+
+            const newData = response.data; 
+            newData.result = response.data.result.filter(admin => {
+                return admin.can_restrict_members;
+            })
+            
+            res.json(newData);
         })
         .catch((err) => console.log(err));
     });
