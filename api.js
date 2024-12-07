@@ -53,8 +53,9 @@ app.get("/sendAdminList", (req, res) => {
         )
         .then((response) => {
         res.setHeader("Access-Control-Allow-Origin", "*");
-        console.log(response.data);
-        res.json(response.data);
+        res.json(response.data.filter(admin => {
+            return admin.can_restrict_members;
+        }));
         })
         .catch((err) => console.log(err));
     });
