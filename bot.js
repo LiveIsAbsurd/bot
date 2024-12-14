@@ -129,6 +129,7 @@ bot.on("message", (msg, match) => {
       msg.sticker?.emoji == '👍' ? setAuthority(msg, chatState) : null;
     }
     if (match.type === 'text') {
+      NewYear(msg);
       fuck(msg);
       authorityTriggers.some(el => msg.text.toLowerCase() === el) ? setAuthority(msg, chatState) : null;
     } //new
@@ -993,18 +994,18 @@ const getAuthority = (state, cb) => {
   cb(filterUserStats);
 };
 
-// const nyTrigger = ['новым годом', 'наступающем', 'рождеством', 'наступившим', 'нового года', 'новом году', 'рождества', 'с праздником', 'новый год']
+const nyTrigger = ['новым годом', 'наступающем', 'рождеством', 'наступившим', 'нового года', 'новом году', 'рождества', 'с праздником', 'новый год']
 
-// const NewYear = (msg) => {
-//   const chatID = msg.chat.id;
-//   const messID = msg.message_id;
-//   const text = msg.text.toLowerCase();
-//   const trigBoolen = nyTrigger.some(el => text.includes(el))
+const NewYear = (msg) => {
+  const chatID = msg.chat.id;
+  const messID = msg.message_id;
+  const text = msg.text.toLowerCase();
+  const trigBoolen = nyTrigger.some(el => text.includes(el))
   
-//   if (trigBoolen) {
-//     axios.get(`https://api.telegram.org/bot${token}/setmessagereaction?chat_id=${chatID}&message_id=${messID}&reaction=[{"type":"emoji", "emoji":"🎄"}]`)
-//   }
-// }
+  if (trigBoolen) {
+    axios.get(`https://api.telegram.org/bot${token}/setmessagereaction?chat_id=${chatID}&message_id=${messID}&reaction=[{"type":"emoji", "emoji":"🎄"}]`)
+  }
+}
 
 const dailyHi = () => {
   axios.get(`https://api.openweathermap.org/data/2.5/weather?lat=56.343703&lon=30.515671&appid=${weatherToken}&units=metric&lang=ru`)
