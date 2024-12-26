@@ -526,7 +526,7 @@ bot.on("new_chat_members", (msg) => {
         inline_keyboard: [
         [{ text: "Привет! \u{1F44b}", callback_data: "hi" }], 
         [{text: "Наш сайт", url: "https://liveisabsurd.github.io/Meme_House/"}],
-        [{text: "Правила (обязательно к прочтению)", url: "https://telegra.ph/Osnovnye-pravila-CHATA-Meme-House-dom-meme-haus-dom-10-04"}]
+        [{text: "Правила (обязательно к прочтению!)", url: "https://telegra.ph/Osnovnye-pravila-CHATA-Meme-House-dom-meme-haus-dom-10-04"}]
       ],
       },
     };
