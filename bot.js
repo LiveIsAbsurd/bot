@@ -132,6 +132,10 @@ bot.on("message", (msg, match) => {
       NewYear(msg);
       fuck(msg);
       authorityTriggers.some(el => msg.text.toLowerCase() === el) ? setAuthority(msg, chatState) : null;
+
+      if (msg.text.toLowerCase() === 'отпуск') {
+        muteUser(msg, true);
+      }
     } //new
     // if (match.type === 'sticker') {
     //   authorityTriggers.some(el => msg.sticker.emoji === el) ? setAuthority(msg, chatState) : null;
@@ -888,13 +892,14 @@ const rescrictUsers = (msg) => {
  }
 }
 
-const muteUser = (msg) => {
+const muteUser = (msg, muteSelf = false) => {
   if (msg.chat.id != "-1001807749316") {
     return;
   };
 
-  if (adminList.includes(msg.from.id)) {
-    const user = msg.reply_to_message.from.id;
+  const user = muteSelf ? msg.from.id : msg.reply_to_message.from.id;
+
+  if (muteSelf || adminList.includes(msg.from.id)) {
     const time = msg.text.replace('/mute', '').trim() ? msg.text.replace('/mute', '').trim() : 3600;
     const untilDate = Math.floor(Date.now() / 1000) + Number(time);
     bot.restrictChatMember(msg.chat.id, user, {
