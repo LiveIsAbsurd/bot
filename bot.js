@@ -893,7 +893,7 @@ const muteUser = (msg) => {
     return;
   };
 
-  const user = msg.reply_to_message.from.id;
+  const user = msg.reply_to_message.from.id ? msg.reply_to_message.from.id : null;
   const time = msg.text.replace('/mute', '').trim() ? msg.text.replace('/mute', '').trim() : 3600;
   const untilDate = Math.floor(Date.now() / 1000) + Number(time);
 
