@@ -893,10 +893,11 @@ const muteUser = (msg) => {
     return;
   };
 
+  const user = msg.reply_to_message.from.id;
+  const time = msg.text.replace('/mute', '').trim() ? msg.text.replace('/mute', '').trim() : 3600;
+  const untilDate = Math.floor(Date.now() / 1000) + Number(time);
+
   if (adminList.includes(msg.from.id)) {
-    const user = msg.reply_to_message.from.id;
-    const time = msg.text.replace('/mute', '').trim() ? msg.text.replace('/mute', '').trim() : 3600;
-    const untilDate = Math.floor(Date.now() / 1000) + Number(time);
     bot.restrictChatMember(msg.chat.id, user, {
       until_date: untilDate,
       can_send_messages: false,
