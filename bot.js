@@ -121,7 +121,7 @@ bot.onText(/\/xo/, msg => {
 //крестики-нолики________________________________________________________
 
 bot.on("message", (msg, match) => {
-  if (msg.chat.id == "-1001807749316") {
+  if (msg.chat.id == "-1001807749316" && msg.from.id != "7770648727") {
     setChatState(msg, chatState);
     wordsCounter(msg, wordsCount);
     if (match.type === 'text' || match.type === 'sticker') {
