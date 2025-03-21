@@ -6,9 +6,15 @@ const wordBlackList = [
 const wordsCounter = (msg, wordsCount) => {
     const userId = msg.from.id;
     const text = msg.text || msg.caption;
+    
     if (!text) {
-        return;
-      }
+      return;
+    }
+
+    if (text[0] == '/') {
+      return;
+    }
+
     const words = text.replace(/[^\p{L}]/gu, ' ').split(' ')
     
     words.forEach((word) => {
