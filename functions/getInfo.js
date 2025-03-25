@@ -57,7 +57,7 @@ const getInfo = async (msg, chatState, wordsCount, bot, chartJsCanvas, fs) => {
     }
 
     const caption = `
-Участник ${chatState.userMessage[user].userName ? `[${chatState.userMessage[user].userFirstName}](https://t.me/${chatState.userMessage[user].userName})` : chatState.userMessage[user].userFirstName}.
+Участник ${chatState.userMessage[user].userName ? `[${chatState.userMessage[user].userFirstName.replace(/[_*[\]()~`>#+\-=|{}.!]/g, '\\$&')}](https://t.me/${chatState.userMessage[user].userName})` : chatState.userMessage[user].userFirstName.replace(/[_*[\]()~`>#+\-=|{}.!]/g, '\\$&')}.
 
 Первое появление ${secondMessage}
 В среднем ${averangeCount.toFixed(0)} сообщений в сутки
@@ -73,8 +73,7 @@ _${desc}_
 Награды:
 ${rewards}`;
 
-    // bot.sendPhoto(msg.chat.id, image, {caption, parse_mode: 'Markdown'});
-    bot.sendPhoto(msg.chat.id, image, {caption});
+    bot.sendPhoto(msg.chat.id, image, {caption, parse_mode: 'Markdown'});
 };
 
 module.exports = getInfo;
