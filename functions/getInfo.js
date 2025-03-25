@@ -58,7 +58,7 @@ const getInfo = async (msg, chatState, wordsCount, bot, chartJsCanvas, fs) => {
 
     const caption = `
 Участник 
-${chatState.userMessage[user].userName ? `${chatState.userMessage[user].userFirstName}` : chatState.userMessage[user].userFirstName}.
+${chatState.userMessage[user].userFirstName}.
 
 Первое появление ${secondMessage}
 В среднем ${averangeCount.toFixed(0)} сообщений в сутки
