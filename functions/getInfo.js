@@ -74,7 +74,7 @@ _${desc}_
 ${rewards}`;
 
     // bot.sendPhoto(msg.chat.id, image, {caption, parse_mode: 'Markdown'});
-    bot.sendPhoto(msg.chat.id, image);
+    bot.sendPhoto(msg.chat.id, image, {caption});
 };
 
 module.exports = getInfo;
