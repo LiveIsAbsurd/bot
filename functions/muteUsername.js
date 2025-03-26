@@ -16,9 +16,9 @@ const muteUsername = (msg, bot, chatState, adminList) => {
         Object.entries(chatState.userMessage).map(([id, user]) => [user.userName, id])
     );
 
-    const usersID = usernames.map((el) => {
-        return state[el];
-    });
+    const usersID = usernames
+        .map(el => state[el.toLowerCase()])
+        .filter(id => id && !isNaN(id)); 
 
     console.log(usersID.length);
 
