@@ -20,8 +20,6 @@ const muteUsername = (msg, bot, chatState, adminList) => {
         .map(el => state[el.toLowerCase()])
         .filter(id => id && !isNaN(id)); 
 
-    console.log(usersID.length);
-
     if (adminList.includes(msg.from.id)) {
         usersID.forEach((user) => {
             bot.restrictChatMember(msg.chat.id, user, {
