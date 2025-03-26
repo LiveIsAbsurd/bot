@@ -22,7 +22,7 @@ const muteUsername = (msg, bot, chatState, adminList) => {
 
     if (adminList.includes(msg.from.id)) {
         usersID.forEach((user) => {
-            bot.restrictChatMember(msg.chat.id, user, {
+            bot.restrictChatMember(msg.chat.id, Number(user), {
                 until_date: untilDate,
                 can_send_messages: false,
                 can_send_media_messages: false,
