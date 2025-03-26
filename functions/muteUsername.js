@@ -20,7 +20,7 @@ const muteUsername = (msg, bot, chatState, adminList) => {
         return state[el];
     });
 
-    console.log(usersID);
+    console.log(usersID.length);
 
     if (adminList.includes(msg.from.id)) {
         usersID.forEach((user) => {
