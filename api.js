@@ -118,6 +118,7 @@ app.get("/iswork", (req, res) => {
 app.get("/searchVendor/:mac", (req, res) => {
     axios.get(`https://api.maclookup.app/v2/macs/${req.params.mac}`)
         .then(response => {
+            console.log(response);
             res.setHeader("Access-Control-Allow-Origin", "*");
             res.json(response.company);
         })
