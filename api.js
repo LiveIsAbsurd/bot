@@ -121,6 +121,6 @@ app.get("/searchVendor/:mac", (req, res) => {
             console.log(response);
             res.header("Access-Control-Allow-Origin", "*");
             res.header("Access-Control-Allow-Methods", "GET");
-            res.json(response.data);
+            res.json(response.data.company);
         })
 })
