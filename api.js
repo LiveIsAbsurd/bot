@@ -120,6 +120,6 @@ app.get("/searchVendor/:mac", (req, res) => {
         .then(response => {
             console.log(response);
             res.setHeader("Access-Control-Allow-Origin", "*");
-            res.json(response.company);
+            res.json(response);
         })
 })
