@@ -118,7 +118,6 @@ app.get("/iswork", (req, res) => {
 app.get("/searchVendor/:mac", (req, res) => {
     axios.get(`https://api.maclookup.app/v2/macs/${req.params.mac}`)
         .then(response => {
-            console.log(response.data);
             res.header("Access-Control-Allow-Origin", "*");
             res.header("Access-Control-Allow-Methods", "GET");
             res.json(response.data.company == "" ? "Не известно" : response.data.company);
