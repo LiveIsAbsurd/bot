@@ -126,8 +126,8 @@ bot.on("message", (msg, match) => {
   if (msg.chat.id == "-1001807749316" && msg.from.id != "7770648727") {
     setChatState(msg, chatState);
     wordsCounter(msg, wordsCount);
-    blockBot(msg, chatState, bot);
-    
+    // blockBot(msg, chatState, bot);
+
     if (match.type === 'text' || match.type === 'sticker') {
       //rescrictUsers(msg);
       msg.sticker?.emoji == '👍' ? setAuthority(msg, chatState) : null;
