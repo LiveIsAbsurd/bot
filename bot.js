@@ -22,6 +22,7 @@ const createStaticMessage = require("./functions/createStaticMessage.js");
 const wordsCounter = require('./functions/wordsCounter.js');
 const muteUser = require('./functions/muteUser.js');
 const muteUsername = require('./functions/muteUsername.js');
+const blockBot = require('./functions/blockBot.js');
 
 function hiText(username) {
   let text = `
@@ -125,6 +126,8 @@ bot.on("message", (msg, match) => {
   if (msg.chat.id == "-1001807749316" && msg.from.id != "7770648727") {
     setChatState(msg, chatState);
     wordsCounter(msg, wordsCount);
+    // blockBot(msg, chatState, bot);
+
     if (match.type === 'text' || match.type === 'sticker') {
       //rescrictUsers(msg);
       msg.sticker?.emoji == '👍' ? setAuthority(msg, chatState) : null;
@@ -531,7 +534,7 @@ bot.on("new_chat_members", (msg) => {
         inline_keyboard: [
         [{ text: "Привет! \u{1F44b}", callback_data: "hi" }], 
         [{text: "Наш сайт", url: "https://liveisabsurd.github.io/Meme_House/"}],
-        [{text: "Правила (обязательно к прочтению!)", url: "https://telegra.ph/Osnovnye-pravila-CHATA-Meme-House-dom-meme-haus-dom-10-04"}]
+        [{text: "Правила (обязательно к прочтению!)", url: "https://telegra.ph/Osnovnye-pravila-CHATA-Meme-House-dom-meme-haus-dom-08-07"}]
       ],
       },
     };
