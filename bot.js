@@ -72,17 +72,17 @@ let xoPlaceId = {};
 const blockedUsers = [];
 //Соит Чай
 
-cron.schedule('0 7 * * *', () => {
-  dailyHi();
+// cron.schedule('0 7 * * *', () => {
+//   dailyHi();
 
-  for (user in messageCount) {
-    if (messageCount[user].level == 0) {
-      return;
-    } else {
-      messageCount[user].level -= 1;
-    }
-  }
-})
+//   for (user in messageCount) {
+//     if (messageCount[user].level == 0) {
+//       return;
+//     } else {
+//       messageCount[user].level -= 1;
+//     }
+//   }
+// })
 
 // bot.sendMessage(-1001807749316, 'Кирилл ебанарот удалил все мои сообщения!!!').then(msg => console.log(msg))
 
