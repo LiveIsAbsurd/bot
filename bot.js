@@ -22,7 +22,6 @@ const createStaticMessage = require("./functions/createStaticMessage.js");
 const wordsCounter = require('./functions/wordsCounter.js');
 const muteUser = require('./functions/muteUser.js');
 const muteUsername = require('./functions/muteUsername.js');
-const blockBot = require('./functions/blockBot.js');
 
 function hiText(username) {
   let text = `
