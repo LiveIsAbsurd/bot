@@ -90,14 +90,14 @@ const blockedUsers = [];
 //   }
 // })
 
-// bot.sendMessage(-1002691894090, 'Кирилл ебанарот удалил все мои сообщения!!!').then(msg => console.log(msg))
+// bot.sendMessage(-5355289925, 'Кирилл ебанарот удалил все мои сообщения!!!').then(msg => console.log(msg))
 
 // bot.editMessageText(`
 // Сообщений с 27.07.2023
 
 // +${chatState.messageOnDate[realDateGlobal] ?chatState.messageOnDate[realDateGlobal]?.totalMessage : 0} за сутки
 // `, {
-//   chat_id: "-1002691894090",
+//   chat_id: "-5355289925",
 //   message_id: staticMessage,
 //   reply_markup: {
 //     inline_keyboard: [[{ text: `${chatState.totalMessage}`, callback_data: "chatState" }]]
@@ -132,7 +132,8 @@ bot.onText(/\/xo/, msg => {
 //крестики-нолики________________________________________________________
 
 bot.on("message", (msg, match) => {
-  if (msg.chat.id == "-1002691894090" && msg.from.id != "7770648727") {
+  console.log(msg);
+  if (msg.chat.id == "-5355289925" && msg.from.id != "7770648727") {
     setChatState(bot, msg, chatState);
     wordsCounter(msg, wordsCount);
     // blockBot(msg, chatState, bot);
@@ -208,7 +209,7 @@ bot.onText(/\/cuefa/, (msg) => {
     return;
   };
 
-  if (msg.chat.id == "-1002691894090") {
+  if (msg.chat.id == "-5355289925") {
     if (msg.from.username) {
       bot.deleteMessage(msg.chat.id, msg.message_id);
       cuefaGame(bot, msg, null, false, true);
@@ -371,7 +372,7 @@ bot.on("callback_query", (query) => {
   if (query.data == "rock" || query.data == "nosh" || query.data == "paper") {
     //console.log(query);
     if (query.from.username) {
-      if (query.message.chat.id == "-1002691894090") {
+      if (query.message.chat.id == "-5355289925") {
         cuefaGame(null, query, false, true);
       } else {
         cuefaGame(null, query, false);
@@ -499,7 +500,7 @@ bot.onText(/\/kick/, (msg) => {
   const chatId = msg.chat.id;
   const userId = msg.reply_to_message.from.id;
 
-  if (chatId == "-1002691894090") {
+  if (chatId == "-5355289925") {
       if (adminList.includes(msg.from.id)) {
         axios
           .get(
@@ -533,7 +534,7 @@ bot.on("new_chat_members", (msg) => {
     can_send_message: false
   };
 
-  if (chatId == "-1002691894090") {
+  if (chatId == "-5355289925") {
     let userList = Object.keys(chatState.userMessage);
     console.log(userList.includes(String(userId)));
     
@@ -570,7 +571,7 @@ bot.on("left_chat_member", (msg) => {
   const userName = msg.left_chat_member.username;
   const chatId = msg.chat.id;
 
-  if (chatId == "-1002691894090") {
+  if (chatId == "-5355289925") {
     bot.sendMessage(
       chatId,
       `Пользователь @${userName} покинул нас.
@@ -608,7 +609,7 @@ bot.onText(/\/setAdDescription (.+)/, (msg, match) => {
   if (msg.from.username == "LiveIsAbsurd") {
     axios
       .get(
-        `https://api.telegram.org/bot${token}/getChatAdministrators?chat_id=-1002691894090`
+        `https://api.telegram.org/bot${token}/getChatAdministrators?chat_id=-5355289925`
       )
       .then((response) => {
         let UsernameToId = {};
@@ -704,7 +705,7 @@ setInterval(() => {
 
 // +${chatState.messageOnDate[realDateGlobal] ?chatState.messageOnDate[realDateGlobal]?.totalMessage : 0} за сутки
 // `, {
-//       chat_id: "-1002691894090",
+//       chat_id: "-5355289925",
 //       message_id: staticMessage,
 //       reply_markup: {
 //         inline_keyboard: [[{ text: `${chatState.totalMessage}`, callback_data: "chatState" }]]
@@ -715,7 +716,7 @@ setInterval(() => {
 
 process.on("SIGINT", async () => {
   // await bot.editMessageText(`Бот временно отключён`, {
-  //   chat_id: "-1002691894090",
+  //   chat_id: "-5355289925",
   //   message_id: staticMessage
   // });
 
@@ -756,7 +757,7 @@ bot.onText(/\/send (.+)/, (msg, match) => {
 //         let text = data.data.articles.map((el, i) => {
 //           return `${i + 1}. ${el.title} /news_${i + 1} \n`
 //         }).join("\n");
-//         bot.sendMessage("-1002691894090", `
+//         bot.sendMessage("-5355289925", `
 //     Всем доброго утра и хорошего настроения!
 
 // Главные новости на сегодня:
@@ -1036,7 +1037,7 @@ ${sortUsers[0][1].userName ? `@${sortUsers[0][1].userName}` : sortUsers[0][1].us
 (${sortUsers[0][1].count} сообщений),
 его меморитет увеличен на 1.`;
       
-      bot.sendMessage("-1002691894090", message, {reply_markup: {inline_keyboard: [[{  text: "Поддержать чат", url: "https://boosty.to/meme_house"  }]]}});
+      bot.sendMessage("-5355289925", message, {reply_markup: {inline_keyboard: [[{  text: "Поддержать чат", url: "https://boosty.to/meme_house"  }]]}});
   })
   .catch(error => {
       console.error(error);
@@ -1179,7 +1180,7 @@ const fuck = (msg) => {
 }
 
 // bot.onText(/\/fuck/, msg => {
-//   if (msg.chat.id == "-1002691894090") {
+//   if (msg.chat.id == "-5355289925") {
 //     const random = Math.floor(Math.random() * 1000000000000);
 //     axios.get(`https://evilinsult.com/generate_insult.php?lang=ru&type=json&_=${random}`)
 //     .then(response => {
