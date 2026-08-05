@@ -904,86 +904,86 @@ const rescrictUsers = (msg) => {
 
 // ----------------------Авторитет
 
-bot.onText(/\/top/, (msg) => {
-  if (blockedUsers.includes(msg.from.id.toString())) {
-    return;
-  };
+// bot.onText(/\/top/, (msg) => {
+//   if (blockedUsers.includes(msg.from.id.toString())) {
+//     return;
+//   };
 
-  getAuthority(chatState, (message) => {
-    displayList(msg, null, message, 5, 'Топ меморитетов (/memo) чата:', 'authority', undefined, bot, currentPage);
-  });
-});
+//   getAuthority(chatState, (message) => {
+//     displayList(msg, null, message, 5, 'Топ меморитетов (/memo) чата:', 'authority', undefined, bot, currentPage);
+//   });
+// });
 
-bot.onText(/\/memo/, (msg) => {
-  if (blockedUsers.includes(msg.from.id.toString())) {
-    return;
-  };
+// bot.onText(/\/memo/, (msg) => {
+//   if (blockedUsers.includes(msg.from.id.toString())) {
+//     return;
+//   };
 
-  const message = `
-Меморитет - главная характеристика мемехаусера!
+//   const message = `
+// Меморитет - главная характеристика мемехаусера!
 
-Меморитет определяет "крутость" участника чата, получить его можно проявляя активность в чате и путём получения одобрений от других мемехаусеров ответом на его сообщения триггерами '+', 'база', 'жиза' и '👍'.
+// Меморитет определяет "крутость" участника чата, получить его можно проявляя активность в чате и путём получения одобрений от других мемехаусеров ответом на его сообщения триггерами '+', 'база', 'жиза' и '👍'.
 
-Только самые активные и пост/мета ироничные участники занимают верхние места в топе меморитета
-/top`;
+// Только самые активные и пост/мета ироничные участники занимают верхние места в топе меморитета
+// /top`;
 
-bot.sendMessage(msg.chat.id, message);
-});
+// bot.sendMessage(msg.chat.id, message);
+// });
 
-const setAuthority = (msg, state) => {
-  const noReplay = !msg.reply_to_message;
-  const isBot = msg.reply_to_message?.from.is_bot;
-  const authMyself = msg.from.id === msg.reply_to_message?.from.id;
+// const setAuthority = (msg, state) => {
+//   const noReplay = !msg.reply_to_message;
+//   const isBot = msg.reply_to_message?.from.is_bot;
+//   const authMyself = msg.from.id === msg.reply_to_message?.from.id;
 
-  let alreadySend = false;
+//   let alreadySend = false;
 
-  if (noReplay || isBot || authMyself) {
-    return;
-  }
+//   if (noReplay || isBot || authMyself) {
+//     return;
+//   }
 
-  if (!state.userMessage[msg.reply_to_message.from.id]) {
-    return;
-  }
-  //console.log(msg);
+//   if (!state.userMessage[msg.reply_to_message.from.id]) {
+//     return;
+//   }
+//   //console.log(msg);
 
-  if (!usersSendAuthority[msg.from.id]) {
-    usersSendAuthority[msg.from.id] = [msg.reply_to_message.message_id];
-  } else {
-    usersSendAuthority[msg.from.id].includes(msg.reply_to_message.message_id)
-      ? alreadySend = true
-      : usersSendAuthority[msg.from.id].push(msg.reply_to_message.message_id);
-  }
+//   if (!usersSendAuthority[msg.from.id]) {
+//     usersSendAuthority[msg.from.id] = [msg.reply_to_message.message_id];
+//   } else {
+//     usersSendAuthority[msg.from.id].includes(msg.reply_to_message.message_id)
+//       ? alreadySend = true
+//       : usersSendAuthority[msg.from.id].push(msg.reply_to_message.message_id);
+//   }
 
-  if (alreadySend) {
-    bot.sendMessage(msg.chat.id, 'Ты уже плюсовал это сообщение', {reply_to_message_id: msg.message_id});
-    return;
-  }
+//   if (alreadySend) {
+//     bot.sendMessage(msg.chat.id, 'Ты уже плюсовал это сообщение', {reply_to_message_id: msg.message_id});
+//     return;
+//   }
 
-  !state.userMessage[msg.reply_to_message.from.id].authority 
-    ? state.userMessage[msg.reply_to_message.from.id].authority = 1
-    : state.userMessage[msg.reply_to_message.from.id].authority += 1
+//   !state.userMessage[msg.reply_to_message.from.id].authority 
+//     ? state.userMessage[msg.reply_to_message.from.id].authority = 1
+//     : state.userMessage[msg.reply_to_message.from.id].authority += 1
 
-  const chatID = msg.chat.id;
-  const messID = msg.reply_to_message.message_id;
-  axios.get(`https://api.telegram.org/bot${token}/setmessagereaction?chat_id=${chatID}&message_id=${messID}&reaction=[{"type":"emoji", "emoji":"👍"}]`)
-    .then((res) => {
-        bot.sendMessage(msg.chat.id, `Меморитет ${state.userMessage[msg.reply_to_message.from.id].userFirstName} ${state.userMessage[msg.reply_to_message.from.id].authority} (+1) `, {reply_to_message_id: msg.message_id});
-    });
-};
+//   const chatID = msg.chat.id;
+//   const messID = msg.reply_to_message.message_id;
+//   axios.get(`https://api.telegram.org/bot${token}/setmessagereaction?chat_id=${chatID}&message_id=${messID}&reaction=[{"type":"emoji", "emoji":"👍"}]`)
+//     .then((res) => {
+//         bot.sendMessage(msg.chat.id, `Меморитет ${state.userMessage[msg.reply_to_message.from.id].userFirstName} ${state.userMessage[msg.reply_to_message.from.id].authority} (+1) `, {reply_to_message_id: msg.message_id});
+//     });
+// };
 
-const getAuthority = (state, cb) => {
-  let userStats = Object.values(state.userMessage);
+// const getAuthority = (state, cb) => {
+//   let userStats = Object.values(state.userMessage);
 
-  let filterUserStats = userStats.filter(el => {
-    return Boolean(el.authority);
-  });
+//   let filterUserStats = userStats.filter(el => {
+//     return Boolean(el.authority);
+//   });
   
-  filterUserStats.sort((a, b) => {
-    return b.authority - a.authority;
-  });
+//   filterUserStats.sort((a, b) => {
+//     return b.authority - a.authority;
+//   });
   
-  cb(filterUserStats);
-};
+//   cb(filterUserStats);
+// };
 
 const nyTrigger = ['новым годом', 'наступающим', 'рождеством', 'наступившим', 'нового года', 'новом году', 'рождества', 'с праздником', 'новый год']
 

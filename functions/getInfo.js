@@ -62,7 +62,7 @@ ${chatState.userMessage[user].userFirstName}.
 
 Первое появление ${secondMessage}
 В среднем ${averangeCount.toFixed(0)} сообщений в сутки
-Меморитет: ${chatState.userMessage[user].authority ? chatState.userMessage[user].authority : 0}
+
 
 📝О себе:
 _${desc}_
@@ -76,5 +76,5 @@ ${rewards}`;
 
     bot.sendPhoto(msg.chat.id, image, {caption});
 };
-
+// Меморитет: ${chatState.userMessage[user].authority ? chatState.userMessage[user].authority : 0}
 export default getInfo;
