@@ -9,6 +9,9 @@ function setChatState(bot, msg, state) {
     let userFirstName = msg.from.first_name;
     let date = new Date();
     let realDate = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+
+    state.messageOnDate = {};
+    state.userMessage = {};
   
     state.totalMessage += 1;
 
