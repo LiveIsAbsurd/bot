@@ -2,7 +2,7 @@ const token = require("../../token.js");
 
 const fs = require("fs");
 const TelegramBot = require("node-telegram-bot-api");
-const bot = new TelegramBot(token);
+const bot = new TelegramBot(token, {polling: 1000});
 
 function hiCount(query, options, collection, userId = undefined) {
     const messageId = query.message.message_id;

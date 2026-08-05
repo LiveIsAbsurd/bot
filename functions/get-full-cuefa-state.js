@@ -2,7 +2,7 @@ const token = require("../../token.js");
 
 const fs = require("fs");
 const TelegramBot = require("node-telegram-bot-api");
-const bot = new TelegramBot(token);
+const bot = new TelegramBot(token, {polling: 1000});
 
 function getFullCuefaState(cb) {
     fs.readFile("../cuefaStats.json", "UTF-8", (err, data) => {
