@@ -20,10 +20,11 @@ const cuefaKeyboard = {
     ],
 };
 
-function setCuefaStats(winer, winerName, loser, loserName, noWin = false, getCuefaStats) {
+function setCuefaStats(winer, winerName, loser, loserName, noWin = false, callback) {
     fs.readFile("../cuefaStats.json", "UTF-8", (err, data) => {
         if (err) {
             console.error('Ошибка чтения stats:', err);
+            if (callback) callback();
             return;
         }
         
@@ -117,78 +118,381 @@ function setCuefaStats(winer, winerName, loser, loserName, noWin = false, getCue
             if (err) {
                 console.log(err);
             }
-            if (getCuefaStats) {
-                getCuefaStats();
+            if (callback) {
+                callback();
             }
         });
     });
 }
 
 function cuefaGame(bot, msg = null, query = null, replay = false, isMeme = false) {
-    // Проверка: если это callback-запрос (игра уже начата)
+    // ========== ОБРАБОТКА CALLBACK-ЗАПРОСА (ход игрока) ==========
     if (query && !replay) {
-        // ... обработай callback запрос
-        // (этот код нужно перенести из условия if (msg || replay))
-    }
-    
-    // Если это новое сообщение или реплей
-    if (msg || replay) {
-        const player1 = {};
-        const player1Name = replay ? query.from.username : msg.from.username;
+        const messageId = query.message.message_id;
         
-        if (!player1Name) {
-            bot.sendMessage(msg?.chat?.id || query?.message?.chat?.id, "У тебя нет username!");
+        // Проверка: существует ли игра
+        if (!cuefaColl[messageId]) {
+            bot.editMessageText(
+                "Время вышло или игра уже завершена!",
+                {
+                    chat_id: query.message.chat.id,
+                    message_id: messageId
+                }
+            ).catch(() => {});
             return;
         }
+
+        // Проверка: завершена ли игра
+        if (cuefaColl[messageId].finished) {
+            bot.answerCallbackQuery(query.id, {
+                text: "Игра уже завершена!",
+            });
+            return;
+        }
+
+        const player1Name = cuefaPlayers[messageId][0];
+        const player2Name = cuefaPlayers[messageId][1];
+        const player2DisplayName = player2Name != "undefined" ? `@${player2Name}` : "(Ожидание игрока...)";
+
+        // Если это первый игрок
+        if (player1Name == query.from.username) {
+            if (!cuefaColl[messageId].steps.player1Step) {
+                // Сохраняем ход первого игрока
+                cuefaColl[messageId].player1[query.from.username].select = cuefaToEmoji[query.data];
+                cuefaColl[messageId].steps.player1Step = true;
+                cuefaPlayer1Id[messageId] = query.from.id;
+
+                // Если второй игрок еще не ходил - обновляем сообщение
+                if (!cuefaColl[messageId].steps.player2Step) {
+                    bot.editMessageText(
+                        `Камень, ножницы, бумага
+@${player1Name} 👍 
+🆚
+${player2DisplayName}`,
+                        {
+                            chat_id: query.message.chat.id,
+                            message_id: messageId,
+                            reply_markup: cuefaKeyboard,
+                        }
+                    ).catch(() => {});
+                }
+            } else {
+                bot.answerCallbackQuery(query.id, {
+                    text: "Ты уже сделал ход, жди ход соперника!",
+                });
+                return;
+            }
+        }
+        // Если второй игрок еще не определен (ожидание)
+        else if (player2Name == "undefined") {
+            // Добавляем второго игрока
+            const newPlayer = {};
+            newPlayer[query.from.username] = { select: cuefaToEmoji[query.data] };
+            cuefaColl[messageId].player2 = newPlayer;
+            cuefaColl[messageId].steps.player2Step = true;
+            cuefaPlayers[messageId][1] = query.from.username;
+            cuefaPlayer2Id[messageId] = query.from.id;
+
+            // Если первый игрок еще не ходил - обновляем сообщение
+            if (!cuefaColl[messageId].steps.player1Step) {
+                bot.editMessageText(
+                    `Камень, ножницы, бумага
+@${player1Name} 
+🆚
+@${query.from.username} 👍`,
+                    {
+                        chat_id: query.message.chat.id,
+                        message_id: messageId,
+                        reply_markup: cuefaKeyboard,
+                    }
+                ).catch(() => {});
+            }
+        }
+        // Если это второй игрок
+        else if (player2Name == query.from.username) {
+            if (!cuefaColl[messageId].steps.player2Step) {
+                // Сохраняем ход второго игрока
+                cuefaColl[messageId].player2[query.from.username].select = cuefaToEmoji[query.data];
+                cuefaColl[messageId].steps.player2Step = true;
+                cuefaPlayer2Id[messageId] = query.from.id;
+
+                // Если первый игрок еще не ходил - обновляем сообщение
+                if (!cuefaColl[messageId].steps.player1Step) {
+                    bot.editMessageText(
+                        `Камень, ножницы, бумага
+@${player1Name} 
+🆚
+${player2DisplayName} 👍`,
+                        {
+                            chat_id: query.message.chat.id,
+                            message_id: messageId,
+                            reply_markup: cuefaKeyboard,
+                        }
+                    ).catch(() => {});
+                }
+            } else {
+                bot.answerCallbackQuery(query.id, {
+                    text: "Ты уже сделал ход, жди ход соперника!",
+                });
+                return;
+            }
+        } else {
+            bot.answerCallbackQuery(query.id, {
+                text: "Эта сессия не для тебя :( Создай новую!",
+            });
+            return;
+        }
+
+        // ========== ПРОВЕРКА: ОБА ИГРОКА СДЕЛАЛИ ХОД ==========
+        if (cuefaColl[messageId].steps.player1Step && cuefaColl[messageId].steps.player2Step) {
+            const step1 = cuefaColl[messageId].player1[player1Name].select;
+            const step2 = cuefaColl[messageId].player2[player2Name].select;
+            
+            let winner;
+            let winName, winId, loseName, loseId;
+            let noWin = false;
+
+            // Определение победителя
+            if (step1 == "🤜" && step2 == "✌️") {
+                winner = `Победитель - @${player1Name} 🏆`;
+                winName = player1Name;
+                winId = cuefaPlayer1Id[messageId];
+                loseName = player2Name;
+                loseId = cuefaPlayer2Id[messageId];
+            } else if (step1 == "🤜" && step2 == "✋") {
+                winner = `Победитель - @${player2Name} 🏆`;
+                winName = player2Name;
+                winId = cuefaPlayer2Id[messageId];
+                loseName = player1Name;
+                loseId = cuefaPlayer1Id[messageId];
+            } else if (step1 == "✌️" && step2 == "✋") {
+                winner = `Победитель - @${player1Name} 🏆`;
+                winName = player1Name;
+                winId = cuefaPlayer1Id[messageId];
+                loseName = player2Name;
+                loseId = cuefaPlayer2Id[messageId];
+            } else if (step1 == "✌️" && step2 == "🤜") {
+                winner = `Победитель - @${player2Name} 🏆`;
+                winName = player2Name;
+                winId = cuefaPlayer2Id[messageId];
+                loseName = player1Name;
+                loseId = cuefaPlayer1Id[messageId];
+            } else if (step1 == "✋" && step2 == "✌️") {
+                winner = `Победитель - @${player2Name} 🏆`;
+                winName = player2Name;
+                winId = cuefaPlayer2Id[messageId];
+                loseName = player1Name;
+                loseId = cuefaPlayer1Id[messageId];
+            } else if (step1 == "✋" && step2 == "🤜") {
+                winner = `Победитель - @${player1Name} 🏆`;
+                winName = player1Name;
+                winId = cuefaPlayer1Id[messageId];
+                loseName = player2Name;
+                loseId = cuefaPlayer2Id[messageId];
+            } else if (step1 == step2) {
+                winner = `Ничья 🤝`;
+                winName = player1Name;
+                winId = cuefaPlayer1Id[messageId];
+                loseName = player2Name;
+                loseId = cuefaPlayer2Id[messageId];
+                noWin = true;
+            }
+
+            // Проверка: если игроки - один и тот же человек
+            if (cuefaPlayer1Id[messageId] == cuefaPlayer2Id[messageId]) {
+                bot.editMessageText(
+                    `Ошибка! Нельзя играть с самим собой!`,
+                    {
+                        chat_id: query.message.chat.id,
+                        message_id: messageId,
+                        reply_markup: {
+                            inline_keyboard: [[{ text: "Повторить 🔄", callback_data: "cuefaReplay" }]]
+                        }
+                    }
+                ).catch(() => {});
+                
+                // Очистка
+                delete cuefaColl[messageId];
+                delete cuefaPlayers[messageId];
+                delete cuefaPlayer1Id[messageId];
+                delete cuefaPlayer2Id[messageId];
+                return;
+            }
+
+            // ========== ПОКАЗ РЕЗУЛЬТАТА ==========
+            const resultText = `Камень, ножницы, бумага
+@${player1Name} ${step1} 
+🆚
+@${player2Name} ${step2}
+  
+${winner}`;
+
+            // Помечаем игру как завершенную
+            cuefaColl[messageId].finished = true;
+
+            if (isMeme) {
+                // === ДОВЕРЕННЫЙ ЧАТ: сохраняем статистику ===
+                setCuefaStats(String(winId), winName, String(loseId), loseName, noWin, () => {
+                    fs.readFile("../cuefaStats.json", "UTF-8", (err, data) => {
+                        if (err) {
+                            console.error('Ошибка чтения stats:', err);
+                            // Показываем результат без статистики
+                            bot.editMessageText(
+                                resultText,
+                                {
+                                    chat_id: query.message.chat.id,
+                                    message_id: messageId,
+                                    reply_markup: {
+                                        inline_keyboard: [[{ text: "Повторить 🔄", callback_data: "cuefaReplay" }]]
+                                    }
+                                }
+                            ).catch(() => {});
+                            
+                            // Очистка
+                            delete cuefaColl[messageId];
+                            delete cuefaPlayers[messageId];
+                            delete cuefaPlayer1Id[messageId];
+                            delete cuefaPlayer2Id[messageId];
+                            return;
+                        }
+                        
+                        let stats = JSON.parse(data);
+                        const player1Stats = stats[String(cuefaPlayer1Id[messageId])];
+                        const player2Stats = stats[String(cuefaPlayer2Id[messageId])];
+                        
+                        const statText = player1Stats && player2Stats ? 
+                            `\n\n📊 Статистика встреч:\n@${player1Stats.name}: ${player1Stats.vs[String(cuefaPlayer2Id[messageId])]?.[0] || 0} побед\n@${player2Stats.name}: ${player2Stats.vs[String(cuefaPlayer1Id[messageId])]?.[0] || 0} побед` :
+                            '';
+
+                        bot.editMessageText(
+                            resultText + statText,
+                            {
+                                chat_id: query.message.chat.id,
+                                message_id: messageId,
+                                reply_markup: {
+                                    inline_keyboard: [[{ text: "Повторить 🔄", callback_data: "cuefaReplay" }]]
+                                }
+                            }
+                        ).catch(() => {});
+                        
+                        // Очистка
+                        delete cuefaColl[messageId];
+                        delete cuefaPlayers[messageId];
+                        delete cuefaPlayer1Id[messageId];
+                        delete cuefaPlayer2Id[messageId];
+                    });
+                });
+            } else {
+                // === ОБЫЧНЫЙ ЧАТ: показываем результат без статистики ===
+                bot.editMessageText(
+                    resultText + `\n\nПолная версия игры в @meme_house_chat`,
+                    {
+                        chat_id: query.message.chat.id,
+                        message_id: messageId,
+                        reply_markup: {
+                            inline_keyboard: [[{ text: "Полная версия игры", url: "https://t.me/meme_house_chat" }]]
+                        }
+                    }
+                ).catch(() => {});
+                
+                // Очистка
+                delete cuefaColl[messageId];
+                delete cuefaPlayers[messageId];
+                delete cuefaPlayer1Id[messageId];
+                delete cuefaPlayer2Id[messageId];
+            }
+        }
         
+        return;
+    }
+
+    // ========== СОЗДАНИЕ НОВОЙ ИГРЫ ==========
+    if (msg || replay) {
+        let player1Name;
+        let chatId;
+        
+        if (replay && query) {
+            // Рестарт игры
+            player1Name = query.from.username;
+            chatId = query.message.chat.id;
+        } else if (msg) {
+            // Новая игра из сообщения
+            player1Name = msg.from.username;
+            chatId = msg.chat.id;
+        } else {
+            console.error('Неверные параметры для создания игры');
+            return;
+        }
+
+        if (!player1Name) {
+            const target = msg || query;
+            if (target) {
+                bot.sendMessage(target.chat?.id || target.message?.chat?.id, "Для игры установи @username (имя пользователя)!");
+            }
+            return;
+        }
+
+        // Определяем второго игрока
+        let player2Name = "undefined";
+        let player2DisplayName = "(Ожидание игрока...)";
+        
+        if (!replay && msg && msg.reply_to_message) {
+            const repliedUsername = msg.reply_to_message.from.username;
+            if (repliedUsername) {
+                player2Name = repliedUsername;
+                player2DisplayName = `@${repliedUsername}`;
+            } else {
+                bot.sendMessage(msg.chat.id, "У пользователя, которому ты ответил, нет @username!");
+                return;
+            }
+        } else if (!replay && msg && !msg.reply_to_message) {
+            bot.sendMessage(msg.chat.id, "Ответь на сообщение пользователя, с которым хочешь играть!");
+            return;
+        }
+
+        // Проверка: игра с самим собой
+        if (player1Name == player2Name) {
+            bot.sendMessage(chatId, "Хочешь играть с самим собой? 😅");
+            return;
+        }
+
+        // Создаем игроков
+        const player1 = {};
         player1[player1Name] = { select: undefined };
 
         const player2 = {};
-        let player2Name;
-        
-        if (replay) {
-            player2["undefined"] = { select: undefined };
-            player2Name = "(Ожидание игрока...)";
-        } else {
-            const repliedUser = msg.reply_to_message ? msg.reply_to_message.from.username : undefined;
-            if (!repliedUser) {
-                bot.sendMessage(msg.chat.id, "Ответь на сообщение пользователя, с которым хочешь играть!");
-                return;
-            }
-            player2[repliedUser] = { select: undefined };
-            player2Name = `@${repliedUser}`;
-        }
+        player2[player2Name] = { select: undefined };
 
-        const player1NameForDisplay = `@${player1Name}`;
-
-        if (player1Name == Object.keys(player2)[0]) {
-            bot.sendMessage(msg.chat.id, "Хочешь играть с самим собой?");
-            return;
-        }
-        
-        const chatId = replay ? query.message.chat.id : msg.chat.id;
-
+        // Отправляем сообщение с игрой
         bot.sendMessage(
             chatId,
             `Камень, ножницы, бумага
-${player1NameForDisplay} 
+@${player1Name} 
 🆚
-${player2Name}
-${isMeme ? "" : "Это ограниченная версия игры, полная версия в meme_house_chat.t.me"}`,
+${player2DisplayName}
+${isMeme ? "" : "Это ограниченная версия игры,\nполная версия в @meme_house_chat"}`,
             { reply_markup: cuefaKeyboard }
-        ).then((msg) => {
-            cuefaColl[msg.message_id] = {};
-            cuefaColl[msg.message_id].steps = {
-                player1Step: false,
-                player2Step: false,
+        ).then((sentMsg) => {
+            const messageId = sentMsg.message_id;
+            
+            // Сохраняем состояние игры
+            cuefaColl[messageId] = {
+                steps: {
+                    player1Step: false,
+                    player2Step: false,
+                },
+                player1: player1,
+                player2: player2,
+                finished: false
             };
-            cuefaColl[msg.message_id]["player1"] = player1;
-            cuefaColl[msg.message_id]["player2"] = player2;
-            cuefaPlayers[msg.message_id] = [
-                Object.keys(cuefaColl[msg.message_id].player1)[0],
-                Object.keys(cuefaColl[msg.message_id].player2)[0],
+            
+            cuefaPlayers[messageId] = [
+                Object.keys(player1)[0],
+                Object.keys(player2)[0],
             ];
-        }).catch(err => console.error('Ошибка отправки:', err));
+        }).catch(err => {
+            console.error('Ошибка отправки игры:', err);
+        });
     }
 }
 
