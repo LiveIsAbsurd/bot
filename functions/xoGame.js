@@ -26,7 +26,7 @@ const initialXoKeys = {
     ]
 };
 
-export function xoGame(query, xoPlaceId, bot) {
+function xoGame(query, xoPlaceId, bot) {
     let id = query.message.message_id;
   
     if (!xoPlaceId[id]) {
