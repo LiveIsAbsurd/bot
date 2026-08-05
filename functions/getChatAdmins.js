@@ -3,7 +3,7 @@ import axios from "axios";
 const getChatAdmins = (token, adminList) => {
     axios
         .get(
-          `https://api.telegram.org/bot${token}/getChatAdministrators?chat_id=-5355289925`
+          `https://api.telegram.org/bot${token}/getChatAdministrators?chat_id=-1003980077392`
         )
         .then((response) => {
           response.data.result.forEach((admin) => {
