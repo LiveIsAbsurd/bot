@@ -3,7 +3,6 @@ const token = require("../../token.js");
 const TelegramBot = require("node-telegram-bot-api");
 const fs = require("fs");
 
-const bot = new TelegramBot(token);
 
 let cuefaPlayer1Id = {};
 let cuefaPlayer2Id = {};
