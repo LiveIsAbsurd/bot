@@ -132,7 +132,6 @@ bot.onText(/\/xo/, msg => {
 //крестики-нолики________________________________________________________
 
 bot.on("message", (msg, match) => {
-  console.log(msg);
   if (msg.chat.id == "-1003980077392" && msg.from.id != "7770648727") {
     setChatState(bot, msg, chatState);
     wordsCounter(msg, wordsCount);
@@ -1131,10 +1130,11 @@ bot.onText(/\/reward/, msg => {
   const rewardName = msg.text.replace('/reward ', '');
   const rewardDate = new Date();
 
+  console.log(user);
+  console.log(chatState.userMessage[user]);
+
   if (!chatState.userMessage[user].rewards) {
-    console.log('1');
     chatState.userMessage[user].rewards = [{name: rewardName, date: rewardDate}];
-    console.log('2')
   } else {
     chatState.userMessage[user].rewards.push({name: rewardName, date: rewardDate});
   };
