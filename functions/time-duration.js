@@ -41,4 +41,4 @@ const timeDuration = (date) => {
   return result;
 };
 
-module.exports = timeDuration;
+export default timeDuration;

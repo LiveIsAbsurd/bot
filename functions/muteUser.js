@@ -30,4 +30,4 @@ const muteUser = (msg, bot, adminList) => {
     }//
   };
 
-  module.exports = muteUser;
+ export default muteUser;

@@ -35,4 +35,4 @@ const muteUsername = (msg, bot, chatState, adminList) => {
     }
 }
 
-module.exports = muteUsername;
+export default muteUsername;

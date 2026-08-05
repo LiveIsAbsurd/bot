@@ -22,4 +22,4 @@ function getUserCuefaStats(bot, user, msg) {
     });
   };
 
-module.exports = getUserCuefaStats;
+export default getUserCuefaStats;

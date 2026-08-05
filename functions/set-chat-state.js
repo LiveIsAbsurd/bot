@@ -73,4 +73,4 @@ function setChatState(bot, msg, state) {
     }
   }
 
-  module.exports = setChatState;
+export default setChatState;

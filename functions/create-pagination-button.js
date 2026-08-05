@@ -19,4 +19,4 @@ function createPaginationButtons(array, currentPage, usersPerPage, cbDop) {
     return buttons;
 }
 
-module.exports = createPaginationButtons;
+export default createPaginationButtons;

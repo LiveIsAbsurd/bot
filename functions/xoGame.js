@@ -215,4 +215,4 @@ ${place}`,
   }
   //крестики-нолики________________________________________________________
 
-  module.exports = {xoGame, xoGameStart};
+  export default {xoGame, xoGameStart};

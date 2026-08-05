@@ -15,4 +15,4 @@ function getFullCuefaState(bot, cb) {
      });
   };
 
-module.exports = getFullCuefaState;
+export default getFullCuefaState;

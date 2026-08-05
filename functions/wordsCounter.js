@@ -34,5 +34,5 @@ const wordsCounter = (msg, wordsCount) => {
     })
   }
 
-  module.exports = wordsCounter;
+  export default wordsCounter;
   

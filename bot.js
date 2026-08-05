@@ -1,27 +1,27 @@
-const token = require("../token.js");
-const weatherToken = require("../weatherToken.js");
+import token from "../token.js";
+import weatherToken from "../weatherToken.js";
 
-const TelegramBot = require("node-telegram-bot-api");
-const axios = require("axios");
-const fs = require("fs");
+import TelegramBot from 'node-telegram-bot-api';
+import axios from "axios";
+import fs from "fs";
 // const { json } = require("body-parser");
-const cron = require('node-cron');
-const { ChartJSNodeCanvas } = require('chartjs-node-canvas');
+import cron from 'node-cron';
+import { ChartJSNodeCanvas } from 'chartjs-node-canvas';
 
-const cuefaGame = require("./functions/cuefa-game.js");
-const getUserCuefaStats = require("./functions/get-user-cuefa-stats.js");
-const getFullCuefaState = require("./functions/get-full-cuefa-state.js");
-const hiCount = require("./functions/hi-count.js");
-const setChatState = require("./functions/set-chat-state.js");
-const displayList = require("./functions/displayList.js")
-const getChatState = require("./functions/get-chat-state.js");
-const getChatAdmins = require("./functions/getChatAdmins.js");
-const {xoGame, xoGameStart} = require("./functions/xoGame.js");
-const getInfo = require("./functions/getInfo.js");
-const createStaticMessage = require("./functions/createStaticMessage.js");
-const wordsCounter = require('./functions/wordsCounter.js');
-const muteUser = require('./functions/muteUser.js');
-const muteUsername = require('./functions/muteUsername.js');
+import cuefaGame from "./functions/cuefa-game.js";
+import getUserCuefaStats from './functions/get-user-cuefa-stats.js';
+import getFullCuefaState from './functions/get-full-cuefa-state.js';
+import hiCount from './functions/hi-count.js';
+import setChatState from './functions/set-chat-state.js';
+import displayList from './functions/displayList.js';
+import getChatState from './functions/get-chat-state.js';
+import getChatAdmins from './functions/getChatAdmins.js';
+import { xoGame, xoGameStart } from './functions/xoGame.js';
+import getInfo from './functions/getInfo.js';
+import createStaticMessage from './functions/createStaticMessage.js';
+import wordsCounter from './functions/wordsCounter.js';
+import muteUser from './functions/muteUser.js';
+import muteUsername from './functions/muteUsername.js';
 
 function hiText(username) {
   let text = `

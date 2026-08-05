@@ -23,4 +23,4 @@ const createStaticMessage = async (bot, token, msg, chatState, realDateGlobal) =
     return messageID;
 }
 
-module.exports = createStaticMessage;
+export default createStaticMessage;

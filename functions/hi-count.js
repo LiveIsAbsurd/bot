@@ -40,4 +40,4 @@ function hiCount(bot, query, options, collection, userId = undefined) {
     }
   };
 
-module.exports = hiCount;
+export default hiCount;

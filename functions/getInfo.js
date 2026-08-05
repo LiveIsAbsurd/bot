@@ -77,4 +77,4 @@ ${rewards}`;
     bot.sendPhoto(msg.chat.id, image, {caption});
 };
 
-module.exports = getInfo;
+export default getInfo;

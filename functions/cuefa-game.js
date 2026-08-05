@@ -413,4 +413,4 @@ ${winner}`,
     }
   };
 
-  module.exports = cuefaGame;
+ export default cuefaGame;

@@ -26,4 +26,4 @@ function getChatState(bot, state, cb) {
 //     bot.sendMessage(msg.chat.id, message);
 }
 
-module.exports = getChatState;
+export default getChatState;

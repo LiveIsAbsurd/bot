@@ -25,4 +25,4 @@ const blockBot = (msg, chatState, bot) => {
 
 }
 
-module.exports = blockBot;
+export default blockBot;
