@@ -168,7 +168,6 @@ bot.onText(/\/muteus/, (msg) => {
 });
 
 bot.onText(/\/help/, msg => {
-  bot.deleteMessage(msg.chat.id, msg.message_id);
   bot.sendMessage(msg.chat.id,
     `
 Основные команды: 
@@ -195,7 +194,6 @@ bot.onText(/\/chatstate/, msg => {
     return;
   };
 
-  bot.deleteMessage(msg.chat.id, msg.message_id);
   getChatState(bot, chatState, (message => {
     displayList(msg, null, message, 5, `
 Статистика с 27.07.23
@@ -211,7 +209,6 @@ bot.onText(/\/cuefa/, (msg) => {
 
   if (msg.chat.id == "-1003980077392") {
     if (msg.from.username) {
-      bot.deleteMessage(msg.chat.id, msg.message_id);
       cuefaGame(bot, msg, null, false, true);
     } else {
       bot.sendMessage(
@@ -229,7 +226,6 @@ bot.onText(/\/getcuefastats/, msg => {
     return;
   };
 
-  bot.deleteMessage(msg.chat.id, msg.message_id);
     if (msg.reply_to_message) {
       getUserCuefaStats(bot, String(msg.reply_to_message.from.id), msg);
     } else if (msg.from.username) {
@@ -242,7 +238,6 @@ bot.onText(/\/getfullcuefastats/, msg => {
     return;
   };
 
-  bot.deleteMessage(msg.chat.id, msg.message_id);
     getFullCuefaState(bot, message => {
       displayList(msg, null, message, 5, "# | Игры | Победы | Поражения | ВР(без ничьих)", "cuefa", undefined, bot, currentPage);
     });
