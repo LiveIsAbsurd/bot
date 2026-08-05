@@ -1,4 +1,4 @@
-const fs = require("fs");
+import fs from "fs";
 
 function hiCount(bot, query, options, collection, userId = undefined) {
     const messageId = query.message.message_id;

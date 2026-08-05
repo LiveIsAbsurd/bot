@@ -1,5 +1,5 @@
-const axios = require("axios");
-const fs = require("fs");
+import axios from "axios";
+import fs from "fs";
 
 const createStaticMessage = async (bot, token, msg, chatState, realDateGlobal) => {
     const message = await bot.sendMessage(msg.chat.id, 

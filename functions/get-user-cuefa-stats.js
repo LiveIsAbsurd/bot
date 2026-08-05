@@ -1,5 +1,4 @@
-const fs = require("fs");
-
+import fs from "fs";
 
 function getUserCuefaStats(bot, user, msg) {
     fs.readFile("../cuefaStats.json", "UTF-8", (err, data) => {

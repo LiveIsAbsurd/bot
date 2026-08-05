@@ -1,4 +1,4 @@
-const fs = require("fs");
+import fs from "fs";
 
 let cuefaPlayer1Id = {};
 let cuefaPlayer2Id = {};

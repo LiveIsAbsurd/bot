@@ -113,7 +113,7 @@ function xoGame(query, xoPlaceId, bot) {
       return;
     }
   
-    keys = {
+    let keys = {
       inline_keyboard: [
         [{ text: `${xoPlaceId[id][0]}`, callback_data: "xo0" }, { text: `${xoPlaceId[id][1]}`, callback_data: "xo1" }, { text: `${xoPlaceId[id][2]}`, callback_data: "xo2" }],
         [{ text: `${xoPlaceId[id][3]}`, callback_data: "xo3" }, { text: `${xoPlaceId[id][4]}`, callback_data: "xo4" }, { text: `${xoPlaceId[id][5]}`, callback_data: "xo5" }],
@@ -215,4 +215,4 @@ ${place}`,
   }
   //крестики-нолики________________________________________________________
 
-  export default {xoGame, xoGameStart};
+  export { xoGame, xoGameStart };

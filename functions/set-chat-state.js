@@ -1,5 +1,5 @@
-const fs = require("fs");
-const { Module } = require("module");
+import fs from "fs";
+import { Module } from "module";
 
 function setChatState(bot, msg, state) {
     //console.log(msg);

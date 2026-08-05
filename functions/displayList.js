@@ -1,4 +1,4 @@
-const createPaginationButtons = require("./create-pagination-button.js");
+import createPaginationButtons from "./create-pagination-button.js";
 
 function displayList(msg, query, array, usersPerPage, header, cbDop, state = undefined, bot, currentPage) {
   

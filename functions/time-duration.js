@@ -1,4 +1,4 @@
-const moment = require('moment-timezone');
+import moment from 'moment-timezone';
 
 const timeDuration = (date) => {
   const realDate = new Date();
