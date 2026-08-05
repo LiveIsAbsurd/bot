@@ -1,7 +1,7 @@
 const token = require("../token.js");
 const weatherToken = require("../weatherToken.js");
 
-import TelegramBot from 'node-telegram-bot-api';
+const TelegramBot = require("node-telegram-bot-api");
 const axios = require("axios");
 const fs = require("fs");
 // const { json } = require("body-parser");
