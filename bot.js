@@ -580,14 +580,16 @@ bot.on("left_chat_member", (msg) => {
 });
 
 bot.onText(/\/start/, (msg) => {
-  if (blockedUsers.includes(msg.from.id.toString())) {
-    return;
-  };
-
-  const chatId = msg.chat.id;
+  // if (blockedUsers.includes(msg.from.id.toString())) {
+  //   return;
+  // };
 
   console.log(msg);
   console.log(msg.chat.id);
+
+  const chatId = msg.chat.id;
+
+  
 
   bot.sendMessage(
     chatId,
