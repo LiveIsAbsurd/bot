@@ -106,9 +106,8 @@ const blockedUsers = [];
 
 getChatAdmins(token, adminList);
 
-bot.on('polling_error', (error) => {
-    console.log('Polling error details:', error.message);
-    console.log('Full error:', JSON.stringify(error, null, 2));
+bot.on('error', (error) => {
+    console.error('Bot error:', error);
 });
 
 bot.onText(/\/createMessage/, async (msg) => {
