@@ -92,17 +92,17 @@ const blockedUsers = [];
 
 // bot.sendMessage(-1002691894090, 'Кирилл ебанарот удалил все мои сообщения!!!').then(msg => console.log(msg))
 
-bot.editMessageText(`
-Сообщений с 27.07.2023
+// bot.editMessageText(`
+// Сообщений с 27.07.2023
 
-+${chatState.messageOnDate[realDateGlobal] ?chatState.messageOnDate[realDateGlobal]?.totalMessage : 0} за сутки
-`, {
-  chat_id: "-1002691894090",
-  message_id: staticMessage,
-  reply_markup: {
-    inline_keyboard: [[{ text: `${chatState.totalMessage}`, callback_data: "chatState" }]]
-  }
-});
+// +${chatState.messageOnDate[realDateGlobal] ?chatState.messageOnDate[realDateGlobal]?.totalMessage : 0} за сутки
+// `, {
+//   chat_id: "-1002691894090",
+//   message_id: staticMessage,
+//   reply_markup: {
+//     inline_keyboard: [[{ text: `${chatState.totalMessage}`, callback_data: "chatState" }]]
+//   }
+// });
 
 getChatAdmins(token, adminList);
 
