@@ -1,5 +1,5 @@
 const muteUsername = (msg, bot, chatState, adminList) => {
-    if (msg.chat.id != "-1001807749316") {
+    if (msg.chat.id != "-1002691894090") {
         return;
     };
 
