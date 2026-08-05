@@ -368,9 +368,9 @@ bot.on("callback_query", (query) => {
     //console.log(query);
     if (query.from.username) {
       if (query.message.chat.id == "-1003980077392") {
-        cuefaGame(null, query, false, true);
+        cuefaGame(bot, null, query, false, true);
       } else {
-        cuefaGame(null, query, false);
+        cuefaGame(bot, null, query, false);
       }
     } else {
       bot.answerCallbackQuery(query.id, {
@@ -382,7 +382,7 @@ bot.on("callback_query", (query) => {
 
   if (query.data == "cuefaReplay") {
     if (query.from.username) {
-      cuefaGame(null, query, true, true);
+      cuefaGame(bot, null, query, true, true);
       bot.answerCallbackQuery(query.id, {
         text: "Перезапуск 🔄",
       });
@@ -1123,19 +1123,27 @@ bot.onText(/\/reward/, msg => {
   //   return;
   // }
 
+  console.log('1')
+
   if (!adminList.includes(msg.from.id) || blockedUsers.includes(msg.from.id.toString())) {
     return;
   }
 
+  console.log('2')
+
   const user = msg.reply_to_message.from.id;
   const rewardName = msg.text.replace('/reward ', '');
   const rewardDate = new Date();
+
+  console.log('3')
 
   if (!chatState.userMessage[user].rewards) {
     chatState.userMessage[user].rewards = [{name: rewardName, date: rewardDate}];
   } else {
     chatState.userMessage[user].rewards.push({name: rewardName, date: rewardDate});
   };
+
+  console.log('4')
 
   bot.sendMessage(msg.chat.id, `${msg.reply_to_message.from.first_name} получил награду ${rewardName}`);
 });
