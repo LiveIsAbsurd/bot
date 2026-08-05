@@ -580,9 +580,7 @@ bot.onText(/\/start/, (msg) => {
 
   bot.sendMessage(
     chatId,
-    `Привет! Это оффициальный бот лучшего в телеграме чата https://t.me/meme_house_chat.
-Присоединяйся!
-Заходи на наш сайт https://liveisabsurd.github.io/Meme_House/`
+    `Привет! Это бот. Просто бот...`
   );
 });
 
