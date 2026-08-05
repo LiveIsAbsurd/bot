@@ -1123,27 +1123,21 @@ bot.onText(/\/reward/, msg => {
   //   return;
   // }
 
-  console.log('1')
-
   if (!adminList.includes(msg.from.id) || blockedUsers.includes(msg.from.id.toString())) {
     return;
   }
-
-  console.log('2')
 
   const user = msg.reply_to_message.from.id;
   const rewardName = msg.text.replace('/reward ', '');
   const rewardDate = new Date();
 
-  console.log('3')
-
   if (!chatState.userMessage[user].rewards) {
+    console.log('1');
     chatState.userMessage[user].rewards = [{name: rewardName, date: rewardDate}];
+    console.log('2')
   } else {
     chatState.userMessage[user].rewards.push({name: rewardName, date: rewardDate});
   };
-
-  console.log('4')
 
   bot.sendMessage(msg.chat.id, `${msg.reply_to_message.from.first_name} получил награду ${rewardName}`);
 });
