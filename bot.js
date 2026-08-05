@@ -7,7 +7,6 @@ import fs from "fs";
 // const { json } = require("body-parser");
 import cron from 'node-cron';
 import { ChartJSNodeCanvas } from 'chartjs-node-canvas';
-
 import cuefaGame from "./functions/cuefa-game.js";
 import getUserCuefaStats from './functions/get-user-cuefa-stats.js';
 import getFullCuefaState from './functions/get-full-cuefa-state.js';
@@ -207,16 +206,16 @@ bot.onText(/\/cuefa/, (msg) => {
   };
 
   if (msg.chat.id == "-1003980077392") {
-    if (msg.from.username) {
-      cuefaGame(bot, msg, null, false, true);
-    } else {
-      bot.sendMessage(
-        msg.chat.id,
-        `Для игры установи имя пользователя`
-      );
-    }
+      if (msg.from.username) {
+          cuefaGame(bot, msg, null, false, true); // isMeme = true
+      } else {
+          bot.sendMessage(
+              msg.chat.id,
+              `Для игры установи имя пользователя`
+          );
+      }
   } else {
-    cuefaGame(bot, msg);
+      cuefaGame(bot, msg, null, false, false); // isMeme = false
   }
 });
 
