@@ -1,9 +1,4 @@
-const token = require("../../token.js");
-
-const TelegramBot = require("node-telegram-bot-api");
 const fs = require("fs");
-
-const bot = new TelegramBot(token, {polling: 1000});
 
 let cuefaPlayer1Id = {};
 let cuefaPlayer2Id = {};
@@ -132,7 +127,7 @@ function setCuefaStats(winer, winerName, loser, loserName, noWin = false, getCue
     })
   }
   
-  function cuefaGame(msg = null, query = null, replay = false, isMeme = false) {
+  function cuefaGame(bot, msg = null, query = null, replay = false, isMeme = false) {
     if (msg || replay) {
       const player1 = {};
       player1[replay ? query.from.username : msg.from.username] = { select: undefined };

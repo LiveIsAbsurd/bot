@@ -1,9 +1,4 @@
-const token = require("../../token.js");
-
-const TelegramBot = require("node-telegram-bot-api");
-const bot = new TelegramBot(token, {polling: 1000});
-
-function getChatState(state, cb) {
+function getChatState(bot, state, cb) {
   
     let userStats = Object.values(state.userMessage);
   

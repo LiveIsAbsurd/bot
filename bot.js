@@ -129,7 +129,7 @@ bot.onText(/\/xo/, msg => {
 
 bot.on("message", (msg, match) => {
   if (msg.chat.id == "-1002691894090" && msg.from.id != "7770648727") {
-    setChatState(msg, chatState);
+    setChatState(bot, msg, chatState);
     wordsCounter(msg, wordsCount);
     // blockBot(msg, chatState, bot);
 
@@ -191,7 +191,7 @@ bot.onText(/\/chatstate/, msg => {
   };
 
   bot.deleteMessage(msg.chat.id, msg.message_id);
-  getChatState(chatState, (message => {
+  getChatState(bot, chatState, (message => {
     displayList(msg, null, message, 5, `
 Статистика с 27.07.23
 Всего сообщений: ${chatState.totalMessage}
@@ -207,7 +207,7 @@ bot.onText(/\/cuefa/, (msg) => {
   if (msg.chat.id == "-1002691894090") {
     if (msg.from.username) {
       bot.deleteMessage(msg.chat.id, msg.message_id);
-      cuefaGame(msg, null, false, true);
+      cuefaGame(bot, msg, null, false, true);
     } else {
       bot.sendMessage(
         msg.chat.id,
@@ -215,7 +215,7 @@ bot.onText(/\/cuefa/, (msg) => {
       );
     }
   } else {
-    cuefaGame(msg);
+    cuefaGame(bot, msg);
   }
 });
 
@@ -226,9 +226,9 @@ bot.onText(/\/getcuefastats/, msg => {
 
   bot.deleteMessage(msg.chat.id, msg.message_id);
     if (msg.reply_to_message) {
-      getUserCuefaStats(String(msg.reply_to_message.from.id), msg);
+      getUserCuefaStats(bot, String(msg.reply_to_message.from.id), msg);
     } else if (msg.from.username) {
-      getUserCuefaStats(String(msg.from.id), msg);
+      getUserCuefaStats(bot, String(msg.from.id), msg);
     }
 });
 
@@ -238,7 +238,7 @@ bot.onText(/\/getfullcuefastats/, msg => {
   };
 
   bot.deleteMessage(msg.chat.id, msg.message_id);
-    getFullCuefaState(message => {
+    getFullCuefaState(bot, message => {
       displayList(msg, null, message, 5, "# | Игры | Победы | Поражения | ВР(без ничьих)", "cuefa", undefined, bot, currentPage);
     });
 });
@@ -337,7 +337,7 @@ bot.on("callback_query", (query) => {
         ],
       };
 
-      hiCount(query, opts, counts);
+      hiCount(bot, query, opts, counts);
     });
   } else if (query.data == "hi") {
     fs.readFile("../hiMembers.json", "UTF-8", (err, data) => {
@@ -358,7 +358,7 @@ bot.on("callback_query", (query) => {
         ],
       };
 
-      hiCount(query, opts, counts, query.from.id);
+      hiCount(bot, query, opts, counts, query.from.id);
     });
   }
 
@@ -419,7 +419,7 @@ bot.on("callback_query", (query) => {
   if (query.data == "prev-chatState") {
     if (currentPage[query.message.message_id]) {
       currentPage[query.message.message_id] -= 1;
-    getChatState(chatState, (message => {
+    getChatState(bot, chatState, (message => {
       displayList(null, query, message, 5, `
 Статистика с 27.07.23
 Всего сообщений: ${chatState.totalMessage}
@@ -433,7 +433,7 @@ bot.on("callback_query", (query) => {
   if (query.data == "next-chatState") {
     if (currentPage[query.message.message_id]) {
       currentPage[query.message.message_id] += 1;
-    getChatState(chatState, (message => {
+    getChatState(bot, chatState, (message => {
       displayList(null, query, message, 5, `
 Статистика с 27.07.23
 Всего сообщений: ${chatState.totalMessage}
