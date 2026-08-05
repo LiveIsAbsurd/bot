@@ -154,7 +154,7 @@ ${xoPlaceId[id].player2.name ? `${xoPlaceId[id].player2.name}${xoPlaceId[id].pla
     });
 }
   
-export function xoGameStart(msg, query = undefined, xoPlaceId, bot) {
+function xoGameStart(msg, query = undefined, xoPlaceId, bot) {
     let name1;
   
     if (msg) {
