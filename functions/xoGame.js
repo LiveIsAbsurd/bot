@@ -15,7 +15,7 @@ let xoPlace = {
     ] 
   }
 
-function xoGame(query, xoPlaceId, bot) {
+export function xoGame(query, xoPlaceId, bot) {
     let id = query.message.message_id;
   
     if (!xoPlaceId[id]) {
@@ -137,7 +137,7 @@ function xoGame(query, xoPlaceId, bot) {
     );
   }
   
-  function xoGameStart(msg, query = undefined, xoPlaceId, bot) {
+  export function xoGameStart(msg, query = undefined, xoPlaceId, bot) {
     let name1;
   
     if (msg) {
@@ -214,5 +214,3 @@ ${place}`,
     });
   }
   //крестики-нолики________________________________________________________
-
-  export { xoGame, xoGameStart };
