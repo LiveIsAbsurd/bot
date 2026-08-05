@@ -586,6 +586,9 @@ bot.onText(/\/start/, (msg) => {
 
   const chatId = msg.chat.id;
 
+  console.log(msg);
+  console.log(msg.chat.id);
+
   bot.sendMessage(
     chatId,
     `Привет! Это оффициальный бот лучшего в телеграме чата https://t.me/meme_house_chat.
