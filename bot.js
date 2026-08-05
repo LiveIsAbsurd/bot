@@ -363,19 +363,18 @@ bot.on("callback_query", (query) => {
   //-----------------------------------------------------------------------------------------------------------
 
   if (query.data == "rock" || query.data == "nosh" || query.data == "paper") {
-    //console.log(query);
-    if (query.from.username) {
-      if (query.message.chat.id == "-1003980077392") {
-        cuefaGame(bot, null, query, false, true);
+      if (query.from.username) {
+          if (query.message.chat.id == "-1003980077392") {
+              cuefaGame(bot, null, query, false, true);  // isMeme = true
+          } else {
+              cuefaGame(bot, null, query, false, false); // isMeme = false ✅
+          }
       } else {
-        cuefaGame(bot, null, query, false);
+          bot.answerCallbackQuery(query.id, {
+              text: "Для игры установи @username (имя пользователя)",
+              show_alert: true,
+          });
       }
-    } else {
-      bot.answerCallbackQuery(query.id, {
-        text: "Для игры установи @username (имя пользователя)",
-        show_alert: true,
-      });
-    }
   }
 
   if (query.data == "cuefaReplay") {
