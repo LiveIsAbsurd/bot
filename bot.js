@@ -313,47 +313,47 @@ bot.on("callback_query", (query) => {
     }
   }
 
-  if (query.data == "key") {
-    fs.readFile("../hiMembers.json", "UTF-8", (err, data) => {
-      let counts = JSON.parse(data);
+  // if (query.data == "key") {
+  //   fs.readFile("../hiMembers.json", "UTF-8", (err, data) => {
+  //     let counts = JSON.parse(data);
 
-      const opts = {
-        inline_keyboard: [
-          [
-            {
-              text: `Кнопка ${
-                counts[messageId] ? counts[messageId]["count"] : 1
-              }`,
-              callback_data: "key",
-            },
-          ],
-        ],
-      };
+  //     const opts = {
+  //       inline_keyboard: [
+  //         [
+  //           {
+  //             text: `Кнопка ${
+  //               counts[messageId] ? counts[messageId]["count"] : 1
+  //             }`,
+  //             callback_data: "key",
+  //           },
+  //         ],
+  //       ],
+  //     };
 
-      hiCount(bot, query, opts, counts);
-    });
-  } else if (query.data == "hi") {
-    fs.readFile("../hiMembers.json", "UTF-8", (err, data) => {
-      let counts = JSON.parse(data);
+  //     hiCount(bot, query, opts, counts);
+  //   });
+  // } else if (query.data == "hi") {
+  //   fs.readFile("../hiMembers.json", "UTF-8", (err, data) => {
+  //     let counts = JSON.parse(data);
 
-      const opts = {
-        inline_keyboard: [
-          [
-            {
-              text: `Привет! \u{1F44b}  (${
-                counts[messageId] ? counts[messageId]["count"] : 1
-              })`,
-              callback_data: "hi",
-            },
-          ],
-          [{text: "Наш сайт", url: "https://liveisabsurd.github.io/Meme_House/"}],
-          [{text: "Правила и обязанности", url: "https://t.me/meme_house_chat/30544"}]
-        ],
-      };
+  //     const opts = {
+  //       inline_keyboard: [
+  //         [
+  //           {
+  //             text: `Привет! \u{1F44b}  (${
+  //               counts[messageId] ? counts[messageId]["count"] : 1
+  //             })`,
+  //             callback_data: "hi",
+  //           },
+  //         ],
+  //         [{text: "Наш сайт", url: "https://liveisabsurd.github.io/Meme_House/"}],
+  //         [{text: "Правила и обязанности", url: "https://t.me/meme_house_chat/30544"}]
+  //       ],
+  //     };
 
-      hiCount(bot, query, opts, counts, query.from.id);
-    });
-  }
+  //     hiCount(bot, query, opts, counts, query.from.id);
+  //   });
+  // }
 
   //-----------------------------------------------------------------------------------------------------------
 
