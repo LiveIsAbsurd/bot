@@ -19,7 +19,7 @@ import { xoGame, xoGameStart } from './functions/xoGame.js';
 import getInfo from './functions/getInfo.js';
 import createStaticMessage from './functions/createStaticMessage.js';
 import wordsCounter from './functions/wordsCounter.js';
-import muteUser from './functions/muteUser.js';
+//import muteUser from './functions/muteUser.js';
 import muteUsername from './functions/muteUsername.js';
 
 function hiText(username) {
