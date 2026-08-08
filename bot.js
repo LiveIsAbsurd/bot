@@ -127,6 +127,36 @@ bot.onText(/\/xo/, msg => {
   xoGameStart(msg, undefined, xoPlaceId, bot);
 });
 
+bot.onText(/\/unmute/, (msg) => {
+    if (msg.chat.id != "-1002691894090") {
+        return;
+    }
+
+    if (!adminList.includes(msg.from.id)) {
+        bot.sendMessage(msg.chat.id, "❌ Только администраторы могут разглушать!");
+        return;
+    }
+
+    if (!msg.reply_to_message) {
+        bot.sendMessage(msg.chat.id, "❌ Ответь на сообщение пользователя, которого хочешь разглушить!");
+        return;
+    }
+
+    const targetUserId = msg.reply_to_message.from.id;
+
+    bot.restrictChatMember(msg.chat.id, targetUserId, {
+        can_send_messages: true,
+        can_send_media_messages: true,
+        can_send_other_messages: true,
+        can_add_web_page_previews: true
+    }).then(() => {
+        bot.sendMessage(msg.chat.id, `✅ Пользователь разглушён!`);
+    }).catch((error) => {
+        console.error('Ошибка при разглушении:', error);
+        bot.sendMessage(msg.chat.id, `❌ Ошибка: ${error.message}`);
+    });
+});
+
 //крестики-нолики________________________________________________________
 
 bot.on("message", (msg, match) => {
