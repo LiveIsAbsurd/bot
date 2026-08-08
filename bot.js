@@ -526,8 +526,7 @@ bot.on("new_chat_members", (msg) => {
     
     const opts = {
       reply_markup: {
-        inline_keyboard: [
-        [{ text: "Привет! \u{1F44b}", callback_data: "hi" }], 
+        inline_keyboard: [ 
         [{text: "Правила (обязательно к прочтению!)", url: "https://telegra.ph/Pravila-chata-06-26-95"}]
       ],
       },
