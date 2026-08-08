@@ -170,7 +170,6 @@ bot.onText(/\/help/, msg => {
 Основные команды: 
 
 /start - приветствие
-/top - топ меморитетов чата
 /chatstate - статистика чата
 /kick - (в ответ на сообщение) удаление участника (только для админов)
 /cuefa - камень, ножницы, бумага
@@ -189,7 +188,7 @@ bot.onText(/\/chatstate/, msg => {
 
   getChatState(bot, chatState, (message => {
     displayList(msg, null, message, 5, `
-Статистика с 27.07.23
+Статистика с 06.08.26
 Всего сообщений: ${chatState.totalMessage}
 Топ:`, "chatState", chatState, bot, currentPage)
   }));
