@@ -1246,7 +1246,7 @@ bot.onText(/^\/vibe(@\w+)?\b/i, (msg) => {
 
   // 3) с ботом
   if (toUser.is_bot) {
-    return bot.sendMessage(chatId, '🤖 С ботами вайб не считается — у них своя прошивка.');
+    return bot.sendMessage(chatId, '🤖 Наш с тобой вайб 200%! :)');
   }
 
   const score   = vibeScore(fromUser.id, toUser.id);
