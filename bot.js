@@ -1194,6 +1194,81 @@ const fuck = (msg) => {
   }
 }
 
+// ---------- "Производная" от пары user_id ----------
+function vibeScore(id1, id2) {
+  // для симметричности упорядочиваем id
+  const [a, b] = [id1, id2].sort((x, y) => x - y);
+
+  // эталонная пара из ТЗ — гарантированно 0% вайба
+  const IDEAL_NO_VIBE = '261749882:5082058802';
+  if (`${a}:${b}` === IDEAL_NO_VIBE) return 0;
+
+  // FNV-1a по строке "<a>:<b>:vibe" — детерминированный "хэш вайба"
+  const s = `${a}:${b}:vibe`;
+  let h = 0x811c9dc5;
+  for (let i = 0; i < s.length; i++) {
+    h ^= s.charCodeAt(i);
+    h = Math.imul(h, 0x01000193) >>> 0;
+  }
+  return h % 101; // 0..100
+}
+
+function vibeVerdict(score) {
+  if (score === 0)  return '💀 Абсолютно несовместимы. Вайба нет.';
+  if (score < 10)   return '🪦 Вайб на нуле, даже не начинайте.';
+  if (score < 30)   return '😬 Вайб так себе — только на «здрасьте».';
+  if (score < 50)   return '🤔 Что-то есть, но нужно поработать.';
+  if (score < 70)   return '🙂 Нормальный вайб, можно общаться.';
+  if (score < 90)   return '💖 Отличный вайб!';
+  return '🔥 Вы созданы друг для друга.';
+}
+
+// ---------- Обработчик команды ----------
+bot.onText(/^\/vibe(@\w+)?\b/i, (msg) => {
+  const chatId = msg.chat.id;
+  const replied = msg.reply_to_message;
+
+  // 1) не реплай — подсказываем, как пользоваться
+  if (!replied || !replied.from) {
+    return bot.sendMessage(
+      chatId,
+      '💫 Ответь командой /vibe на сообщение человека, чтобы проверить совместимость.'
+    );
+  }
+
+  const fromUser = msg.from;
+  const toUser   = replied.from;
+
+  // 2) сам с собой
+  if (fromUser.id === toUser.id) {
+    return bot.sendMessage(chatId, '😅 Вайб с самим собой — это диагноз, а не совместимость.');
+  }
+
+  // 3) с ботом
+  if (toUser.is_bot) {
+    return bot.sendMessage(chatId, '🤖 С ботами вайб не считается — у них своя прошивка.');
+  }
+
+  const score   = vibeScore(fromUser.id, toUser.id);
+  const verdict = vibeVerdict(score);
+
+  const name = (u) =>
+    u.username ? `@${u.username}` : (u.first_name || 'пользователь');
+
+  bot.sendMessage(
+    chatId,
+    `💫 <b>Вайб-чек</b>\n\n` +
+    `👤 ${name(fromUser)} × ${name(toUser)}\n` +
+    `📊 Совместимость: <b>${score}%</b>\n` +
+    `${verdict}`,
+    {
+      parse_mode: 'HTML',
+      reply_to_message_id: msg.message_id,
+      allow_sending_without_reply: true,
+    }
+  );
+});
+
 // bot.onText(/\/fuck/, msg => {
 //   if (msg.chat.id == "-1002691894090") {
 //     const random = Math.floor(Math.random() * 1000000000000);
